@@ -1,20 +1,49 @@
-import React from 'react';
-import { Button, Typography, Container } from '@mui/material';
+import React from "react";
+import Header from "../components/index/header";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { useMediaQuery } from "@mui/material";
+import ImageHome from "../assets/images/ImageHome.png";
 
-function Index() {
+const Index = () => {
+  // Hook para verificar o tamanho da tela
+  const isMediumScreen = useMediaQuery("(max-width: 900px)");
+
   return (
-    <Container maxWidth="sm" style={{ textAlign: 'center', marginTop: '50px' }}>
-      <Typography variant="h4" gutterBottom>
-        Welcome to React with Vite and Material UI
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        This is a simple page using Material UI components.
-      </Typography>
-      <Button variant="contained" color="primary" onClick={() => alert('Button Clicked!')}>
-        Click Me
-      </Button>
-    </Container>
+    <div>
+      <Header />
+      <Grid container spacing={2} style={{ padding: "16px" }}>
+        <Grid item xs={12} md={6}>
+          <div className="gridLeft">
+            <Typography className="title">
+              Tudo o que Seu Pet Precisa em um Só Lugar!
+            </Typography>
+            <Typography className="textWelcome">
+              Produtos, Serviços e Consultas para Cuidar e Mimá-lo com Qualidade
+              e Amor
+            </Typography>
+            <Button className="buttonComecar">Começar</Button>
+          </div>
+        </Grid>
+        {!isMediumScreen && (
+          <Grid item xs={12} md={6}>
+            <div className='gridRight'>
+              <img
+                src={ImageHome}
+                style={{
+                  borderRadius: 30,
+                  width: 425,
+                  height: 400,
+                  marginTop: 20
+                }}
+              />
+            </div>
+          </Grid>
+        )}
+      </Grid>
+    </div>
   );
-}
+};
 
 export default Index;

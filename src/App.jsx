@@ -4,17 +4,26 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 //Import das páginas para navegação
 import Index from "./web";
 
-function App() {
+//Import de components
+import HeaderIndex from "./components/index/header";
 
+function LayoutIndex() {
+  <div>
+    <HeaderIndex />
+    <Outlet />
+  </div>;
+}
+
+function App() {
   return (
     <div>
       <BrowserRouter>
-      <Routes>
-      <Route path="/" element={<Index />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Index />} />
+        </Routes>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
