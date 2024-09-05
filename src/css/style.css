@@ -69,41 +69,42 @@
   }
 
   /* Index */
-  .gridLeft {
-    display: flex; 
-    height: 100%;  
-    flex-direction: column;
-}
-.MuiTypography-root.title {
-    font-family: 'Poppins-ExtraBold';
-    font-size: 32px;
-    width: 425px;
+  .MuiTypography-root.titleWelcome {
+    font-family: "Poppins-ExtraBold";
+    font-size: 1.8rem;
     margin-top: 100px;
-    margin-left: 25px;
-}
-.MuiTypography-root.textWelcome {
-  font-family: 'Poppins-Regular';
-  font-size: 26px;
-  width: 425px;
-  margin-top: 10px;
-  margin-left: 25px;
-}
-.MuiButton-root.buttonComecar {
-  width: 425px;
-  height: 75px;
-  border-radius: 15px;
-  background-color: #EB389A;
-  margin-top: 30px;
-  color: #FFF;
-  font-family: 'Poppins-ExtraBold';
-  font-size: 32px;
-  text-transform: capitalize;
-  margin-left: 25px;
-}
-.gridRight {
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  height: 100%;  
-  flex-direction: column;
-}
+    margin-left: 71px;
+    width: 380px;
+  }
+  .MuiTypography-root.textWelcome {
+    font-family: "Poppins-Regular";
+    font-size: 1.5rem;
+    width: 380px;
+    margin-top: 10px;
+    margin-left: 71px;
+  }
+  .MuiButton-root.buttonComecar {
+    width: 400px;
+    background-color: #EB389A;
+    height: 60px;
+    margin-left: 70px;
+    margin-top: 30px;
+    border-radius: 10px;
+    font-family: "Poppins-ExtraBold";
+    font-size: 1.6rem;
+    text-transform: capitalize;
+    color: #FFF;
+  }
+  .MuiTypography-root.titleOnboarding {
+    font-family: "IntegralCF-Bold";
+    font-size: 2rem;
+    color: #EB389A;
+  }
+  .MuiTypography-root.textOnboarding {
+    font-family: "Poppins-Regular";
+    width: 280px;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    text-align: 'center';
+  }
+  
