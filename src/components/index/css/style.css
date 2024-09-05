@@ -1,26 +1,31 @@
-/* Especificidade aumentada */
-.MuiTypography-root.petExpress {
-    color: #000;
-    font-family: 'MonumentExtend-UltraBold';
-    margin-top: 40px;
-    margin-left: 25px;
-    font-size: 20px;
-  }
-  .groupButton {
-    display: flex; 
-    gap: 40%; 
-    margin-left: 20%;
-    margin-top: 40px;
-  }  
-  .MuiButton-root.button {
-    font-family: 'Poppins-Bold';
-    color: #000;
-    text-transform: capitalize;
-  }
-  .MuiButton-root.buttonEntrar {
-    font-family: 'Poppins-Bold';
-    font-size: 20px;
-    text-transform: capitalize;
-    color: #E01483;
-    margin-left: 15%;
-  }
+/* HeaderIndex */
+.MuiAppBar-root.header {
+background-color: #FFF;
+box-shadow: none;
+border-bottom: none;
+}
+.MuiTypography-root.logo {
+  color: #000;
+  font-family: 'MonumentExtend-UltraBold';
+  font-size: 1.5rem;
+  margin-top: 50px;
+  margin-left: 50px;
+}
+.MuiButton-root.buttonHeader {
+  font-family: 'Poppins-Bold';
+  color: #000;
+  text-transform: capitalize;
+  margin-top: 50px;
+  margin-left: 100px;
+}
+.MuiButton-root.spacingHeader {
+  margin-left: 43%;
+}
+.MuiButton-root.buttonLogin {
+  font-family: 'Poppins-Bold';
+  margin-top: 50px;
+  margin-left: 150px;
+  color: #E01483;
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
