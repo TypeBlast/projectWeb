@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+// Import MUI components
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -11,14 +13,18 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/system';
-import "./css/style.css"
+
+// Import style
+import './css/style.css';
+
+import { useNavigate } from 'react-router-dom';
 
 const StyledModal = styled(Modal)({
   display: 'flex',
   alignItems: 'start',
   justifyContent: 'start',
   marginTop: 85,
-  marginLeft: 20
+  marginLeft: 20,
 });
 
 const ModalContent = styled(Box)({
@@ -27,11 +33,12 @@ const ModalContent = styled(Box)({
   outline: 'none',
   width: '80%',
   maxWidth: '280px',
-  borderRadius: 7
+  borderRadius: 7,
 });
 
-function Header(){
+function Header() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate(); 
 
   const handleModalOpen = () => {
     setOpen(true);
@@ -41,8 +48,12 @@ function Header(){
     setOpen(false);
   };
 
+  const handleNavigation = (path) => {
+    navigate(path); // Chama o hook de navegação
+  };
+
   return (
-    <AppBar position="static" className='header'>
+    <AppBar position="static" className="header">
       <Toolbar>
         <IconButton
           edge="start"
@@ -53,14 +64,14 @@ function Header(){
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" className='logo'>
+        <Typography variant="h6" component="div" className="logo">
           PetExpress
         </Typography>
         <Box sx={{ display: { xs: 'none', lg: 'flex' } }}>
-          <Button className='buttonHeader spacingHeader'>Produtos</Button>
-          <Button className='buttonHeader'>Serviços</Button>
-          <Button className='buttonHeader'>Consultas</Button>
-          <Button className='buttonLogin'>Entrar</Button>
+          <Button className="buttonHeader spacingHeader" onClick={() => handleNavigation('/error')}>Produtos</Button>
+          <Button className="buttonHeader" onClick={() => handleNavigation('/error')}>Serviços</Button>
+          <Button className="buttonHeader" onClick={() => handleNavigation('/error')}>Consultas</Button>
+          <Button className="buttonLogin" onClick={() => handleNavigation('/login')}>Entrar</Button>
         </Box>
         <StyledModal
           open={open}
@@ -70,17 +81,17 @@ function Header(){
         >
           <ModalContent>
             <List>
-              <ListItem button onClick={handleModalClose} sx={{ fontFamily: 'Poppins-Bold' }}>
+              <ListItem button onClick={() => handleNavigation('/error')}>
                 <ListItemText primary="Produtos" />
               </ListItem>
-              <ListItem className='buttonMenu' button onClick={handleModalClose}>
+              <ListItem button onClick={() => handleNavigation('/error')}>
                 <ListItemText primary="Serviços" />
               </ListItem>
-              <ListItem className='buttonMenu' button onClick={handleModalClose}>
+              <ListItem button onClick={() => handleNavigation('/error')}>
                 <ListItemText primary="Consultas" />
               </ListItem>
-              <ListItem button onClick={handleModalClose}>
-                <ListItemText primary="Entrar" />
+              <ListItem button>
+                <ListItemText primary="Entrar" onClick={() => handleNavigation('/login')}/>
               </ListItem>
             </List>
           </ModalContent>
@@ -88,6 +99,6 @@ function Header(){
       </Toolbar>
     </AppBar>
   );
-};
+}
 
 export default Header;
