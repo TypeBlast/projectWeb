@@ -95,6 +95,10 @@
     text-transform: capitalize;
     color: #FFF;
   }
+  .MuiButton-root.buttonComecar:hover {
+    background-color: #FF8DBA;
+    color: #FFF;
+  }
   .MuiTypography-root.titleOnboarding {
     font-family: "IntegralCF-Bold";
     font-size: 2rem;
@@ -107,4 +111,34 @@
     margin-top: 20px;
     text-align: 'center';
   }
-  
+
+  /* Error */
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .MuiTypography-root.textError {
+    font-family: "Poppins-Regular";
+    font-size: 1.2rem;
+    width: 550px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .MuiButton-root.buttonError{
+    background-color: #EB389A;
+    color: #FFF;
+    margin: 10px;
+    width: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-family: "Poppins-Bold";
+    font-size: 1.3rem;
+    text-transform: capitalize;
+    margin-top: 30px;
+  }
+  .MuiButton-root.buttonError:hover{
+    background-color: #FF8DBA; 
+  color: white;              
+  }
