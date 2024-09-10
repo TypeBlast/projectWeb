@@ -1,6 +1,9 @@
 import React from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
+
 import { useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 
 //import images
 import imageRegister from "../assets/images/imageRegister.png";
@@ -19,11 +22,17 @@ function Login() {
   // Hook para verificar o tamanho da tela
   const isMediumScreen = useMediaQuery("(max-width: 980px)");
 
+  const navigate = useNavigate();
+
+  // Função para navegação
+  const handleNavigation = (path) => {
+    navigate(path); // Navega para o caminho especificado
+  };
   return (
     <Grid container style={{ height: "100vh" }}>
       {/* Nome no canto superior esquerdo */}
-      <Typography
-        variant="h6"
+      <Button
+        onClick={() => handleNavigation("/")} // Navega para a página inicial
         sx={{
           position: "absolute",
           fontFamily: "MonumentExtend-UltraBold",
@@ -31,10 +40,15 @@ function Login() {
           marginTop: 3,
           marginLeft: 5,
           fontSize: "1.2rem",
+          backgroundColor: "transparent", // Remove o fundo padrão do botão
+          textTransform: "none", // Remove a transformação de texto padrão
+          "&:hover": {
+            backgroundColor: "transparent", // Remove o fundo ao passar o mouse
+          },
         }}
       >
         PetExpress
-      </Typography>
+      </Button>
 
       {/* Metade esquerda da tela */}
       <Grid

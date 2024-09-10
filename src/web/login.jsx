@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-
 import { useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -19,14 +18,17 @@ function Login() {
   const isMediumScreen = useMediaQuery("(max-width: 980px)");
 
   const navigate = useNavigate();
+
+  // Função para navegação
   const handleNavigation = (path) => {
-    navigate(path); // Chama o hook de navegação
+    navigate(path); // Navega para o caminho especificado
   };
+
   return (
     <Grid container style={{ height: "100vh" }}>
-      {/* Nome no canto superior esquerdo */}
-      <Typography
-        variant="h6"
+      {/* Nome no canto superior esquerdo que leva à página inicial */}
+      <Button
+        onClick={() => handleNavigation("/")} // Navega para a página inicial
         sx={{
           position: "absolute",
           fontFamily: "MonumentExtend-UltraBold",
@@ -34,10 +36,15 @@ function Login() {
           marginTop: 3,
           marginLeft: 5,
           fontSize: "1.2rem",
+          backgroundColor: "transparent", // Remove o fundo padrão do botão
+          textTransform: "none", // Remove a transformação de texto padrão
+          "&:hover": {
+            backgroundColor: "transparent", // Remove o fundo ao passar o mouse
+          },
         }}
       >
         PetExpress
-      </Typography>
+      </Button>
 
       {/* Metade esquerda da tela */}
       <Grid
@@ -81,13 +88,25 @@ function Login() {
               }}
             >
               <Typography
-                sx={{ fontFamily: "Poppins-Bold", fontSize: "1.5rem", marginTop: "20px"}}
+                sx={{
+                  fontFamily: "Poppins-Bold",
+                  fontSize: "1.5rem",
+                  marginTop: "20px",
+                }}
               >
                 Entre em sua conta!
               </Typography>
 
               {/* Ajuste da margem superior do InputEmail */}
-              <Box sx={{ marginTop: "20px", width: "100%", textAlign: "center", display: "flex", justifyContent: "center" }}> 
+              <Box
+                sx={{
+                  marginTop: "20px",
+                  width: "100%",
+                  textAlign: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
                 <InputEmail />
               </Box>
 
@@ -100,7 +119,7 @@ function Login() {
                   textTransform: "unset",
                   textDecoration: "underline",
                   marginLeft: "160px",
-                  marginTop: "-5px"
+                  marginTop: "-5px",
                 }}
               >
                 Esqueceu sua senha?
@@ -114,7 +133,7 @@ function Login() {
                   textTransform: "unset",
                   width: "275px",
                   color: "#000",
-                  marginTop: "20px"
+                  marginTop: "20px",
                 }}
               >
                 <FontAwesomeIcon
@@ -138,10 +157,10 @@ function Login() {
                   textTransform: "capitalize",
                   fontSize: "1.3rem",
                   marginTop: "30px",
-                  '&:hover': {
+                  "&:hover": {
                     backgroundColor: "#FF8DBA", // Cor de fundo ao passar o mouse
                     color: "#FFF", // Cor do texto ao passar o mouse
-                  }
+                  },
                 }}
               >
                 Entrar
@@ -151,7 +170,7 @@ function Login() {
                   fontFamily: "Poppins-Bold",
                   textTransform: "capitalize",
                   color: "#E01483",
-                  marginTop: "10px"
+                  marginTop: "10px",
                 }}
                 onClick={() => handleNavigation("/register")}
               >
