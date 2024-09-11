@@ -1,31 +1,30 @@
 /* HeaderIndex */
 .MuiAppBar-root.header {
-background-color: #FFF;
-box-shadow: none;
-border-bottom: none;
-}
-.MuiTypography-root.logo {
-  color: #000;
-  font-family: 'MonumentExtend-UltraBold';
-  font-size: 1.5rem;
-  margin-top: 50px;
-  margin-left: 50px;
-}
-.MuiButton-root.buttonHeader {
-  font-family: 'Poppins-Bold';
-  color: #000;
-  text-transform: capitalize;
-  margin-top: 50px;
-  margin-left: 100px;
-}
-.MuiButton-root.spacingHeader {
-  margin-left: 43%;
-}
-.MuiButton-root.buttonLogin {
-  font-family: 'Poppins-Bold';
-  margin-top: 50px;
-  margin-left: 150px;
-  color: #E01483;
-  text-transform: capitalize;
-  font-size: 1.2rem;
-}
+  background-color: #FFF;
+  box-shadow: none;
+  border-bottom: none;
+  }
+  .MuiTypography-root.logo {
+    color: #000;
+    font-family: 'MonumentExtend-UltraBold';
+    font-size: 1.5rem;
+    margin-top: 50px;
+    margin-left: 50px;
+  }
+  .MuiButton-root.buttonHeader {
+    font-family: 'Poppins-Bold';
+    font-size: 1.2rem;
+    color: #000;
+    text-transform: capitalize;
+    margin-top: 50px;
+    margin-left: 40%;
+  }
+  
+  .MuiButton-root.buttonLogin {
+    font-family: 'Poppins-Bold';
+    margin-top: 50px;
+    color: #E01483;
+    text-transform: capitalize;
+    font-size: 1.4rem;
+    margin-right: 30%;
+  }
