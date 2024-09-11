@@ -15,8 +15,6 @@ import InputCPF from "../components/inputs/inputCPF";
 import InputName from "../components/inputs/inputName";
 import InputPhone from "../components/inputs/inputPhone";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons"; // Corrigido para o pacote correto
 
 function Login() {
   // Hook para verificar o tamanho da tela
@@ -145,9 +143,9 @@ function Login() {
                   flexDirection: "column",
                 }}
               >
+                <InputEmail />
                 <InputCPF />
                 <InputName />
-                <InputEmail />
                 <InputPhone />
                 <InputPassword />
               </Box>
