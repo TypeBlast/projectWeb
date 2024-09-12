@@ -4,55 +4,74 @@ import { useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons"
 
-//import images
+// Importe a configuração do Firebase
+import { auth, provider, signInWithPopup } from "../firebaseConfig"; 
+
 import imageLogin from "../assets/images/imageLogin.png";
-
-//import email and password inputs
 import InputEmail from "../components/inputs/inputEmail";
 import InputPassword from "../components/inputs/inputPassword";
-
-//import FontAwesomeIcon for Google login button
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-
-// Import sheets for API requests
-import sheets from "../axios/axios"; // Caminho ajustado conforme necessário
+import sheets from "../axios/axios";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // Estado para o alerta de erro
-  const [success, setSuccess] = useState(""); // Estado para o alerta de sucesso
-
-  // Hook para verificar o tamanho da tela
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const isMediumScreen = useMediaQuery("(max-width: 980px)");
   const navigate = useNavigate();
 
-  // Função para navegação
   const handleNavigation = (path) => {
-    navigate(path); // Navega para o caminho especificado
+    navigate(path);
   };
 
-  // Função de login
   const handleLogin = async () => {
     try {
-      console.log("Tentando logar com:", email, password); // Adicione um log para verificar os dados
       const loginData = { email, password };
       const response = await sheets.logUser(loginData);
-      console.log("Resposta do servidor:", response.data); // Log da resposta do servidor
 
       if (response.status === 201) {
         navigate("/home");
       }
-    }  catch (error) {
-      setSuccess(""); // Limpa qualquer sucesso anterior
-      // Verifica se existe uma mensagem específica da API ou exibe um erro padrão
+    } catch (error) {
+      setSuccess("");
       if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
-        setError("Erro ao realizar cadastro.");
+        setError("Erro ao realizar login.");
       }
+    }
+  };
+
+  // Função de login com o Google
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      // Verifica se o e-mail do usuário já está no banco de dados
+      const response = await sheets.getUserByEmail(user.email);
+  
+      // Debug: Veja o que está sendo retornado
+      console.log("Resposta da API:", response.data);
+  
+      if (response.data.status === true) {
+        // Usuário já cadastrado
+        console.log("Usuário já cadastrado:", response.data[0]);
+        setSuccess("Login com Google bem-sucedido!");
+        setError("");
+        navigate("/home"); // Redireciona para a página principal
+      } else {
+        // Usuário não cadastrado. Redirecionando para a página de cadastro.
+        console.log("Usuário não cadastrado. Redirecionando para a página de cadastro.");
+        navigate("/register"); // Redireciona para a página de cadastro
+      }
+    } catch (error) {
+      console.error("Erro no login com o Google:", error);
+      setError("Erro ao realizar login com o Google.");
+      setSuccess("");
     }
   };
 
@@ -119,6 +138,11 @@ function Login() {
                 padding: 2,
               }}
             >
+              <Stack sx={{ width: "100%", height: 40, textAlign:'center' }} spacing={2}>
+                {error && <Alert variant="outlined" severity="error">{error}</Alert>}
+                {success && <Alert severity="success">{success}</Alert>}
+              </Stack>
+
               <Typography
                 sx={{
                   fontFamily: "Poppins-Bold",
@@ -150,11 +174,6 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <Stack sx={{ width: "100%", height: 20 }} spacing={2}>
-                {error && <Alert severity="error">{error}</Alert>}
-                {success && <Alert severity="success">{success}</Alert>}
-              </Stack>
-
               <Button
                 sx={{
                   width: "275px",
@@ -176,7 +195,31 @@ function Login() {
                 Entrar
               </Button>
 
-              {/* Outras opções de login e registro */}
+              {/* Botão de login com o Google */}
+              <Button
+                sx={{
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "7px",
+                  fontFamily: "Poppins-Regular",
+                  fontSize: "0.9rem",
+                  textTransform: "unset",
+                  width: "275px",
+                  color: "#000",
+                  marginTop: "20px",
+                }}
+                onClick={handleGoogleLogin}
+              >
+                <FontAwesomeIcon
+                  icon={faGoogle}
+                  style={{
+                    fontSize: "15px",
+                    color: "#F25CAE",
+                    marginRight: "10px",
+                  }}
+                />
+                Continuar com o Google
+              </Button>
+
               <Button
                 sx={{
                   fontFamily: "Poppins-Bold",
