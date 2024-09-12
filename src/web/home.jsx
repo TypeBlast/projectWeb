@@ -1,13 +1,17 @@
 import React from "react";
 
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import { Typography, Button, Box } from "@mui/material";
+
+import SearchBar from "../components/layout/searchBar";
+import BoxWelcome from "../components/layout/boxWelcome";
 
 function Home() {
-  
   return (
     <div className="container">
-      
+      <Box sx={{marginTop: "50px"}}>
+        <SearchBar />
+        <BoxWelcome />
+      </Box>
     </div>
   );
 }
