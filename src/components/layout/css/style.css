@@ -6,4 +6,15 @@
     text-transform: capitalize;
     margin-top: 50px;
     margin-left: 35%;
-  }
+}
+
+/* SearchBar */
+.MuiTextField-root.searchBar { 
+    margin: 0 auto;    /* Centraliza horizontalmente */
+    font-family: "Poppins-Regular";
+    color: #BFBFBF;
+    border-width: 2px;
+    border-color: #BFBFBF;
+}
+/* BoxWelcome */
+
