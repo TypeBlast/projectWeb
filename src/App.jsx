@@ -1,11 +1,12 @@
 //Import das funcões do router
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 //Import das páginas para navegação
 import Index from "./web";
 import Error from "./web/error";
 import Login from "./web/login";
 import Register from "./web/register";
+import Home from "./web/home";
 
 //Import de components
 import HeaderIndex from "./components/index/header";
@@ -14,12 +15,24 @@ import InputPassword from "./components/inputs/inputPassword";
 import InputCPF from "./components/inputs/inputCPF";
 import InputName from "./components/inputs/inputName";
 import InputPhone from "./components/inputs/inputPhone";
+import Header from "./components/layout/header";
 
 function LayoutIndex() {
-  <div>
-    <HeaderIndex />
-    <Outlet />
-  </div>;
+  return (
+    <div>
+      <HeaderIndex />
+      <Outlet />
+    </div>
+  );
+}
+
+function Layout() {
+  return (
+    <div>
+      <Header />
+      <Outlet />
+    </div>
+  );
 }
 
 function App() {
@@ -27,7 +40,12 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<LayoutIndex />}>
+            <Route path="/" element={<Index />} />
+          </Route>
+          <Route path="/" element={<Layout />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
           <Route path="/error" element={<Error />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
