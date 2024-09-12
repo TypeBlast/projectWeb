@@ -1,36 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-
 import { useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
 
 //import images
 import imageRegister from "../assets/images/imageRegister.png";
 
-//import email
+//import email, password, CPF, name, and phone inputs
 import InputEmail from "../components/inputs/inputEmail";
 import InputPassword from "../components/inputs/inputPassword";
 import InputCPF from "../components/inputs/inputCPF";
 import InputName from "../components/inputs/inputName";
 import InputPhone from "../components/inputs/inputPhone";
 
+// Import sheets for API requests
+import sheets from "../axios/axios"; // Ajuste o caminho conforme necessário
 
-function Login() {
-  // Hook para verificar o tamanho da tela
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
+function Register() {
+  // Hooks para verificar o tamanho da tela
   const isMediumScreen = useMediaQuery("(max-width: 980px)");
-
   const navigate = useNavigate();
+
+  // Estado para os inputs
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState(""); // Estado para o alerta de erro
+  const [success, setSuccess] = useState(""); // Estado para o alerta de sucesso
+
+  // Função de cadastro
+  const handleRegister = async () => {
+    if (!email || !password || !cpf || !name || !phone) {
+      setError("Preencha todos os campos.");
+      return;
+    }
+    try {
+      const registerData = { email, password, cpf, name, phone };
+      const response = await sheets.postUser(registerData);
+      console.log("Resposta do servidor:", response.data); // Log da resposta do servidor
+      
+      if (response.status === 201) {
+        navigate("/login"); // Redireciona para a página de login após o cadastro
+      }
+    } catch (error) {
+      setSuccess(""); // Limpa qualquer sucesso anterior
+      // Verifica se existe uma mensagem específica da API ou exibe um erro padrão
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Erro ao realizar cadastro.");
+      }
+    }
+  };
 
   // Função para navegação
   const handleNavigation = (path) => {
     navigate(path); // Navega para o caminho especificado
   };
+
   return (
     <Grid container style={{ height: "100vh" }}>
       {/* Nome no canto superior esquerdo */}
       <Button
-        onClick={() => handleNavigation("/")} // Navega para a página inicial
+        onClick={() => handleNavigation("/")}
         sx={{
           position: "absolute",
           fontFamily: "MonumentExtend-UltraBold",
@@ -38,10 +75,10 @@ function Login() {
           marginTop: 3,
           marginLeft: 5,
           fontSize: "1.2rem",
-          backgroundColor: "transparent", // Remove o fundo padrão do botão
-          textTransform: "none", // Remove a transformação de texto padrão
+          backgroundColor: "transparent",
+          textTransform: "none",
           "&:hover": {
-            backgroundColor: "transparent", // Remove o fundo ao passar o mouse
+            backgroundColor: "transparent",
           },
         }}
       >
@@ -67,11 +104,11 @@ function Login() {
             height: 450,
             borderRadius: "30px",
             boxShadow: 3,
-            width: isMediumScreen ? "90%" : "60%", // Ajusta a largura da box para telas menores
+            width: isMediumScreen ? "90%" : "60%",
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -50%)", // Centraliza vertical e horizontalmente
+            transform: "translate(-50%, -50%)",
           }}
         >
           <Grid container sx={{ height: "100%" }}>
@@ -111,13 +148,13 @@ function Login() {
 
             <Grid
               item
-              xs={12} // Alterado para xs={12} quando em telas menores
+              xs={12}
               md={6}
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                borderLeft: isMediumScreen ? "none" : "1px solid #ccc", // Divisória à esquerda
+                borderLeft: isMediumScreen ? "none" : "1px solid #ccc",
                 height: "100%",
                 flexDirection: "column",
                 padding: 2,
@@ -126,13 +163,12 @@ function Login() {
               <Typography
                 sx={{
                   fontFamily: "Poppins-Bold",
-                  fontSize: "1.5rem"  
+                  fontSize: "1.5rem"
                 }}
               >
                 Crie sua conta!
               </Typography>
 
-              {/* Ajuste da margem superior do InputEmail */}
               <Box
                 sx={{
                   marginTop: "5px",
@@ -143,12 +179,17 @@ function Login() {
                   flexDirection: "column",
                 }}
               >
-                <InputEmail />
-                <InputCPF />
-                <InputName />
-                <InputPhone />
-                <InputPassword />
+                <InputEmail value={email} onChange={(e) => setEmail(e.target.value)} />
+                <InputCPF value={cpf} onChange={(e) => setCpf(e.target.value)} />
+                <InputName value={name} onChange={(e) => setName(e.target.value)} />
+                <InputPhone value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <InputPassword value={password} onChange={(e) => setPassword(e.target.value)} />
               </Box>
+              <Stack sx={{ width: '100%', height: 20 }} spacing={2}>
+                {error && <Alert severity="error">{error}</Alert>}
+                {success && <Alert severity="success">{success}</Alert>}
+              </Stack>
+
               <Button
                 sx={{
                   width: "275px",
@@ -161,10 +202,11 @@ function Login() {
                   fontSize: "1.3rem",
                   marginTop: "30px",
                   "&:hover": {
-                    backgroundColor: "#FF8DBA", // Cor de fundo ao passar o mouse
-                    color: "#FFF", // Cor do texto ao passar o mouse
+                    backgroundColor: "#FF8DBA",
+                    color: "#FFF",
                   },
                 }}
+                onClick={handleRegister} // Chama a função de cadastro
               >
                 Cadastrar
               </Button>
@@ -173,7 +215,6 @@ function Login() {
         </Box>
       </Grid>
 
-      {/* Grid direita que só aparece em telas maiores */}
       {!isMediumScreen && (
         <Grid
           item
@@ -191,4 +232,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

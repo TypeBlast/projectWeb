@@ -5,14 +5,16 @@ import { TextField, Box } from "@mui/material";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
-function InputPhone() {
+function InputPhone({ value, onChange }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
     <FontAwesomeIcon icon={faPhone} style={{ marginRight: '10px', marginTop: "20px", fontSize: '20px', color: "#D9D9D9" }} />
     <TextField
-      id="telefone"
+      id="phone"
       label="Telefone"
       variant="standard"
+      value={value} // Define o valor do input
+      onChange={onChange} // Define a função de alteração
       sx={{
         margin: "2px",
         width: '220px', // Controla o tamanho
