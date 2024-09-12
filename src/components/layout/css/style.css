@@ -1,0 +1,9 @@
+/* Header */
+.MuiButton-root.buttonHeader {
+    font-family: 'Poppins-Bold';
+    font-size: 1.2rem;
+    color: #000;
+    text-transform: capitalize;
+    margin-top: 50px;
+    margin-left: 35%;
+  }
