@@ -1,8 +1,5 @@
 import React from "react";
 
-//import components
-import Header from "../components/index/header";
-
 //import components mui
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -30,7 +27,6 @@ function Index() {
   };
   return (
     <div style={{paddingBottom: 50}}>
-      <Header />
       <Grid container>
         <Grid item xs={12} md={6}
         sx={{
