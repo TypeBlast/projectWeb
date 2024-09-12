@@ -36,7 +36,7 @@ const ModalContent = styled(Box)({
   borderRadius: 7,
 });
 
-function Header() {
+function HeaderIndex() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate(); 
 
@@ -103,4 +103,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default HeaderIndex;
