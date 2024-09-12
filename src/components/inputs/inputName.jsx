@@ -5,14 +5,16 @@ import { TextField, Box } from "@mui/material";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-function InputName() {
+function InputName({ value, onChange }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
     <FontAwesomeIcon icon={faUser} style={{ marginRight: '10px', marginTop: "20px", fontSize: '20px', color: "#D9D9D9" }} />
     <TextField
-      id="nome"
+      id="name"
       label="Nome"
       variant="standard"
+      value={value} // Define o valor do input
+      onChange={onChange} // Define a função de alteração
       sx={{
         margin: "2px",
         width: '220px', // Controla o tamanho
