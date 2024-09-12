@@ -11,6 +11,7 @@ function Home() {
       <Box sx={{marginTop: "50px"}}>
         <SearchBar />
         <BoxWelcome />
+        {/* */}
       </Box>
     </div>
   );
