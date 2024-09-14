@@ -48,33 +48,37 @@ function Login() {
   // Função de login com o Google
   const handleGoogleLogin = async () => {
     try {
+      // Faz o login com o Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
   
-      // Verifica se o e-mail do usuário já está no banco de dados
-      const response = await sheets.getUserByEmail(user.email);
+      // Obtém todos os usuários do banco de dados
+      const response = await sheets.getAllUsers('/user'); // Ajuste a URL conforme sua configuração
+    
+      // Verifique se response.data.data é um array e se contém a estrutura esperada
+      if (response.data && Array.isArray(response.data.data)) {
+        // Verifica se o e-mail do usuário do Google está presente na lista de e-mails do banco de dados
+        const emailExists = response.data.data.some(dbUser => dbUser.email === user.email);
   
-      // Debug: Veja o que está sendo retornado
-      console.log("Resposta da API:", response.data);
-  
-      if (response.data.status === true) {
-        // Usuário já cadastrado
-        console.log("Usuário já cadastrado:", response.data[0]);
-        setSuccess("Login com Google bem-sucedido!");
-        setError("");
-        navigate("/home"); // Redireciona para a página principal
+        if (emailExists) {
+          console.log("Email encontrado no banco de dados:", user.email);
+          navigate("/home"); // Redireciona para a página Home
+        } else {
+          console.log("Email não encontrado no banco de dados:", user.email);
+          navigate("/register", { state: { email: user.email, name: user.displayName } }); // Passa o email e nome para o registro
+        }
       } else {
-        // Usuário não cadastrado. Redirecionando para a página de cadastro.
-        console.log("Usuário não cadastrado. Redirecionando para a página de cadastro.");
-        navigate("/register"); // Redireciona para a página de cadastro
+        console.error("A resposta da API não contém um array de usuários:", response.data);
+        setError("Não foi possível verificar o cadastro do usuário.");
       }
+  
     } catch (error) {
-      console.error("Erro no login com o Google:", error);
+      console.error("Erro ao realizar login com o Google:", error);
       setError("Erro ao realizar login com o Google.");
-      setSuccess("");
     }
   };
-
+  
+  
   return (
     <Grid container style={{ height: "100vh" }}>
       {/* Nome no canto superior esquerdo que leva à página inicial */}

@@ -16,7 +16,6 @@ const sheets = {
     deleteUser: (id) => api.delete(`/user/${id}`),
     getUser: (id) => api.get(`/user/${id}`),
     getAllUsers: () => api.get("/user"),
-    getUserByEmail: (email) => api.get(`/user/email`, { params: { email } }),
 }
 
 export default sheets;

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-//import images
+// Import images
 import imageRegister from "../assets/images/imageRegister.png";
 
-//import email, password, CPF, name, and phone inputs
+// Import email, password, CPF, name, and phone inputs
 import InputEmail from "../components/inputs/inputEmail";
 import InputPassword from "../components/inputs/inputPassword";
 import InputCPF from "../components/inputs/inputCPF";
@@ -23,6 +23,7 @@ function Register() {
   // Hooks para verificar o tamanho da tela
   const isMediumScreen = useMediaQuery("(max-width: 980px)");
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Estado para os inputs
   const [email, setEmail] = useState("");
@@ -32,6 +33,15 @@ function Register() {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState(""); // Estado para o alerta de erro
   const [success, setSuccess] = useState(""); // Estado para o alerta de sucesso
+
+  // Use o useEffect para definir os valores iniciais dos inputs se estiverem disponíveis
+  useEffect(() => {
+    if (location.state) {
+      const { email, name } = location.state;
+      setEmail(email || "");
+      setName(name || "");
+    }
+  }, [location.state]);
 
   // Função de cadastro
   const handleRegister = async () => {
