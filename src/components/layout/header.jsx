@@ -22,7 +22,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 // Import style
 import "./css/style.css"
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const StyledModal = styled(Modal)({
   display: "flex",
@@ -42,21 +42,22 @@ const ModalContent = styled(Box)({
 });
 
 function Header() {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
 
+  const [open, setOpen] = useState(false);
   const handleModalOpen = () => {
     setOpen(true);
   };
-
   const handleModalClose = () => {
     setOpen(false);
   };
-
+  
+  const navigate = useNavigate();
   const handleNavigation = (path) => {
     navigate(path); // Chama o hook de navegação
   };
-
+  
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path ? "activeButton" : "";
   return (
     <AppBar position="static" className="header">
       <Toolbar>
@@ -73,15 +74,15 @@ function Header() {
           PetExpress
         </Typography>
         <Box sx={{ display: { xs: "none", lg: "flex", marginLeft: "5%"} }}>
-          <Button className="buttonHeader">Produtos</Button>
-          <Button className="buttonHeader">Serviços</Button>
-          <Button className="buttonHeader">Consultas</Button>
+          <Button className={`buttonHeader ${isActive("/products")}`} onClick={() => handleNavigation("/products")}>Produtos</Button>
+          <Button className={`buttonHeader ${isActive("/services")}`} onClick={() => handleNavigation("/services")}>Serviços</Button>
+          <Button className={`buttonHeader ${isActive("/consults")}`} onClick={() => handleNavigation("/consults")}>Consultas</Button>
         </Box>
         <Box sx={{ display: { xs: "none", lg: "flex", marginLeft: "30%", marginTop: "50px" } }}>
-          <Button>
+          <Button onClick={() => handleNavigation("/cart")}>
             <FontAwesomeIcon
               icon={faCartShopping}
-              style={{ fontSize: "20px", color: "#BFBFBF" }}
+              style={{ fontSize: "20px", color: location.pathname === "/cart" ? "#EB389A" : "#BFBFBF" }}
             />
           </Button>
           <Box
@@ -91,10 +92,10 @@ function Header() {
               margin: "8px 8px",
             }}
           />
-          <Button>
+          <Button onClick={() => handleNavigation("/user")}>
             <FontAwesomeIcon
               icon={faUser}
-              style={{ fontSize: "20px", color: "#BFBFBF" }}
+              style={{ fontSize: "20px", color: location.pathname === "/user" ? "#EB389A" : "#BFBFBF" }}
             />
           </Button>
         </Box>

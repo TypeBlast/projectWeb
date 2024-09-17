@@ -7,6 +7,10 @@
     margin-top: 50px;
     margin-left: 35%;
 }
+.MuiButton-root.activeButton {
+    color: #EB389A; /* Cor do texto */
+  }
+  
 
 /* SearchBar */
 .MuiTextField-root.searchBar { 
@@ -16,5 +20,3 @@
     border-width: 2px;
     border-color: #BFBFBF;
 }
-/* BoxWelcome */
-/* .. /*
