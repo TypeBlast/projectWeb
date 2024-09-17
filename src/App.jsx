@@ -7,14 +7,12 @@ import Error from "./web/error";
 import Login from "./web/login";
 import Register from "./web/register";
 import Home from "./web/home";
+import Products from "./web/products";
+import Services from "./web/services";
+import User from "./web/user";
 
 //Import de components
 import HeaderIndex from "./components/index/header";
-import InputEmail from "./components/inputs/inputEmail";
-import InputPassword from "./components/inputs/inputPassword";
-import InputCPF from "./components/inputs/inputCPF";
-import InputName from "./components/inputs/inputName";
-import InputPhone from "./components/inputs/inputPhone";
 import Header from "./components/layout/header";
 
 function LayoutIndex() {
@@ -45,6 +43,9 @@ function App() {
           </Route>
           <Route path="/" element={<Layout />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/user" element={<User />} />
           </Route>
           <Route path="/error" element={<Error />} />
           <Route path="/login" element={<Login />} />
