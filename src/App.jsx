@@ -10,6 +10,7 @@ import Home from "./web/home";
 import Products from "./web/products";
 import Services from "./web/services";
 import User from "./web/user";
+import ProductsDetails from "./web/productsDetails";
 
 //Import de components
 import HeaderIndex from "./components/index/header";
@@ -44,6 +45,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductsDetails />} />
             <Route path="/services" element={<Services />} />
             <Route path="/user" element={<User />} />
           </Route>
