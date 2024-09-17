@@ -12,7 +12,7 @@ function BoxWelcome() {
       sx={{
         border: "1px solid #BFBFBF", // Borda acinzentada
         height: "230px",
-        borderRadius: "10px", // Bordas arredondadas (opcional)
+        borderRadius: "10px", // Bordas arredondadas
         display: "flex",
         flexDirection: "row",
         alignItems: "center", // Centraliza o conteúdo horizontalmente
@@ -42,10 +42,11 @@ function BoxWelcome() {
             <img
               src={ImageBoxHome}
               style={{
-                width: "200px",
-                height: "250px", // Aumenta a altura para se sobressair
+                width: "80%",
+                height: "100%", // Aumenta a altura para se sobressair
                 position: "absolute", // Faz a imagem sobressair
-                top: "-50px", // Move a imagem para cima, fora da box
+                top: "-30px", // Move a imagem para cima, fora da box
+                left: "30px",
                 zIndex: 1, // Garante que a imagem fique visível acima do Grid
               }}
               alt="Home"
@@ -54,14 +55,19 @@ function BoxWelcome() {
         )}
         <Grid
           item
-          xs={12} // Alterado para xs={12} quando em telas menores
+          xs={12} 
           md={8}
           sx={{
             display: "flex",
             justifyContent: "center",
+            gap: "20px",
             alignItems: "center",
+            flexDirection: "column"
           }}
-        ></Grid>
+        >
+         <Typography sx={{fontFamily: "MonumentExtend-UltraBold", fontSize: "1.7rem"}}>PetExpress</Typography> 
+         <Typography sx={{fontFamily: "Poppins-Regular", fontSize: "1.3rem"}}>Tudo para o bem-estar do seu pet!</Typography> 
+        </Grid>
       </Grid>
     </Box>
   );
