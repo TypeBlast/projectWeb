@@ -14,6 +14,10 @@ import {
   FormGroup,
   FormControlLabel,
   Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActionArea,
 } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -106,8 +110,96 @@ function Products() {
     }); // Limpar os checkboxes
   };
 
+  // Produtos fictícios
+  const products = [
+    {
+      id: 1,
+      name: "Ração para Cães",
+      price: "R$ 79,90",
+      image:
+        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 2,
+      name: "Brinquedo para Gatos",
+      price: "R$ 29,90",
+      image:
+        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 3,
+      name: "Cama para Cachorros",
+      price: "R$ 199,90",
+      image:
+        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 4,
+      name: "Ração para Cães",
+      price: "R$ 79,90",
+      image:
+        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 5,
+      name: "Brinquedo para Gatos",
+      price: "R$ 29,90",
+      image:
+        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 6,
+      name: "Cama para Cachorros",
+      price: "R$ 199,90",
+      image:
+        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 7,
+      name: "Ração para Cães",
+      price: "R$ 79,90",
+      image:
+        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 8,
+      name: "Brinquedo para Gatos",
+      price: "R$ 29,90",
+      image:
+        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 9,
+      name: "Cama para Cachorros",
+      price: "R$ 199,90",
+      image:
+        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 10,
+      name: "Ração para Cães",
+      price: "R$ 79,90",
+      image:
+        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 11,
+      name: "Brinquedo para Gatos",
+      price: "R$ 29,90",
+      image:
+        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 12,
+      name: "Cama para Cachorros",
+      price: "R$ 199,90",
+      image:
+        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+  ];
+
   return (
-    <div className="container">
+    <div className="container" style={{ paddingBottom: "50px" }}>
       <Box sx={{ marginTop: "75px", display: "flex", alignItems: "center" }}>
         <SearchBar />
         <Button sx={{ marginLeft: "3%" }} onClick={handleModalOpen}>
@@ -117,6 +209,34 @@ function Products() {
           />
         </Button>
       </Box>
+      <Grid
+        container
+        spacing={2}
+        sx={{ marginTop: "50px" }}
+        justifyContent="center"
+      >
+        {products.map((product) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+            <Card sx={{ maxWidth: "250px", margin: "auto", borderRadius: "10px", marginTop: "30px", padding: 0}}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="150px"
+                  image={product.image}
+                  alt={product.name}
+                />
+                <CardContent>
+                  <Typography sx={{fontFamily: "Poppins-Bold", color: "#BFBFBF", fontSize: "1rem"}}>{product.name}</Typography>
+                    <Typography sx={{ fontFamily: "Poppins-Bold", color: "#A8A8A8", fontSize: "1.2rem",marginTop: "10px", marginLeft: "125px" }}>
+                      {product.price}
+                    </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
       <StyledModal
         open={open}
         onClose={handleModalClose}
