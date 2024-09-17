@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Import components MUI
 import {
@@ -118,6 +119,10 @@ function Products() {
       price: "R$ 79,90",
       image:
         "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Ração",
+      specie: "Dogs",
     },
     {
       id: 2,
@@ -125,6 +130,10 @@ function Products() {
       price: "R$ 29,90",
       image:
         "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Cats",
     },
     {
       id: 3,
@@ -132,6 +141,10 @@ function Products() {
       price: "R$ 199,90",
       image:
         "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Dogs",
     },
     {
       id: 4,
@@ -139,6 +152,10 @@ function Products() {
       price: "R$ 79,90",
       image:
         "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Ração",
+      specie: "Dogs",
     },
     {
       id: 5,
@@ -146,6 +163,10 @@ function Products() {
       price: "R$ 29,90",
       image:
         "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Cats",
     },
     {
       id: 6,
@@ -153,13 +174,20 @@ function Products() {
       price: "R$ 199,90",
       image:
         "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Dogs",
+    },{
       id: 7,
       name: "Ração para Cães",
       price: "R$ 79,90",
       image:
         "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Ração",
+      specie: "Dogs",
     },
     {
       id: 8,
@@ -167,6 +195,10 @@ function Products() {
       price: "R$ 29,90",
       image:
         "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Cats",
     },
     {
       id: 9,
@@ -174,13 +206,20 @@ function Products() {
       price: "R$ 199,90",
       image:
         "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Dogs",
+    },{
       id: 10,
       name: "Ração para Cães",
       price: "R$ 79,90",
       image:
         "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Ração",
+      specie: "Dogs",
     },
     {
       id: 11,
@@ -188,6 +227,10 @@ function Products() {
       price: "R$ 29,90",
       image:
         "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Cats",
     },
     {
       id: 12,
@@ -195,8 +238,18 @@ function Products() {
       price: "R$ 199,90",
       image:
         "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
+      category: "Acessórios",
+      specie: "Dogs",
     },
   ];
+
+  const navigate = useNavigate(); // Hook para navegação
+
+  const handleCardClick = (product) => {
+    navigate(`/products/${product.id}`, { state: { product } });
+  };
 
   return (
     <div className="container" style={{ paddingBottom: "50px" }}>
@@ -217,8 +270,16 @@ function Products() {
       >
         {products.map((product) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-            <Card sx={{ maxWidth: "250px", margin: "auto", borderRadius: "10px", marginTop: "30px", padding: 0}}>
-              <CardActionArea>
+            <Card
+              sx={{
+                maxWidth: "250px",
+                margin: "auto",
+                borderRadius: "10px",
+                marginTop: "30px",
+                padding: 0,
+              }}
+            >
+              <CardActionArea onClick={() => handleCardClick(product)}>
                 <CardMedia
                   component="img"
                   height="150px"
@@ -226,10 +287,26 @@ function Products() {
                   alt={product.name}
                 />
                 <CardContent>
-                  <Typography sx={{fontFamily: "Poppins-Bold", color: "#BFBFBF", fontSize: "1rem"}}>{product.name}</Typography>
-                    <Typography sx={{ fontFamily: "Poppins-Bold", color: "#A8A8A8", fontSize: "1.2rem",marginTop: "10px", marginLeft: "125px" }}>
-                      {product.price}
-                    </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: "Poppins-Bold",
+                      color: "#BFBFBF",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: "Poppins-Bold",
+                      color: "#A8A8A8",
+                      fontSize: "1.2rem",
+                      marginTop: "10px",
+                      marginLeft: "125px",
+                    }}
+                  >
+                    {product.price}
+                  </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
