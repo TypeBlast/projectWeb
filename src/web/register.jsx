@@ -20,7 +20,6 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 
 function Register() {
-  // Hooks para verificar o tamanho da tela
   const isMediumScreen = useMediaQuery("(max-width: 980px)");
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,10 +30,13 @@ function Register() {
   const [cpf, setCpf] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [error, setError] = useState(""); // Estado para o alerta de erro
-  const [success, setSuccess] = useState(""); // Estado para o alerta de sucesso
+  const [error, setError] = useState(""); 
+  const [success, setSuccess] = useState(""); 
 
-  // Use o useEffect para definir os valores iniciais dos inputs se estiverem disponíveis
+  // Verifica se o usuário veio de um login com Google
+  const isGoogleLogin = !!location.state?.email; // Verifica se o e-mail está pré-preenchido
+
+  // UseEffect para definir os valores iniciais dos inputs se vier de um login com Google
   useEffect(() => {
     if (location.state) {
       const { email, name } = location.state;
@@ -52,14 +54,13 @@ function Register() {
     try {
       const registerData = { email, password, cpf, name, phone };
       const response = await sheets.postUser(registerData);
-      console.log("Resposta do servidor:", response.data); // Log da resposta do servidor
+      console.log("Resposta do servidor:", response.data);
       
       if (response.status === 201) {
-        navigate("/login"); // Redireciona para a página de login após o cadastro
+        navigate("/login");
       }
     } catch (error) {
-      setSuccess(""); // Limpa qualquer sucesso anterior
-      // Verifica se existe uma mensagem específica da API ou exibe um erro padrão
+      setSuccess(""); 
       if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
@@ -68,16 +69,10 @@ function Register() {
     }
   };
 
-  // Função para navegação
-  const handleNavigation = (path) => {
-    navigate(path); // Navega para o caminho especificado
-  };
-
   return (
     <Grid container style={{ height: "100vh" }}>
-      {/* Nome no canto superior esquerdo */}
       <Button
-        onClick={() => handleNavigation("/")}
+        onClick={() => navigate("/")}
         sx={{
           position: "absolute",
           fontFamily: "MonumentExtend-UltraBold",
@@ -95,7 +90,6 @@ function Register() {
         PetExpress
       </Button>
 
-      {/* Metade esquerda da tela */}
       <Grid
         item
         xs={12}
@@ -107,7 +101,6 @@ function Register() {
           alignItems: "center",
         }}
       >
-        {/* Box centralizada no meio da tela */}
         <Box
           sx={{
             backgroundColor: "white",
@@ -189,12 +182,17 @@ function Register() {
                   flexDirection: "column",
                 }}
               >
-                <InputEmail value={email} onChange={(e) => setEmail(e.target.value)} />
+                <InputEmail 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  readOnly={isGoogleLogin} // Só torna o e-mail imutável se for login com Google
+                />
                 <InputCPF value={cpf} onChange={(e) => setCpf(e.target.value)} />
                 <InputName value={name} onChange={(e) => setName(e.target.value)} />
                 <InputPhone value={phone} onChange={(e) => setPhone(e.target.value)} />
                 <InputPassword value={password} onChange={(e) => setPassword(e.target.value)} />
               </Box>
+
               <Stack sx={{ width: '100%', height: 20 }} spacing={2}>
                 {error && <Alert severity="error">{error}</Alert>}
                 {success && <Alert severity="success">{success}</Alert>}
@@ -216,7 +214,7 @@ function Register() {
                     color: "#FFF",
                   },
                 }}
-                onClick={handleRegister} // Chama a função de cadastro
+                onClick={handleRegister}
               >
                 Cadastrar
               </Button>

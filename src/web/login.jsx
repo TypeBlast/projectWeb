@@ -48,6 +48,10 @@ function Login() {
   // Função de login com o Google
   const handleGoogleLogin = async () => {
     try {
+      
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
       // Faz o login com o Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;

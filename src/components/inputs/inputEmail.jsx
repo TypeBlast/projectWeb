@@ -3,7 +3,7 @@ import { TextField, Box } from "@mui/material";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
 
-function InputEmail({ value, onChange }) {
+function InputEmail({ value, onChange, readOnly }) { // Adicione readOnly como prop
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <FontAwesomeIcon icon={faAt} style={{ marginRight: '10px', marginTop: "20px", fontSize: '20px', color: "#D9D9D9" }} />
@@ -13,6 +13,9 @@ function InputEmail({ value, onChange }) {
         variant="standard"
         value={value} // Define o valor do input
         onChange={onChange} // Define a função de alteração
+        InputProps={{
+          readOnly: readOnly, // Define o campo como readOnly se necessário
+        }}
         sx={{
           margin: "2px",
           width: '220px', // Controla o tamanho
