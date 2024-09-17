@@ -108,19 +108,19 @@ function Header() {
         >
           <ModalContent>
             <List>
-              <ListItem button onClick={() => handleNavigation("/produtos")}>
+              <ListItem button onClick={() => handleNavigation("/products")}>
                 <ListItemText primary="Produtos" />
               </ListItem>
-              <ListItem button onClick={() => handleNavigation("/servicos")}>
+              <ListItem button onClick={() => handleNavigation("/services")}>
                 <ListItemText primary="Serviços" />
               </ListItem>
-              <ListItem button onClick={() => handleNavigation("/consultas")}>
+              <ListItem button onClick={() => handleNavigation("/consults")}>
                 <ListItemText primary="Consultas" />
               </ListItem>
-              <ListItem button onClick={() => handleNavigation("/carrinho")}>
+              <ListItem button onClick={() => handleNavigation("/cart")}>
                 <ListItemText primary="Carrinho" />
               </ListItem>
-              <ListItem button onClick={() => handleNavigation("/usuario")}>
+              <ListItem button onClick={() => handleNavigation("/user")}>
                 <ListItemText primary="Usuário" />
               </ListItem>
             </List>
