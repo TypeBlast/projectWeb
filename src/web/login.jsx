@@ -29,21 +29,32 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const loginData = { email, password };
-      const response = await sheets.logUser(loginData);
-
-      if (response.status === 201) {
-        navigate("/home");
-      }
+        const loginData = { email, password };
+        const response = await sheets.logUser(loginData);
+  
+        if (response.status === 201) {
+            // Suponha que o backend retorne os dados do usuário e o token
+            const { user, token } = response.data; 
+  
+            // Armazena os dados do usuário e o token no localStorage
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("token", token); // Opcional: se precisar usar o token em algum lugar
+  
+            navigate("/home");
+        }
     } catch (error) {
-      setSuccess("");
-      if (error.response?.data?.message) {
-        setError(error.response.data.message);
-      } else {
-        setError("Erro ao realizar login.");
-      }
+        setSuccess("");
+        if (error.response?.data?.message) {
+            setError(error.response.data.message);
+        } else {
+            setError("Erro ao realizar login.");
+        }
     }
-  };
+};
+
+  
+  
+  
 
   // Função de login com o Google
   const handleGoogleLogin = async () => {
