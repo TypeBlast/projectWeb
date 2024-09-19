@@ -178,7 +178,8 @@ function Products() {
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
       category: "Acessórios",
       specie: "Dogs",
-    },{
+    },
+    {
       id: 7,
       name: "Ração para Cães",
       price: "R$ 79,90",
@@ -210,7 +211,8 @@ function Products() {
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
       category: "Acessórios",
       specie: "Dogs",
-    },{
+    },
+    {
       id: 10,
       name: "Ração para Cães",
       price: "R$ 79,90",
@@ -321,391 +323,413 @@ function Products() {
         aria-describedby="menu-modal-description"
       >
         <ModalContent>
-          <Typography
-            sx={{
-              fontFamily: "Poppins-Bold",
-              color: "#000",
-              fontSize: "1.2rem",
-              marginTop: "20px",
-              marginLeft: "10px",
-            }}
-          >
-            Refine para uma busca mais precisa!
-          </Typography>
-
-          {/* Ordenar por preço */}
-          <FormControl
-            fullWidth
-            sx={{
-              marginTop: "30px",
-              marginLeft: "10px",
-              width: "300px",
-              border: "1px solid #BFBFBF",
-              borderRadius: "10px",
-            }}
-          >
-            <InputLabel id="sort-label">Ordenar por</InputLabel>
-            <Select
-              labelId="sort-label"
-              value={sortOrder}
-              label="Ordenar por"
-              onChange={handleSortChange}
-            >
-              <MenuItem value="cheapest">Mais baratos</MenuItem>
-              <MenuItem value="mostExpensive">Mais caros</MenuItem>
-            </Select>
-          </FormControl>
-
-          {/* Categorias */}
-          <Typography
-            sx={{
-              marginLeft: "10px",
-              marginTop: "20px",
-              fontFamily: "Poppins-Bold",
-            }}
-          >
-            Categorias
-          </Typography>
-          <FormGroup sx={{ marginTop: "10px", marginLeft: "10px" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.saude}
-                      onChange={handleCategoryChange}
-                      name="saude"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Saúde"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.petiscos}
-                      onChange={handleCategoryChange}
-                      name="petiscos"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Petiscos"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.acessorios}
-                      onChange={handleCategoryChange}
-                      name="acessorios"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Acessórios"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.higieneBeleza}
-                      onChange={handleCategoryChange}
-                      name="higieneBeleza"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Higiene e Beleza"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.racoes}
-                      onChange={handleCategoryChange}
-                      name="racoes"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Rações"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </FormGroup>
-
-          {/* Espécies */}
-          <Typography
-            sx={{
-              marginLeft: "10px",
-              marginTop: "20px",
-              fontFamily: "Poppins-Bold",
-            }}
-          >
-            Espécies
-          </Typography>
-          <FormGroup sx={{ marginTop: "10px", marginLeft: "10px" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedSpecies.dogs}
-                      onChange={handleSpeciesChange}
-                      name="dogs"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Cachorros"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedSpecies.cats}
-                      onChange={handleSpeciesChange}
-                      name="cats"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Gatos"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedSpecies.birds}
-                      onChange={handleSpeciesChange}
-                      name="birds"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Pássaros"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedSpecies.fish}
-                      onChange={handleSpeciesChange}
-                      name="fish"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Peixes"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedSpecies.rabbits}
-                      onChange={handleSpeciesChange}
-                      name="rabbits"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Coelhos"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedSpecies.hamster}
-                      onChange={handleSpeciesChange}
-                      name="hamster"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Hamsters"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedSpecies.reptile}
-                      onChange={handleSpeciesChange}
-                      name="reptile"
-                      sx={{
-                        "&.Mui-checked": {
-                          color: "#E01483", // Cor do checkbox quando marcado
-                        },
-                      }}
-                    />
-                  }
-                  label="Répteis"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontFamily: "Poppins-Regular",
-                      fontSize: "1rem",
-                      color: "#000",
-                    },
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </FormGroup>
           <Box
             sx={{
-              marginTop: "20px",
-              display: "flex",
-              justifyContent: "center",
-              gap: "25px",
+              maxHeight: "90vh", // Altura máxima do conteúdo
+              overflowY: "auto", // Ativa a rolagem vertical
+              paddingRight: "15px",
+              /* Estilização da barra de rolagem */
+              "&::-webkit-scrollbar": {
+                width: "8px", // Largura da barra de rolagem
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "#E01483", // Cor do "polegar" da barra de rolagem
+                borderRadius: "10px", // Borda arredondada
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                backgroundColor: "#C01374", // Cor ao passar o mouse sobre o "polegar"
+              },
+              "&::-webkit-scrollbar-track": {
+                backgroundColor: "#F1F1F1", // Cor do fundo da barra de rolagem
+              },
             }}
           >
-            <Button
+            <Typography
               sx={{
-                width: "40%",
-                border: "2px solid #E01483",
-                borderRadius: "5px",
                 fontFamily: "Poppins-Bold",
-                color: "#E01483",
-                textTransform: "capitalize",
-              }}
-              onClick={handleClear}
-            >
-              Limpar Filtros
-            </Button>
-            <Button
-              sx={{
-                width: "40%",
-                backgroundColor: "#E01483",
-                borderRadius: "5px",
-                fontFamily: "Poppins-Bold",
-                color: "#FFF",
-                textTransform: "capitalize",
+                color: "#000",
+                fontSize: "1.2rem",
+                marginTop: "20px",
+                marginLeft: "10px",
               }}
             >
-              Filtrar
-            </Button>
+              Refine para uma busca mais precisa!
+            </Typography>
+
+            {/* Ordenar por preço */}
+            <FormControl
+              fullWidth
+              sx={{
+                marginTop: "30px",
+                marginLeft: "10px",
+                width: "300px",
+                border: "1px solid #BFBFBF",
+                borderRadius: "10px",
+              }}
+            >
+              <InputLabel id="sort-label">Ordenar por</InputLabel>
+              <Select
+                labelId="sort-label"
+                value={sortOrder}
+                label="Ordenar por"
+                onChange={handleSortChange}
+              >
+                <MenuItem value="cheapest">Mais baratos</MenuItem>
+                <MenuItem value="mostExpensive">Mais caros</MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* Categorias */}
+            <Typography
+              sx={{
+                marginLeft: "10px",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+              }}
+            >
+              Categorias
+            </Typography>
+            <FormGroup sx={{ marginTop: "10px", marginLeft: "10px" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedCategories.saude}
+                        onChange={handleCategoryChange}
+                        name="saude"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Saúde"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedCategories.petiscos}
+                        onChange={handleCategoryChange}
+                        name="petiscos"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Petiscos"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedCategories.acessorios}
+                        onChange={handleCategoryChange}
+                        name="acessorios"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Acessórios"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedCategories.higieneBeleza}
+                        onChange={handleCategoryChange}
+                        name="higieneBeleza"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Higiene e Beleza"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedCategories.racoes}
+                        onChange={handleCategoryChange}
+                        name="racoes"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Rações"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </FormGroup>
+
+            {/* Espécies */}
+            <Typography
+              sx={{
+                marginLeft: "10px",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+              }}
+            >
+              Espécies
+            </Typography>
+            <FormGroup sx={{ marginTop: "10px", marginLeft: "10px" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSpecies.dogs}
+                        onChange={handleSpeciesChange}
+                        name="dogs"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Cachorros"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSpecies.cats}
+                        onChange={handleSpeciesChange}
+                        name="cats"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Gatos"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSpecies.birds}
+                        onChange={handleSpeciesChange}
+                        name="birds"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Pássaros"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSpecies.fish}
+                        onChange={handleSpeciesChange}
+                        name="fish"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Peixes"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSpecies.rabbits}
+                        onChange={handleSpeciesChange}
+                        name="rabbits"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Coelhos"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSpecies.hamster}
+                        onChange={handleSpeciesChange}
+                        name="hamster"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Hamsters"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={selectedSpecies.reptile}
+                        onChange={handleSpeciesChange}
+                        name="reptile"
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "#E01483", // Cor do checkbox quando marcado
+                          },
+                        }}
+                      />
+                    }
+                    label="Répteis"
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Poppins-Regular",
+                        fontSize: "1rem",
+                        color: "#000",
+                      },
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </FormGroup>
+            <Box
+              sx={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "center",
+                gap: "25px",
+              }}
+            >
+              <Button
+                sx={{
+                  width: "40%",
+                  border: "2px solid #E01483",
+                  borderRadius: "5px",
+                  fontFamily: "Poppins-Bold",
+                  color: "#E01483",
+                  textTransform: "capitalize",
+                }}
+                onClick={handleClear}
+              >
+                Limpar Filtros
+              </Button>
+              <Button
+                sx={{
+                  width: "40%",
+                  backgroundColor: "#E01483",
+                  borderRadius: "5px",
+                  fontFamily: "Poppins-Bold",
+                  color: "#FFF",
+                  textTransform: "capitalize",
+                }}
+              >
+                Filtrar
+              </Button>
+            </Box>
           </Box>
         </ModalContent>
       </StyledModal>
