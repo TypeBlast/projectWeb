@@ -20,7 +20,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 // Import style
-import "./css/style.css"
+import "./css/style.css";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -42,7 +42,6 @@ const ModalContent = styled(Box)({
 });
 
 function Header() {
-
   const [open, setOpen] = useState(false);
   const handleModalOpen = () => {
     setOpen(true);
@@ -50,14 +49,14 @@ function Header() {
   const handleModalClose = () => {
     setOpen(false);
   };
-  
+
   const navigate = useNavigate();
   const handleNavigation = (path) => {
     navigate(path); // Chama o hook de navegação
   };
-  
+
   const location = useLocation();
-  const isActive = (path) => location.pathname === path ? "activeButton" : "";
+  const isActive = (path) => (location.pathname === path ? "activeButton" : "");
   return (
     <AppBar position="static" className="header">
       <Toolbar>
@@ -70,19 +69,62 @@ function Header() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" className="logo">
-          PetExpress
-        </Typography>
-        <Box sx={{ display: { xs: "none", lg: "flex", marginLeft: "5%"} }}>
-          <Button className={`buttonHeader ${isActive("/products")}`} onClick={() => handleNavigation("/products")}>Produtos</Button>
-          <Button className={`buttonHeader ${isActive("/services")}`} onClick={() => handleNavigation("/services")}>Serviços</Button>
-          <Button className={`buttonHeader ${isActive("/consults")}`} onClick={() => handleNavigation("/consults")}>Consultas</Button>
+        <Button
+          sx={{
+            padding: 0,
+            "&:hover": {
+              backgroundColor: "transparent", // Remove a cor de fundo ao passar o mouse
+              boxShadow: "none", // Remove o box-shadow ao passar o mouse
+            },
+          }}
+          onClick={() => handleNavigation("/home")}
+        >
+          <Typography
+            variant="h6"
+            component="div"
+            className="logo"
+            sx={{ textTransform: "capitalize" }}
+          >
+            PetExpress
+          </Typography>
+        </Button>
+        <Box sx={{ display: { xs: "none", lg: "flex", marginLeft: "5%" } }}>
+          <Button
+            className={`buttonHeader ${isActive("/products")}`}
+            onClick={() => handleNavigation("/products")}
+          >
+            Produtos
+          </Button>
+          <Button
+            className={`buttonHeader ${isActive("/services")}`}
+            onClick={() => handleNavigation("/services")}
+          >
+            Serviços
+          </Button>
+          <Button
+            className={`buttonHeader ${isActive("/consults")}`}
+            onClick={() => handleNavigation("/consults")}
+          >
+            Consultas
+          </Button>
         </Box>
-        <Box sx={{ display: { xs: "none", lg: "flex", marginLeft: "30%", marginTop: "50px" } }}>
+        <Box
+          sx={{
+            display: {
+              xs: "none",
+              lg: "flex",
+              marginLeft: "30%",
+              marginTop: "50px",
+            },
+          }}
+        >
           <Button onClick={() => handleNavigation("/cart")}>
             <FontAwesomeIcon
               icon={faCartShopping}
-              style={{ fontSize: "20px", color: location.pathname === "/cart" ? "#EB389A" : "#BFBFBF" }}
+              style={{
+                fontSize: "20px",
+                color: location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
+              }}
             />
           </Button>
           <Box
@@ -95,7 +137,10 @@ function Header() {
           <Button onClick={() => handleNavigation("/user")}>
             <FontAwesomeIcon
               icon={faUser}
-              style={{ fontSize: "20px", color: location.pathname === "/user" ? "#EB389A" : "#BFBFBF" }}
+              style={{
+                fontSize: "20px",
+                color: location.pathname === "/user" ? "#EB389A" : "#BFBFBF",
+              }}
             />
           </Button>
         </Box>
