@@ -1,0 +1,27 @@
+.category-title {
+    color: #ec4899;
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: 'Poppins-Bold';
+    margin-top: 25px;
+  }
+  
+  .category-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .category-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .category-button:hover {
+    transform: scale(1.05);
+  }
+  

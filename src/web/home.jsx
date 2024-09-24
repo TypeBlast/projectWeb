@@ -4,6 +4,7 @@ import { Typography, Button, Box } from "@mui/material";
 
 import SearchBar from "../components/layout/searchBar";
 import BoxWelcome from "../components/layout/boxWelcome";
+import Categories from "../components/layout/categoriesList";
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
       <Box sx={{marginTop: "50px"}}>
         <SearchBar />
         <BoxWelcome />
+        <Categories />
         {/* */}
       </Box>
     </div>
