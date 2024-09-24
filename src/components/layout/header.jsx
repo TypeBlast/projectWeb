@@ -105,7 +105,7 @@ function Header() {
             className={`buttonHeader ${isActive("/consults")}`}
             onClick={() => handleNavigation("/consults")}
           >
-            Consultas
+            Meus pets
           </Button>
         </Box>
         <Box
