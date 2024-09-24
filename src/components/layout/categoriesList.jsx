@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // Hook de navegação
 import './css/categories/categories.css';
-import sheets from '../../axios/axios';
+import sheets from '../../axios/axios';  // Importa seu axios configurado
 
 const Categories = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);  // Estado para armazenar categorias
+  const navigate = useNavigate();  // Instancia o hook de navegação
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await sheets.getAllCategories("/categories");
-
-        // Acessando a propriedade correta da resposta da API
+        const response = await sheets.getAllCategories("/categories");  // Requisição para obter categorias
         if (Array.isArray(response.data.data)) {
-          setCategories(response.data.data); // O array de categorias está em response.data.data
+          setCategories(response.data.data);  // Define as categorias no estado
         } else {
           console.error("A resposta da API não contém um array:", response.data);
         }
@@ -21,14 +21,19 @@ const Categories = () => {
       }
     };
 
-    fetchCategories();
+    fetchCategories();  // Chama a função para buscar categorias ao montar o componente
   }, []);
 
   // Função para gerar uma cor com base no índice
   const getColor = (index) => {
-    const colors = ['#c084fc', '#f9a8d4', '#86efac', '#fde047', '#d8b4fe'];
-    return colors[index % colors.length]; // Retorna a cor com base no índice
+    const colors = ['#c084fc', '#f9a8d4', '#86efac', '#fde047', '#d8b4fe'];  // Cores predefinidas
+    return colors[index % colors.length];  // Retorna a cor correspondente ao índice
   };
+
+  // Função chamada ao clicar em uma categoria
+  const handleCategoryClick = (category_id) => {
+    navigate(`/products/category/${category_id}`);
+  };  
 
   return (
     <div>
@@ -39,13 +44,14 @@ const Categories = () => {
             <button
               key={category.id}
               className="category-button"
-              style={{ backgroundColor: getColor(index) }}
+              style={{ backgroundColor: getColor(index) }}  // Aplica cor dinâmica ao botão
+              onClick={() => handleCategoryClick(category.id)}  // Adiciona a função de clique
             >
-              {category.name}
+              {category.name}  {/* Exibe o nome da categoria */}
             </button>
           ))
         ) : (
-          <p>Nenhuma categoria encontrada.</p>
+          <p>Nenhuma categoria encontrada.</p>  // Exibe mensagem caso não haja categorias
         )}
       </div>
     </div>

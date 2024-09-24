@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "../axios/axios"; // Import axios
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "../axios/axios";
 import {
   Typography,
   Button,
@@ -61,6 +61,7 @@ function Products() {
   });
   const [products, setProducts] = useState([]);
 
+  const { category_id } = useParams(); // Captura o category_id da URL
   const navigate = useNavigate(); // Hook para navegação
 
   const handleModalOpen = () => {
@@ -111,20 +112,29 @@ function Products() {
 
   // Busca produtos da API
   useEffect(() => {
-    axios.getAllProducts('/api/products') // Insira a URL correta da sua API
-      .then((response) => {
-        const productsData = response.data.data;
-        if (Array.isArray(productsData)) {
-          setProducts(productsData); // Atualiza o estado com o array de produtos
-        } else {
-          setProducts([]); // Se não for um array, define como vazio
+    const fetchProducts = async () => {
+        try {
+            let response;
+            if (category_id) {
+                response = await axios.getProductsByCategory(category_id); // Chamada correta da função
+            } else {
+                response = await axios.getAllProducts(); // Chamada correta da função
+            }
+
+            const productsData = response.data.data;
+            if (Array.isArray(productsData)) {
+                setProducts(productsData);
+            } else {
+                setProducts([]);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar produtos:', error);
+            setProducts([]);
         }
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar produtos:', error);
-        setProducts([]); // Em caso de erro, define como vazio
-      });
-  }, []);
+    };
+
+    fetchProducts();
+}, [category_id]);
 
   const handleCardClick = (product) => {
     navigate(`/products/${product.id}`, { state: { product } });
