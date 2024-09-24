@@ -34,7 +34,7 @@ function ProductDetails() {
           <Grid item xs={12} md={6}>
             <Box>
               <img
-                src={product.image}
+                src={product.url}
                 style={{
                   width: "100%",
                   borderTopLeftRadius: "15px",

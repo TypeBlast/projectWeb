@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-// Import components MUI
+import axios from "../axios/axios"; // Import axios
 import {
   Typography,
   Button,
@@ -21,11 +20,7 @@ import {
   CardActionArea,
 } from "@mui/material";
 import { styled } from "@mui/system";
-
-// Import components
 import SearchBar from "../components/layout/searchBar";
-
-// Import fontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
@@ -64,6 +59,9 @@ function Products() {
     hamster: false,
     reptile: false,
   });
+  const [products, setProducts] = useState([]);
+
+  const navigate = useNavigate(); // Hook para navegação
 
   const handleModalOpen = () => {
     setOpen(true);
@@ -111,152 +109,48 @@ function Products() {
     }); // Limpar os checkboxes
   };
 
-  // Produtos fictícios
-  const products = [
-    {
-      id: 1,
-      name: "Ração para Cães",
-      price: "R$ 79,90",
-      image:
-        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Ração",
-      specie: "Dogs",
-    },
-    {
-      id: 2,
-      name: "Brinquedo para Gatos",
-      price: "R$ 29,90",
-      image:
-        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Cats",
-    },
-    {
-      id: 3,
-      name: "Cama para Cachorros",
-      price: "R$ 199,90",
-      image:
-        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Dogs",
-    },
-    {
-      id: 4,
-      name: "Ração para Cães",
-      price: "R$ 79,90",
-      image:
-        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Ração",
-      specie: "Dogs",
-    },
-    {
-      id: 5,
-      name: "Brinquedo para Gatos",
-      price: "R$ 29,90",
-      image:
-        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Cats",
-    },
-    {
-      id: 6,
-      name: "Cama para Cachorros",
-      price: "R$ 199,90",
-      image:
-        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Dogs",
-    },
-    {
-      id: 7,
-      name: "Ração para Cães",
-      price: "R$ 79,90",
-      image:
-        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Ração",
-      specie: "Dogs",
-    },
-    {
-      id: 8,
-      name: "Brinquedo para Gatos",
-      price: "R$ 29,90",
-      image:
-        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Cats",
-    },
-    {
-      id: 9,
-      name: "Cama para Cachorros",
-      price: "R$ 199,90",
-      image:
-        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Dogs",
-    },
-    {
-      id: 10,
-      name: "Ração para Cães",
-      price: "R$ 79,90",
-      image:
-        "https://plus.unsplash.com/premium_photo-1683134382202-aac458a92c19?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Ração",
-      specie: "Dogs",
-    },
-    {
-      id: 11,
-      name: "Brinquedo para Gatos",
-      price: "R$ 29,90",
-      image:
-        "https://images.unsplash.com/photo-1585837575652-267c041d77d4?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Cats",
-    },
-    {
-      id: 12,
-      name: "Cama para Cachorros",
-      price: "R$ 199,90",
-      image:
-        "https://images.unsplash.com/photo-1581888475780-27b6b0bc3690?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.",
-      category: "Acessórios",
-      specie: "Dogs",
-    },
-  ];
-
-  const navigate = useNavigate(); // Hook para navegação
+  // Busca produtos da API
+  useEffect(() => {
+    axios.getAllProducts('/api/products') // Insira a URL correta da sua API
+      .then((response) => {
+        const productsData = response.data.data;
+        if (Array.isArray(productsData)) {
+          setProducts(productsData); // Atualiza o estado com o array de produtos
+        } else {
+          setProducts([]); // Se não for um array, define como vazio
+        }
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar produtos:', error);
+        setProducts([]); // Em caso de erro, define como vazio
+      });
+  }, []);
 
   const handleCardClick = (product) => {
     navigate(`/products/${product.id}`, { state: { product } });
+  };
+  const handleSearch = async (name) => {
+    try {
+      if (name.trim()) {  // Verifica se o campo de pesquisa não está vazio (ou apenas espaços)
+        const response = await axios.getProductsByName(name);
+        const productsData = response.data.data;
+        setProducts(productsData); // Atualiza os produtos com os resultados da pesquisa
+      } else {
+        // Se o campo de pesquisa estiver vazio, busca todos os produtos
+        const response = await axios.getAllProducts("/api/products");
+        const allProductsData = response.data.data;
+        setProducts(allProductsData); // Exibe todos os produtos
+      }
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      setProducts([]); // Define produtos como vazio se houver erro
+    }
   };
 
   return (
     <div className="container" style={{ paddingBottom: "50px" }}>
       <Box sx={{ marginTop: "75px", display: "flex", alignItems: "center" }}>
-        <SearchBar />
+      <SearchBar onSearch={handleSearch} /> 
         <Button sx={{ marginLeft: "3%" }} onClick={handleModalOpen}>
           <FontAwesomeIcon
             icon={faFilter}
@@ -264,57 +158,40 @@ function Products() {
           />
         </Button>
       </Box>
-      <Grid
-        container
-        spacing={2}
-        sx={{ marginTop: "50px" }}
-        justifyContent="center"
-      >
-        {products.map((product) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-            <Card
-              sx={{
-                maxWidth: "250px",
-                margin: "auto",
-                borderRadius: "10px",
-                marginTop: "30px",
-                padding: 0,
-              }}
-            >
-              <CardActionArea onClick={() => handleCardClick(product)}>
-                <CardMedia
-                  component="img"
-                  height="150px"
-                  image={product.image}
-                  alt={product.name}
-                />
-                <CardContent>
-                  <Typography
-                    sx={{
-                      fontFamily: "Poppins-Bold",
-                      color: "#BFBFBF",
-                      fontSize: "1rem",
-                    }}
-                  >
-                    {product.name}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: "Poppins-Bold",
-                      color: "#A8A8A8",
-                      fontSize: "1.2rem",
-                      marginTop: "10px",
-                      marginLeft: "125px",
-                    }}
-                  >
-                    {product.price}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      {Array.isArray(products) && products.length > 0 ? (
+        <Grid container spacing={2}>
+          {products.map((product) => (
+            <Grid item xs={12} sm={6} md={4} key={product.id}>
+              <Card onClick={() => handleCardClick(product)}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={product.url}
+                    alt={product.name}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {product.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {product.description}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      R$ {product.price}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography variant="body1" color="text.secondary">
+          Nenhum produto disponível.
+        </Typography>
+      )}
+
 
       <StyledModal
         open={open}
