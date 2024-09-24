@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //imports components Mui Material
 import { Typography, Box, Grid, Button } from "@mui/material";
 
 //imports fontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faAt, faIdCard, faPhone, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faAt,
+  faIdCard,
+  faPhone,
+  faPen,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 function User() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Recupera os dados do usuário do localStorage
@@ -24,6 +33,13 @@ function User() {
     }
   }, []);
 
+  // Função de logout
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <div>
       {user ? (
@@ -33,7 +49,8 @@ function User() {
               display: "flex",
               flexDirection: "row",
               marginTop: "50px",
-              justifyContent: "start",
+              justifyContent: "start", // Mantém a imagem e o nome alinhados à esquerda
+              position: "relative", // Define o contexto para o botão de logout com `absolute`
             }}
           >
             {/* Componente circular com imagem do usuário */}
@@ -55,6 +72,7 @@ function User() {
                 style={{ width: "100%", height: "100%", objectFit: "cover" }} // Ajusta a imagem para preencher o círculo
               />
             </Box>
+
             <Typography
               sx={{
                 marginLeft: "10px",
@@ -65,7 +83,24 @@ function User() {
             >
               {user.name}
             </Typography>
+
+            {/* Botão de Logout no canto direito */}
+            <Box
+              sx={{
+                position: "absolute", // Faz com que o box do botão seja posicionado de forma absoluta
+                top: 0, // Posiciona o botão no topo do container pai
+                right: "125px", // Distância da borda direita
+              }}
+            >
+              <Button onClick={handleLogout}>
+                <FontAwesomeIcon
+                  icon={faArrowRightFromBracket}
+                  style={{ color: "#EB1A0E", fontSize: "2rem" }} // Cor do ícone
+                />
+              </Button>
+            </Box>
           </Box>
+
           <Box>
             <Grid container spacing={2} sx={{ marginTop: "50px" }}>
               <Box
@@ -81,7 +116,12 @@ function User() {
                 <Grid container>
                   <Grid item xs={8}>
                     <Typography
-                      sx={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "Poppins-Regular" }}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontFamily: "Poppins-Regular",
+                      }}
                     >
                       <FontAwesomeIcon
                         icon={faUser}
@@ -90,7 +130,13 @@ function User() {
                       {user.name}
                     </Typography>
                     <Typography
-                      sx={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "Poppins-Regular", marginTop: "5px" }}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontFamily: "Poppins-Regular",
+                        marginTop: "5px",
+                      }}
                     >
                       <FontAwesomeIcon
                         icon={faAt}
@@ -99,7 +145,13 @@ function User() {
                       {user.email}
                     </Typography>
                     <Typography
-                      sx={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "Poppins-Regular", marginTop: "5px" }}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontFamily: "Poppins-Regular",
+                        marginTop: "5px",
+                      }}
                     >
                       <FontAwesomeIcon
                         icon={faIdCard}
@@ -108,7 +160,13 @@ function User() {
                       {user.cpf}
                     </Typography>
                     <Typography
-                      sx={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "Poppins-Regular", marginTop: "5px" }}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontFamily: "Poppins-Regular",
+                        marginTop: "5px",
+                      }}
                     >
                       <FontAwesomeIcon
                         icon={faPhone}
@@ -117,11 +175,19 @@ function User() {
                       {user.phone}
                     </Typography>
                   </Grid>
-                  <Grid item xs={4} sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                  <Grid
+                    item
+                    xs={4}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
                     <Button>
                       <FontAwesomeIcon
                         icon={faPen}
-                        style={{fontSize: "2rem", color: "#D9D9D9"}}
+                        style={{ fontSize: "2rem", color: "#D9D9D9" }}
                       />
                     </Button>
                   </Grid>
