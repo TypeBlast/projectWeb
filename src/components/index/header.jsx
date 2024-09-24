@@ -67,10 +67,10 @@ function HeaderIndex() {
         <Typography variant="h6" component="div" className="logo">
           PetExpress
         </Typography>
-        <Box sx={{ display: { xs: 'none', lg: 'flex', marginLeft: '15%' } }}>
+        <Box sx={{ display: { xs: 'none', lg: 'flex', marginLeft: '5%' } }}>
           <Button className="buttonHeader spacingHeader" onClick={() => handleNavigation('/error')}>Produtos</Button>
           <Button className="buttonHeader" onClick={() => handleNavigation('/error')}>Serviços</Button>
-          <Button className="buttonHeader" onClick={() => handleNavigation('/error')}>Consultas</Button>
+          <Button className="buttonHeader" onClick={() => handleNavigation('/error')}>Meus pets</Button>
         </Box>
         <Box sx={{ display: { xs: 'none', lg: 'flex' }, marginLeft: 'auto' }}>
         <Button className='buttonLogin' onClick={() => handleNavigation('/login')}>Entrar</Button>

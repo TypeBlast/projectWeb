@@ -5,7 +5,9 @@
     color: #000;
     text-transform: capitalize;
     margin-top: 50px;
-    margin-left: 35%;
+    margin-left: 30%;
+    min-width: 120px; /* Ajuste conforme necessário */
+    white-space: nowrap; /* Impede a quebra de linha */
 }
 .MuiButton-root.activeButton {
     color: #EB389A; /* Cor do texto */
