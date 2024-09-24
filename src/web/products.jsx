@@ -129,11 +129,28 @@ function Products() {
   const handleCardClick = (product) => {
     navigate(`/products/${product.id}`, { state: { product } });
   };
+  const handleSearch = async (name) => {
+    try {
+      if (name.trim()) {  // Verifica se o campo de pesquisa não está vazio (ou apenas espaços)
+        const response = await axios.getProductsByName(name);
+        const productsData = response.data.data;
+        setProducts(productsData); // Atualiza os produtos com os resultados da pesquisa
+      } else {
+        // Se o campo de pesquisa estiver vazio, busca todos os produtos
+        const response = await axios.getAllProducts("/api/products");
+        const allProductsData = response.data.data;
+        setProducts(allProductsData); // Exibe todos os produtos
+      }
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      setProducts([]); // Define produtos como vazio se houver erro
+    }
+  };
 
   return (
     <div className="container" style={{ paddingBottom: "50px" }}>
       <Box sx={{ marginTop: "75px", display: "flex", alignItems: "center" }}>
-        <SearchBar />
+      <SearchBar onSearch={handleSearch} /> 
         <Button sx={{ marginLeft: "3%" }} onClick={handleModalOpen}>
           <FontAwesomeIcon
             icon={faFilter}
