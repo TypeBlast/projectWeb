@@ -113,35 +113,36 @@ function Products() {
   // Busca produtos da API
   useEffect(() => {
     const fetchProducts = async () => {
-        try {
-            let response;
-            if (category_id) {
-                response = await axios.getProductsByCategory(category_id); // Chamada correta da função
-            } else {
-                response = await axios.getAllProducts(); // Chamada correta da função
-            }
-
-            const productsData = response.data.data;
-            if (Array.isArray(productsData)) {
-                setProducts(productsData);
-            } else {
-                setProducts([]);
-            }
-        } catch (error) {
-            console.error('Erro ao buscar produtos:', error);
-            setProducts([]);
+      try {
+        let response;
+        if (category_id) {
+          response = await axios.getProductsByCategory(category_id); // Chamada correta da função
+        } else {
+          response = await axios.getAllProducts(); // Chamada correta da função
         }
+
+        const productsData = response.data.data;
+        if (Array.isArray(productsData)) {
+          setProducts(productsData);
+        } else {
+          setProducts([]);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+        setProducts([]);
+      }
     };
 
     fetchProducts();
-}, [category_id]);
+  }, [category_id]);
 
   const handleCardClick = (product) => {
     navigate(`/products/${product.id}`, { state: { product } });
   };
   const handleSearch = async (name) => {
     try {
-      if (name.trim()) {  // Verifica se o campo de pesquisa não está vazio (ou apenas espaços)
+      if (name.trim()) {
+        // Verifica se o campo de pesquisa não está vazio (ou apenas espaços)
         const response = await axios.getProductsByName(name);
         const productsData = response.data.data;
         setProducts(productsData); // Atualiza os produtos com os resultados da pesquisa
@@ -152,7 +153,7 @@ function Products() {
         setProducts(allProductsData); // Exibe todos os produtos
       }
     } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
+      console.error("Erro ao buscar produtos:", error);
       setProducts([]); // Define produtos como vazio se houver erro
     }
   };
@@ -160,7 +161,7 @@ function Products() {
   return (
     <div className="container" style={{ paddingBottom: "50px" }}>
       <Box sx={{ marginTop: "75px", display: "flex", alignItems: "center" }}>
-      <SearchBar onSearch={handleSearch} /> 
+        <SearchBar onSearch={handleSearch} />
         <Button sx={{ marginLeft: "3%" }} onClick={handleModalOpen}>
           <FontAwesomeIcon
             icon={faFilter}
@@ -171,25 +172,53 @@ function Products() {
       {Array.isArray(products) && products.length > 0 ? (
         <Grid container spacing={2}>
           {products.map((product) => (
-            <Grid item xs={12} sm={6} md={4} key={product.id}>
-              <Card onClick={() => handleCardClick(product)}>
-                <CardActionArea>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              key={product.id}
+              sx={{ marginTop: "25px" }}
+            >
+              <Card
+                sx={{
+                  width: "300px",
+                  margin: "auto",
+                  marginTop: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between", // Para garantir que o conteúdo ocupe o mesmo espaço
+                  height: "100%", // Faz o card ocupar todo o espaço disponível
+                }}
+                onClick={() => handleCardClick(product)}
+              >
+                <CardActionArea sx={{ flexGrow: 1 }}>
                   <CardMedia
                     component="img"
-                    height="140"
                     image={product.url}
                     alt={product.name}
+                    sx={{ height: "200px", objectFit: "cover" }} // Define a altura da imagem
                   />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                  <CardContent sx={{ paddingBottom: "2px" }}>
+                    <Typography
+                      sx={{ fontFamily: "Poppins-Bold", color: "#A8A8A8" }}
+                    >
                       {product.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {product.description}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      R$ {product.price}
-                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        marginTop: "5px",
+                      }}
+                    >
+                      <Typography
+                        sx={{ fontFamily: "Poppins-Bold", color: "#A8A8A8", fontSize: "1.2rem" }}
+                      >
+                        R$ {product.price}
+                      </Typography>
+                    </Box>
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -201,7 +230,6 @@ function Products() {
           Nenhum produto disponível.
         </Typography>
       )}
-
 
       <StyledModal
         open={open}
