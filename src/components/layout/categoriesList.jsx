@@ -26,7 +26,7 @@ const Categories = () => {
 
   // Função para gerar uma cor com base no índice
   const getColor = (index) => {
-    const colors = ['#c084fc', '#f9a8d4', '#86efac', '#fde047', '#d8b4fe'];  // Cores predefinidas
+    const colors = ['#CE88F8', '#FF8DBA', '#85F78D', '#fde047'];  // Cores predefinidas
     return colors[index % colors.length];  // Retorna a cor correspondente ao índice
   };
 

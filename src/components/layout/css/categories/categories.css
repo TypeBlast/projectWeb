@@ -3,19 +3,21 @@
     font-size: 24px;
     margin-bottom: 10px;
     font-family: 'Poppins-Bold';
-    margin-top: 25px;
+    margin-top: 50px;
   }
   
   .category-container {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    margin-top: 30px;
+    flex-wrap: wrap;
   }
   
   .category-button {
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 1.2rem;
     color: white;
     cursor: pointer;
     transition: transform 0.2s ease;
