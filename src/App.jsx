@@ -9,6 +9,7 @@ import Register from "./web/register";
 import Home from "./web/home";
 import Products from "./web/products";
 import Services from "./web/services";
+import ServiceDetails from "./web/serviceDetails";
 import User from "./web/user";
 import ProductsDetails from "./web/productsDetails";
 import Pets from "./web/pets"
@@ -50,6 +51,7 @@ function App() {
             <Route path="/products/category/:category_id" element={<Products />} /> {/* Rota para produtos por categoria */}
             <Route path="/products/:id" element={<ProductsDetails />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/services/:id" element={<ServiceDetails />} />
             <Route path="/user" element={<User />} />
             <Route path="/myPets" element={<Pets/>} />
             <Route path="/cart" element={<Cart/>} />
