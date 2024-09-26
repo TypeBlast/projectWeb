@@ -164,7 +164,7 @@ function ProductDetails() {
                     padding: "5px",
                   }}
                 >
-                  {product.category}
+                  {product.categories.name}
                 </Typography>
                 <Typography
                   sx={{
@@ -176,7 +176,7 @@ function ProductDetails() {
                     padding: "5px",
                   }}
                 >
-                  {product.specie}
+                  {product.species.name}
                 </Typography>
               </Box>
               <Box
