@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { Box, Button, Grid, Typography } from "@mui/material";
 
-//import fontAwesome
+// Import fontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,9 +11,18 @@ function ProductDetails() {
   const location = useLocation();
   const product = location.state?.product;
 
+  const [isTextExpanded, setTextExpanded] = useState(false); // Estado para controlar a expansão do texto
+
   if (!product || product.id !== parseInt(id)) {
     return <div>Produto não encontrado</div>;
   }
+
+  const truncatedDescription =
+    product.description.length > 200
+      ? `${product.description.substring(0, 200)}...`
+      : product.description;
+
+  const showReadMoreButton = product.description.length > 200; // Verifica se a descrição excede o limite
 
   return (
     <Box
@@ -32,24 +41,37 @@ function ProductDetails() {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <Box>
+            <Box
+              display={{ xs: "flex", md: "block" }}
+              justifyContent={{ xs: "center", md: "flex-start" }}
+              alignItems="center"
+              minHeight="325px" // Altura mínima para alinhar
+            >
               <img
                 src={product.url}
                 style={{
                   width: "100%",
                   borderTopLeftRadius: "15px",
                   height: "325px",
+                  display: { xs: "none", md: "block" }, // Exibir imagem apenas em telas grandes
                 }}
               />
             </Box>
             <Box
-              sx={{ flexDirection: "row", display: "flex", marginTop: "25px" }}
+              sx={{
+                flexDirection: "row",
+                display: "flex",
+                marginTop: "25px",
+                paddingBottom: "25px",
+                justifyContent: { xs: "center", md: "flex-start" },
+              }}
             >
               <Typography
                 sx={{
                   fontFamily: "Poppins-Bold",
                   fontSize: "1.3rem",
-                  marginLeft: "25px",
+                  marginLeft: { xs: 0, md: "25px" },
+                  textAlign: { xs: "center", md: "left" },
                 }}
               >
                 {product.name}
@@ -59,8 +81,9 @@ function ProductDetails() {
                   fontFamily: "Poppins-Bold",
                   color: "#A8A8A8",
                   fontSize: "1.3rem",
-                  marginLeft: "50px",
-                  marginTop: "50px",
+                  marginLeft: { xs: 0, md: "50px" },
+                  marginTop: { xs: "50px", md: "50px" },
+                  textAlign: { xs: "center", md: "left" },
                 }}
               >
                 {product.price}
@@ -73,20 +96,37 @@ function ProductDetails() {
             md={6}
             sx={{
               display: "flex",
-              justifyContent: "center",
-              marginTop: "75px",
+              justifyContent: { xs: "center", md: "flex-start" },
+              alignItems: "flex-start", // Alinhar o conteúdo para cima
+              flexDirection: "column", // Para alinhar os itens em coluna
+              minHeight: "325px", // Altura mínima
             }}
           >
-            <Box>
+            <Box textAlign={{ xs: "center", md: "left" }}>
               <Typography
                 sx={{
                   width: "350px",
                   fontFamily: "Poppins-Regular",
                   color: "#A8A8A8",
+                  marginTop: { xs: "25px", md: "75px" },
+                  maxHeight: isTextExpanded ? "none" : "200px", // Remove a altura máxima se expandido
+                  overflow: isTextExpanded ? "visible" : "hidden", // Exibe ou oculta o texto
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  WebkitLineClamp: isTextExpanded ? "none" : 5, // Limitar o número de linhas se não expandido
                 }}
               >
-                {product.description}
+                {isTextExpanded ? product.description : truncatedDescription}
               </Typography>
+              {showReadMoreButton && ( // Exibe o botão apenas se a descrição exceder 200 caracteres
+                <Button
+                  onClick={() => setTextExpanded((prev) => !prev)} // Alterna o estado
+                  sx={{ marginTop: "10px", color: "#EB389A" }}
+                >
+                  {isTextExpanded ? "Menos" : "Mais"}
+                </Button>
+              )}
               <Box
                 sx={{
                   display: "flex",
@@ -121,9 +161,32 @@ function ProductDetails() {
                   {product.specie}
                 </Typography>
               </Box>
-              <Box sx={{marginTop: "100px", display: "flex", justifyContent: "center", gap: "15px"}}>
-                <Button sx={{width: "70%", backgroundColor: "#EB389A", fontFamily: "Poppins-Bold", color: "#FFF", textTransform: "capitalize", fontSize: "1.2rem"}}>Comprar</Button>
-                <Button sx={{border: "2px solid #BFBFBF", borderRadius: "5px"}}>
+              <Box
+                sx={{
+                  marginTop: { xs: "50px", md: "165px" },
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "15px",
+                }}
+              >
+                <Button
+                  sx={{
+                    width: "70%",
+                    backgroundColor: "#EB389A",
+                    fontFamily: "Poppins-Bold",
+                    color: "#FFF",
+                    textTransform: "capitalize",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  Comprar
+                </Button>
+                <Button
+                  sx={{
+                    border: "2px solid #BFBFBF",
+                    borderRadius: "5px",
+                  }}
+                >
                   <FontAwesomeIcon
                     icon={faCartPlus}
                     style={{
