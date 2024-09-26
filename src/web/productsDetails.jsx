@@ -10,9 +10,9 @@ function ProductDetails() {
   const location = useLocation();
   const product = location.state?.product;
 
-  const [isTextExpanded, setTextExpanded] = useState(false); // Estado para controlar a expansão do texto
-  const [isAddingToCart, setIsAddingToCart] = useState(false); // Estado para controlar o botão de adicionar ao carrinho
-  const [quantity, setQuantity] = useState(1); // Estado para controlar a quantidade de produtos
+  const [isTextExpanded, setTextExpanded] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   if (!product || product.id !== parseInt(id)) {
     return <div>Produto não encontrado</div>;
@@ -23,32 +23,41 @@ function ProductDetails() {
       ? `${product.description.substring(0, 200)}...`
       : product.description;
 
-  const showReadMoreButton = product.description.length > 200; // Verifica se a descrição excede o limite
+  const showReadMoreButton = product.description.length > 200;
 
-  // Função para adicionar produto ao carrinho
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
     try {
       const itemToAdd = {
         productId: product.id,
-        quantity, // Envia a quantidade selecionada
+        quantity,
       };
       const response = await axios.addToCart(itemToAdd);
-      alert(response.data.message); // Exibe a mensagem da API no alert
+      alert(response.data.message);
     } catch (error) {
-      console.error("Erro ao adicionar produto ao carrinho:", error.response.data.message);
+      console.error(
+        "Erro ao adicionar produto ao carrinho:",
+        error.response.data.message
+      );
       alert(error.response.data.message);
     } finally {
       setIsAddingToCart(false);
     }
   };
 
-  // Funções para aumentar ou diminuir a quantidade de produtos
-  const increaseQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1);
-  const decreaseQuantity = () => setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+  const increaseQuantity = () =>
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  const decreaseQuantity = () =>
+    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="95vh">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="calc(100vh - 64px)"
+      paddingTop="64px"
+    >
       <Box
         width="80%"
         maxWidth="900px"
@@ -56,22 +65,22 @@ function ProductDetails() {
         borderRadius="15px"
         minHeight="450px"
         paddingBottom="10px"
+        margin="auto"
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Box
-              display={{ xs: "flex", md: "block" }}
-              justifyContent={{ xs: "center", md: "flex-start" }}
+              display={{ xs: "flex", md: "flex" }}
+              justifyContent="center"
               alignItems="center"
-              minHeight="325px" // Altura mínima para alinhar
+              minHeight="325px"
             >
               <img
                 src={product.url}
                 style={{
-                  width: "100%",
-                  borderTopLeftRadius: "15px",
-                  height: "325px",
-                  display: { xs: "none", md: "block" }, // Exibir imagem apenas em telas grandes
+                  maxWidth: "300px",
+                  width: { xs: "100%", md: "75%" },
+                  maxHeight: "250px",
                 }}
               />
             </Box>
@@ -79,9 +88,7 @@ function ProductDetails() {
               sx={{
                 flexDirection: "row",
                 display: "flex",
-                marginTop: "25px",
-                paddingBottom: "25px",
-                justifyContent: { xs: "center", md: "flex-start" },
+                justifyContent: "center",
               }}
             >
               <Typography
@@ -89,11 +96,12 @@ function ProductDetails() {
                   fontFamily: "Poppins-Bold",
                   fontSize: "1.3rem",
                   marginLeft: { xs: 0, md: "25px" },
-                  textAlign: { xs: "center", md: "left" },
+                  textAlign: "left",
                 }}
               >
                 {product.name}
               </Typography>
+
               <Typography
                 sx={{
                   fontFamily: "Poppins-Bold",
@@ -114,44 +122,44 @@ function ProductDetails() {
             md={6}
             sx={{
               display: "flex",
-              justifyContent: { xs: "center", md: "flex-start" },
-              alignItems: "flex-start", // Alinhar o conteúdo para cima
-              flexDirection: "column", // Para alinhar os itens em coluna
-              minHeight: "325px", // Altura mínima
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              minHeight: "325px",
             }}
           >
-            <Box textAlign={{ xs: "center", md: "left" }}>
+            <Box textAlign={{ xs: "left", md: "left" }}>
               <Typography
                 sx={{
                   width: "350px",
                   fontFamily: "Poppins-Regular",
                   color: "#A8A8A8",
-                  marginTop: { xs: "25px", md: "75px" },
-                  maxHeight: isTextExpanded ? "none" : "200px", // Remove a altura máxima se expandido
-                  overflow: isTextExpanded ? "visible" : "hidden", // Exibe ou oculta o texto
+                  marginTop: { xs: "10px", md: "40px" },
+                  maxHeight: isTextExpanded ? "none" : "150px",
+                  overflow: isTextExpanded ? "visible" : "hidden",
                   display: "-webkit-box",
                   WebkitBoxOrient: "vertical",
                   overflow: "hidden",
-                  WebkitLineClamp: isTextExpanded ? "none" : 5, // Limitar o número de linhas se não expandido
+                  WebkitLineClamp: isTextExpanded ? "none" : 4,
                 }}
               >
                 {isTextExpanded ? product.description : truncatedDescription}
               </Typography>
-              {showReadMoreButton && ( // Exibe o botão apenas se a descrição exceder 200 caracteres
+              {showReadMoreButton && (
                 <Button
-                  onClick={() => setTextExpanded((prev) => !prev)} // Alterna o estado
-                  sx={{ marginTop: "10px", color: "#EB389A" }}
+                  onClick={() => setTextExpanded((prev) => !prev)}
+                  sx={{ color: "#A8A8A8", textTransform: "unset", border: "1px solid #A8A8A8", borderRadius: "3px", marginTop: "5px"}}
                 >
-                  {isTextExpanded ? "Menos" : "Mais"}
+                  {isTextExpanded ? "Exibir menos" : "Exibir mais"}
                 </Button>
               )}
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "row",
-                  gap: "50px",
+                  gap: "30px",
                   justifyContent: "center",
-                  marginTop: "50px",
+                  marginTop: "20px",
                 }}
               >
                 <Typography
@@ -181,7 +189,7 @@ function ProductDetails() {
               </Box>
               <Box
                 sx={{
-                  marginTop: { xs: "50px", md: "165px" },
+                  marginTop: "60px",
                   display: "flex",
                   justifyContent: "center",
                   gap: "15px",
@@ -189,7 +197,40 @@ function ProductDetails() {
               >
                 <Button
                   sx={{
-                    width: "70%",
+                    border: "2px solid #BFBFBF",
+                    borderRadius: "5px",
+                    width: "100%",
+                  }}
+                  onClick={handleAddToCart}
+                  disabled={isAddingToCart}
+                >
+                  <FontAwesomeIcon
+                    icon={faCartPlus}
+                    style={{
+                      fontSize: "25px",
+                      color:
+                        location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
+                    }}
+                  />
+                </Button>
+                <IconButton onClick={decreaseQuantity} disabled={quantity <= 1}>
+                  <FontAwesomeIcon icon={faMinus} />
+                </IconButton>
+                <Typography sx={{fontFamily: "Poppins-Regular", marginTop: "7px", fontSize: "1.2rem"}}>{quantity}</Typography>
+                <IconButton onClick={increaseQuantity}>
+                  <FontAwesomeIcon icon={faPlus} />
+                </IconButton>
+              </Box>
+              <Box
+                sx={{
+                  marginTop: "30px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  sx={{
+                    width: "100%",
                     backgroundColor: "#EB389A",
                     fontFamily: "Poppins-Bold",
                     color: "#FFF",
@@ -199,39 +240,6 @@ function ProductDetails() {
                 >
                   Comprar
                 </Button>
-                <Button
-                  sx={{
-                    border: "2px solid #BFBFBF",
-                    borderRadius: "5px",
-                  }}
-                  onClick={handleAddToCart} // Chama a função ao clicar no botão
-                  disabled={isAddingToCart} // Desabilita o botão enquanto está adicionando ao carrinho
-                >
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    style={{
-                      fontSize: "25px",
-                      color: location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
-                    }}
-                  />
-                </Button>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "15px",
-                  marginTop: "15px",
-                }}
-              >
-                <IconButton onClick={decreaseQuantity} disabled={quantity <= 1}>
-                  <FontAwesomeIcon icon={faMinus} />
-                </IconButton>
-                <Typography>{quantity}</Typography>
-                <IconButton onClick={increaseQuantity}>
-                  <FontAwesomeIcon icon={faPlus} />
-                </IconButton>
               </Box>
             </Box>
           </Grid>
