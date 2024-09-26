@@ -11,6 +11,7 @@ import Products from "./web/products";
 import Services from "./web/services";
 import User from "./web/user";
 import ProductsDetails from "./web/productsDetails";
+import Pets from "./web/pets"
 
 //Import de components
 import HeaderIndex from "./components/index/header";
@@ -49,6 +50,7 @@ function App() {
             <Route path="/products/:id" element={<ProductsDetails />} />
             <Route path="/services" element={<Services />} />
             <Route path="/user" element={<User />} />
+            <Route path="/myPets" element={<Pets/>} />
           </Route>
           <Route path="/error" element={<Error />} />
           <Route path="/login" element={<Login />} />
