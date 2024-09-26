@@ -6,7 +6,7 @@ import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import BoxPersonalData from "../components/layout/boxPersonalData";
 
 function User() {
-  const initialUserState = { name: '', profilePicture: '' }; // Defina o estado inicial do usuário corretamente
+  const initialUserState = { name: "", profilePicture: "" }; // Estado inicial do usuário
   const [user, setUser] = useState(initialUserState);
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ function User() {
 
   return (
     <div>
-      {user.name ? ( // Verifique se user.name existe
+      {user.name ? ( // Verifica se user.name existe
         <div>
           <Box
             sx={{
@@ -54,8 +54,8 @@ function User() {
               }}
             >
               <img
-                src=""
-                alt=""
+                src={user.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} // Usa a foto de perfil do Google ou uma imagem padrão
+                alt={user.name}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             </Box>
@@ -87,6 +87,7 @@ function User() {
             </Box>
           </Box>
 
+          {/* Passa as props corretamente para BoxPersonalData */}
           <BoxPersonalData user={user} updateUser={setUser} />
         </div>
       ) : (

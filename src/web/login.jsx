@@ -29,64 +29,66 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-        const loginData = { email, password };
-        const response = await sheets.logUser(loginData);
+      const loginData = { email, password };
+      const response = await sheets.logUser(loginData);
   
-        if (response.status === 201) {
-            // Suponha que o backend retorne os dados do usuário e o token
-            const { user, token } = response.data; 
+      if (response.status === 201) {
+        const { user, token } = response.data; 
   
-            // Armazena os dados do usuário e o token no localStorage
-            localStorage.setItem("user", JSON.stringify(user));
-            localStorage.setItem("token", token); // Opcional: se precisar usar o token em algum lugar
+        // Verifique se os campos CPF e phone estão presentes
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
   
-            navigate("/home");
-        }
+        navigate("/home");
+      }
     } catch (error) {
-        setSuccess("");
-        if (error.response?.data?.message) {
-            setError(error.response.data.message);
-        } else {
-            setError("Erro ao realizar login.");
-        }
+      setSuccess("");
+      setError(error.response?.data?.message || "Erro ao realizar login.");
     }
-};
+  };
 
-  
-  
   
 
   // Função de login com o Google
   const handleGoogleLogin = async () => {
     try {
-      
       provider.setCustomParameters({
-        prompt: 'select_account'
+        prompt: 'select_account',
       });
+  
       // Faz o login com o Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
   
       // Obtém todos os usuários do banco de dados
-      const response = await sheets.getAllUsers('/user'); // Ajuste a URL conforme sua configuração
-    
-      // Verifique se response.data.data é um array e se contém a estrutura esperada
-      if (response.data && Array.isArray(response.data.data)) {
-        // Verifica se o e-mail do usuário do Google está presente na lista de e-mails do banco de dados
-        const emailExists = response.data.data.some(dbUser => dbUser.email === user.email);
+      const response = await sheets.getAllUsers('/user');
   
-        if (emailExists) {
+      if (response.data && Array.isArray(response.data.data)) {
+        // Verifica se o e-mail do usuário do Google está presente no banco de dados
+        const dbUser = response.data.data.find((dbUser) => dbUser.email === user.email);
+  
+        if (dbUser) {
           console.log("Email encontrado no banco de dados:", user.email);
+  
+          // Armazena as informações do usuário no localStorage
+          localStorage.setItem("user", JSON.stringify({
+            name: dbUser.name || user.displayName,
+            email: user.email,
+            profilePicture: user.photoURL || '', // Use o photoURL do Google, se disponível
+            cpf: dbUser.cpf,
+            phone: dbUser.phone,
+          }));
+          console.log("cpf", dbUser.cpf)
+          
           navigate("/home"); // Redireciona para a página Home
         } else {
           console.log("Email não encontrado no banco de dados:", user.email);
-          navigate("/register", { state: { email: user.email, name: user.displayName } }); // Passa o email e nome para o registro
+          navigate("/register", { state: { email: user.email, name: user.displayName } });
         }
       } else {
         console.error("A resposta da API não contém um array de usuários:", response.data);
         setError("Não foi possível verificar o cadastro do usuário.");
       }
-  
     } catch (error) {
       console.error("Erro ao realizar login com o Google:", error);
       setError("Erro ao realizar login com o Google.");
