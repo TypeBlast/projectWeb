@@ -102,8 +102,8 @@ function Header() {
             Serviços
           </Button>
           <Button
-            className={`buttonHeader ${isActive("/consults")}`}
-            onClick={() => handleNavigation("/consults")}
+            className={`buttonHeader ${isActive("/myPets")}`}
+            onClick={() => handleNavigation("/myPets")}
           >
             Meus pets
           </Button>
@@ -159,7 +159,7 @@ function Header() {
               <ListItem button onClick={() => handleNavigation("/services")}>
                 <ListItemText primary="Serviços" />
               </ListItem>
-              <ListItem button onClick={() => handleNavigation("/consults")}>
+              <ListItem button onClick={() => handleNavigation("/myPets")}>
                 <ListItemText primary="Consultas" />
               </ListItem>
               <ListItem button onClick={() => handleNavigation("/cart")}>
