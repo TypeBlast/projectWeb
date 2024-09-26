@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { Box, Button, Grid, Typography } from "@mui/material";
-
-// Import fontAwesome
+import { Box, Button, Grid, Typography, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import axios from "../axios/axios";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -12,6 +11,8 @@ function ProductDetails() {
   const product = location.state?.product;
 
   const [isTextExpanded, setTextExpanded] = useState(false); // Estado para controlar a expansão do texto
+  const [isAddingToCart, setIsAddingToCart] = useState(false); // Estado para controlar o botão de adicionar ao carrinho
+  const [quantity, setQuantity] = useState(1); // Estado para controlar a quantidade de produtos
 
   if (!product || product.id !== parseInt(id)) {
     return <div>Produto não encontrado</div>;
@@ -24,13 +25,30 @@ function ProductDetails() {
 
   const showReadMoreButton = product.description.length > 200; // Verifica se a descrição excede o limite
 
+  // Função para adicionar produto ao carrinho
+  const handleAddToCart = async () => {
+    setIsAddingToCart(true);
+    try {
+      const itemToAdd = {
+        productId: product.id,
+        quantity, // Envia a quantidade selecionada
+      };
+      const response = await axios.addToCart(itemToAdd);
+      alert(response.data.message); // Exibe a mensagem da API no alert
+    } catch (error) {
+      console.error("Erro ao adicionar produto ao carrinho:", error.response.data.message);
+      alert(error.response.data.message);
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
+  // Funções para aumentar ou diminuir a quantidade de produtos
+  const increaseQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1);
+  const decreaseQuantity = () => setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="95vh"
-    >
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="95vh">
       <Box
         width="80%"
         maxWidth="900px"
@@ -186,16 +204,34 @@ function ProductDetails() {
                     border: "2px solid #BFBFBF",
                     borderRadius: "5px",
                   }}
+                  onClick={handleAddToCart} // Chama a função ao clicar no botão
+                  disabled={isAddingToCart} // Desabilita o botão enquanto está adicionando ao carrinho
                 >
                   <FontAwesomeIcon
                     icon={faCartPlus}
                     style={{
                       fontSize: "25px",
-                      color:
-                        location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
+                      color: location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
                     }}
                   />
                 </Button>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "15px",
+                  marginTop: "15px",
+                }}
+              >
+                <IconButton onClick={decreaseQuantity} disabled={quantity <= 1}>
+                  <FontAwesomeIcon icon={faMinus} />
+                </IconButton>
+                <Typography>{quantity}</Typography>
+                <IconButton onClick={increaseQuantity}>
+                  <FontAwesomeIcon icon={faPlus} />
+                </IconButton>
               </Box>
             </Box>
           </Grid>
