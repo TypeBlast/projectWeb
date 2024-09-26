@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Button, Box, Typography } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import sheets from "../axios/axios"; // Caminho do arquivo axios.js
+import imageServices from "../assets/images/imageServices.png";
+import imageConsults from "../assets/images/imageConsults.png";
+import imageUnhas from "../assets/images/imageCortarUnhas.png";
+import imageVacina from "../assets/images/imageVacinas.png";
+import imageTosa from "../assets/images/imageTosa.png";
 
-const colors = [
-  '#3f51b5',
-  '#f44336',
-  '#4caf50',
-  '#ff9800',
-  '#9c27b0',
+const colors = ["#BA60E8", "#FF6561", "#5BF165", "#FDFF61"];
+
+const images = [
+  imageServices,
+  imageUnhas,
+  imageConsults,
+  imageVacina,
+  imageTosa,
 ];
 
 function Services() {
@@ -33,36 +40,77 @@ function Services() {
   };
 
   return (
-    <Box 
-      className="container" 
-      display="flex" 
-      flexDirection="column" 
-      alignItems="center" 
-      justifyContent="center" 
+    <Box
+      className="container"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
       height="100vh"
+      sx={{ marginTop: "50px" }} // Adiciona marginTop de 50px
     >
-      <Typography variant="h4" gutterBottom>
-        Serviços Disponíveis
-      </Typography>
-      <Box 
-        width="80%" 
-        display="flex" 
-        flexDirection="column" 
-        alignItems="center" 
-        gap={2}
+      <Box
+        width="80%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap="50px"
+        paddingBottom="50px"
+        sx={{ 
+          overflowY: "auto", // Garante que o conteúdo respeite o header
+          /* Estilização da barra de rolagem */
+          "&::-webkit-scrollbar": {
+            width: "8px", // Largura da barra de rolagem
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#ccc", // Cor do "polegar" da barra de rolagem
+            borderRadius: "10px", // Borda arredondada
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#A8A8A8", // Cor ao passar o mouse sobre o "polegar"
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "#F1F1F1", // Cor do fundo da barra de rolagem
+          },
+        }}
       >
         {services.map((service, index) => (
-          <Button 
-            key={service.id} 
-            variant="contained" 
-            fullWidth 
-            sx={{ 
-              height: '60px', 
+          <Button
+            key={service.id}
+            variant="contained"
+            fullWidth
+            sx={{
+              height: "200px",
+              minHeight: "200px", // Redefine a altura mínima
               backgroundColor: colors[index % colors.length],
-              color: '#fff'
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start", // Alinha o conteúdo do botão à esquerda
+              textAlign: "left", // Garante que o texto também fique alinhado à esquerda
+              paddingLeft: "20px", // Adiciona padding para espaçamento interno
+              fontFamily: "Poppins-Bold",
+              textTransform: "unset",
+              fontSize: "1.7rem",
+              gap: "15%",
+              "&:hover": {
+                backgroundColor: "#EB389A", // Cor de fundo ao passar o mouse (hover)
+                color: "#FFF", // Cor do texto ao passar o mouse
+              },
             }}
             onClick={() => handleServiceClick(service.id)} // Adiciona o evento de clique
           >
+            {/* Usando imagem variada conforme o índice */}
+            <img
+              src={images[index % images.length]}
+              alt={`${service.name} logo`}
+              style={{
+                width: "175px",
+                height: "175px",
+                marginRight: "20px",
+                marginLeft: "50px",
+              }} // Adiciona margem à direita
+            />
             {service.name}
           </Button>
         ))}
