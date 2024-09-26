@@ -28,7 +28,14 @@ const sheets = {
   getProductsByName: (name) => api.get(`/products/search/${name}`),
 
   //Rotas de categoria
-  getAllCategories: () => api.get("/categories")
+  getAllCategories: () => api.get("/categories"),
+
+   // Rotas de serviços (Services)
+   createService: (service) => api.post("/services", service), // Criar novo serviço
+   getAllServices: () => api.get("/services"), // Buscar todos os serviços
+   getServiceById: (id) => api.get(`/services/${id}`), // Buscar um serviço pelo ID
+   updateService: (id, service) => api.put(`/services/${id}`, service), // Atualizar serviço
+   deleteService: (id) => api.delete(`/services/${id}`), // Deletar serviço
 };
 
 export default sheets;
