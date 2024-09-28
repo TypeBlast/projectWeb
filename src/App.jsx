@@ -49,6 +49,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/category/:category_id" element={<Products />} /> {/* Rota para produtos por categoria */}
+            <Route path="/products/specie/:specie_id" element={<Products />} /> {/* Rota para produtos por espécie */}
             <Route path="/products/:id" element={<ProductsDetails />} />
             <Route path="/services" element={<Services />} />
             <Route path="/services/:id" element={<ServiceDetails />} />

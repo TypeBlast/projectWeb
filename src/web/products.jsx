@@ -62,6 +62,7 @@ function Products() {
   const [products, setProducts] = useState([]);
 
   const { category_id } = useParams(); // Captura o category_id da URL
+  const { specie_id } = useParams(); // Captura o specie_id da URL
   const navigate = useNavigate(); // Hook para navegação
 
   const handleModalOpen = () => {
@@ -117,8 +118,10 @@ function Products() {
         let response;
         if (category_id) {
           response = await axios.getProductsByCategory(category_id); // Chamada correta da função
+        } else if (specie_id) {
+          response = await axios.getProductsBySpecie(specie_id);
         } else {
-          response = await axios.getAllProducts(); // Chamada correta da função
+          response = await axios.getAllProducts(); // Pega todos os produtos se não houver filtro
         }
 
         const productsData = response.data.data;
@@ -134,7 +137,7 @@ function Products() {
     };
 
     fetchProducts();
-  }, [category_id]);
+  }, [category_id, specie_id]);
 
   const handleCardClick = (product) => {
     navigate(`/products/${product.id}`, { state: { product } });

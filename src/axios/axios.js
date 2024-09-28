@@ -56,10 +56,14 @@ const sheets = {
   updateProduct: (id, product) => api.put(`/products/${id}`, product),
   deleteProduct: (id) => api.delete(`/products/${id}`),
   getProductsByCategory: (category_id) => api.get(`/products/category/${category_id}`),
+  getProductsBySpecie: (specie_id) => api.get(`/products/specie/${specie_id}`),
   getProductsByName: (name) => api.get(`/products/search/${name}`),
 
   // Rotas de categorias
   getAllCategories: () => api.get("/categories"),
+
+  // Rotas de espécies
+  getAllSpecies: () => api.get("/species"),
 
   // Rotas de serviços
   createService: (service) => api.post("/services", service),

@@ -1,0 +1,46 @@
+.specie-title {
+  color: #ec4899;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-family: 'Poppins-Bold';
+  margin-top: 50px;
+}
+
+.specie-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.specie-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.specie-button {
+  padding: 10px;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  background-color: white;
+  min-height: 75px;
+}
+
+.specie-button:hover {
+  transform: scale(1.05);
+}
+
+.specie-image {
+  width: 50px;
+}
+
+.specie-text {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-family: 'Poppins-Bold';
+  text-align: center;
+}
