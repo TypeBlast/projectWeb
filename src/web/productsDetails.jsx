@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { Box, Button, Grid, Typography, IconButton } from "@mui/material";
+import { Box, Button, Grid, Typography, IconButton, Snackbar, Alert } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import axios from "../axios/axios";
@@ -13,6 +13,9 @@ function ProductDetails() {
   const [isTextExpanded, setTextExpanded] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // success or error
 
   if (!product || product.id !== parseInt(id)) {
     return <div>Produto não encontrado</div>;
@@ -33,16 +36,20 @@ function ProductDetails() {
         quantity,
       };
       const response = await axios.addToCart(itemToAdd);
-      alert(response.data.message);
+      setSnackbarMessage(response.data.message);
+      setSnackbarSeverity("success");
     } catch (error) {
-      console.error(
-        "Erro ao adicionar produto ao carrinho:",
-        error.response.data.message
-      );
-      alert(error.response.data.message);
+      console.error("Erro ao adicionar produto ao carrinho:", error.response.data.message);
+      setSnackbarMessage(error.response.data.message || "Erro ao adicionar ao carrinho");
+      setSnackbarSeverity("error");
     } finally {
+      setOpenSnackbar(true);  // Exibe a Snackbar
       setIsAddingToCart(false);
     }
+  };
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
   };
 
   const increaseQuantity = () =>
@@ -148,7 +155,13 @@ function ProductDetails() {
               {showReadMoreButton && (
                 <Button
                   onClick={() => setTextExpanded((prev) => !prev)}
-                  sx={{ color: "#A8A8A8", textTransform: "unset", border: "1px solid #A8A8A8", borderRadius: "3px", marginTop: "5px"}}
+                  sx={{
+                    color: "#A8A8A8",
+                    textTransform: "unset",
+                    border: "1px solid #A8A8A8",
+                    borderRadius: "3px",
+                    marginTop: "5px",
+                  }}
                 >
                   {isTextExpanded ? "Exibir menos" : "Exibir mais"}
                 </Button>
@@ -208,15 +221,22 @@ function ProductDetails() {
                     icon={faCartPlus}
                     style={{
                       fontSize: "25px",
-                      color:
-                        location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
+                      color: location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
                     }}
                   />
                 </Button>
                 <IconButton onClick={decreaseQuantity} disabled={quantity <= 1}>
                   <FontAwesomeIcon icon={faMinus} />
                 </IconButton>
-                <Typography sx={{fontFamily: "Poppins-Regular", marginTop: "7px", fontSize: "1.2rem"}}>{quantity}</Typography>
+                <Typography
+                  sx={{
+                    fontFamily: "Poppins-Regular",
+                    marginTop: "7px",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  {quantity}
+                </Typography>
                 <IconButton onClick={increaseQuantity}>
                   <FontAwesomeIcon icon={faPlus} />
                 </IconButton>
@@ -244,6 +264,18 @@ function ProductDetails() {
             </Box>
           </Grid>
         </Grid>
+
+        {/* Snackbar para sucesso/erro */}
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );
