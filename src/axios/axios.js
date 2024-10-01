@@ -106,6 +106,7 @@ const sheets = {
 
   // Rotas de funcionários
   getEmployersByServiceId: (id) => api.get(`/employers/service/${id}`),
+  getEmployeeById: (id) => api.get(`/employers/${id}`), 
 
   //Rotas de estado
   getAllStates: () => api.get("/states"),

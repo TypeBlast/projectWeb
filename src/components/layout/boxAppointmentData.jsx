@@ -1,34 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Box, Grid, Button, Modal, IconButton, TextField } from "@mui/material";
+import { Typography, Box, Grid } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash, faXmark, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import axios from "../../axios/axios"; // Ajuste se necessário
 
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "35%",
-  bgcolor: "background.paper",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 2,
-};
-
 function BoxAppointments({ user }) {
-  const [open, setOpen] = useState(false);
   const [appointments, setAppointments] = useState([]);
+  const [pets, setPets] = useState({}); // Para armazenar as informações dos pets
+  const [services, setServices] = useState({}); // Para armazenar as informações dos serviços
+  const [employees, setEmployees] = useState({}); // Para armazenar as informações dos funcionários
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-  const [currentAppointment, setCurrentAppointment] = useState(null);
-
-  // Estados para os novos campos
-  const [date, setDate] = useState("");
-  const [service, setService] = useState("");
-  const [description, setDescription] = useState("");
-  const [client, setClient] = useState("");
 
   useEffect(() => {
     fetchAppointments();
@@ -36,57 +17,47 @@ function BoxAppointments({ user }) {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.getAppointments(user.id); // Ajuste a chamada da API conforme necessário
-      setAppointments(response.data.data);
+      const response = await axios.getAppointmentByUser(); // Buscar os agendamentos
+      const appointmentsData = response.data.data;
+      setAppointments(appointmentsData); // Armazena os agendamentos
+
+      // Para cada agendamento, buscar o pet, serviço e funcionário correspondentes
+      await Promise.all(
+        appointmentsData.map(async (appt) => {
+          const petPromise = appt.pet_id ? axios.getPetById(appt.pet_id) : Promise.resolve(null);
+          const servicePromise = appt.service_id ? axios.getServiceById(appt.service_id) : Promise.resolve(null);
+          const employeePromise = appt.employer_id ? axios.getEmployeeById(appt.employer_id) : Promise.resolve(null);
+
+          const [petResponse, serviceResponse, employeeResponse] = await Promise.all([petPromise, servicePromise, employeePromise]);
+
+          // Atualiza os dados de pets
+          if (petResponse) {
+            setPets((prevPets) => ({
+              ...prevPets,
+              [appt.pet_id]: petResponse.data.data, // Armazena o pet usando o id como chave
+            }));
+          }
+
+          // Atualiza os dados de serviços
+          if (serviceResponse) {
+            setServices((prevServices) => ({
+              ...prevServices,
+              [appt.service_id]: serviceResponse.data.data, // Armazena o serviço usando o id como chave
+            }));
+          }
+
+          // Atualiza os dados de funcionários
+          if (employeeResponse) {
+            setEmployees((prevEmployees) => ({
+              ...prevEmployees,
+              [appt.employer_id]: employeeResponse.data.data, // Armazena o funcionário usando o id como chave
+            }));
+          }
+        })
+      );
     } catch (err) {
       console.error("Erro ao carregar agendamentos:", err);
       setError("Erro ao carregar agendamentos.");
-    }
-  };
-
-  const handleOpen = () => {
-    setError("");
-    setSuccess("");
-    setDate("");
-    setService("");
-    setDescription("");
-    setClient("");
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleEdit = (appointment) => {
-    // Implementar função de edição de agendamento
-    console.log("Editar agendamento:", appointment);
-  };
-
-  const handleDelete = async (appointmentId) => {
-    try {
-      await axios.deleteAppointment(appointmentId); // Ajuste a chamada da API conforme necessário
-      setAppointments((prev) => prev.filter((appt) => appt.id !== appointmentId));
-      setSuccess("Agendamento deletado com sucesso!");
-      setConfirmDeleteOpen(false);
-    } catch (err) {
-      console.error("Erro ao deletar agendamento:", err);
-      setError("Erro ao deletar agendamento.");
-      setConfirmDeleteOpen(false);
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      // Implementar lógica de salvar agendamento
-      const newAppointment = { date, service, description, client };
-      const response = await axios.createAppointment(newAppointment); // Ajuste a chamada da API conforme necessário
-      setAppointments((prev) => [...prev, response.data]);
-      setSuccess("Agendamento criado com sucesso!");
-      handleClose();
-    } catch (err) {
-      console.error("Erro ao salvar agendamento:", err);
-      setError("Erro ao salvar agendamento.");
     }
   };
 
@@ -110,13 +81,12 @@ function BoxAppointments({ user }) {
             Meus Agendamentos
           </Typography>
           {error && <Typography sx={{ color: "red" }}>{error}</Typography>}
-          {success && <Typography sx={{ color: "green" }}>{success}</Typography>}
           {appointments.length === 0 ? (
             <Typography>Nenhum agendamento encontrado.</Typography>
           ) : (
             appointments.map((appt) => (
               <Grid container key={appt.id} sx={{ marginBottom: "10px" }}>
-                <Grid item xs={8}>
+                <Grid item xs={12}>
                   <Typography
                     sx={{
                       fontFamily: "Poppins-Regular",
@@ -129,205 +99,29 @@ function BoxAppointments({ user }) {
                       icon={faCalendar}
                       style={{ color: "#D9D9D9" }}
                     />
-                    {`${appt.date} - ${appt.service}`}
+                    {`${appt.appointment_date} - ${
+                      services[appt.service_id]?.name || "Serviço não especificado"
+                    } com ${
+                      employees[appt.employer_id]?.name || "Funcionário não especificado"
+                    }`}
                   </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={4}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button
-                    onClick={() => handleEdit(appt)}
+                  <Typography
                     sx={{
-                      backgroundColor: "transparent",
-                      minWidth: "auto",
-                      '&:hover': {
-                        backgroundColor: "#D9D9D9",
-                      },
+                      fontFamily: "Poppins-Regular",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      marginTop: "5px",
                     }}
                   >
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      style={{ fontSize: "1rem", color: "#D9D9D9" }}
-                    />
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setCurrentAppointment(appt);
-                      setConfirmDeleteOpen(true);
-                    }}
-                    sx={{
-                      marginLeft: "10px",
-                      backgroundColor: "transparent",
-                      minWidth: "auto",
-                      '&:hover': {
-                        backgroundColor: "#D9D9D9",
-                      },
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      style={{ fontSize: "1rem", color: "#D9D9D9" }}
-                    />
-                  </Button>
+                    Pet: {pets[appt.pet_id]?.name || "Carregando..."}
+                  </Typography>
                 </Grid>
               </Grid>
             ))
           )}
-          <Button
-            variant="contained"
-            onClick={handleOpen}
-            sx={{
-              width: "300px",
-              backgroundColor: "#EB389A",
-              marginTop: "20px",
-              fontFamily: "Poppins-Bold",
-              color: "#FFF",
-              textTransform: "capitalize",
-              fontSize: "1rem",
-              '&:hover': {
-                backgroundColor: "#D5006D",
-              },
-            }}
-          >
-            Adicionar Novo Agendamento
-          </Button>
         </Box>
       </Grid>
-
-      {/* Modal para Adicionar/Editar Agendamento */}
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={modalStyle}>
-          <Button
-            onClick={handleClose}
-            sx={{ position: "absolute", top: 10, right: 25, minWidth: "auto" }}
-          >
-            <FontAwesomeIcon
-              icon={faXmark}
-              style={{ color: "#BFBFBF", fontSize: "1.5rem" }}
-            />
-          </Button>
-          <Typography
-            sx={{
-              fontFamily: "Poppins-Bold",
-              fontSize: "1.3rem",
-              marginTop: "30px",
-              textAlign: "center",
-            }}
-          >
-            Adicionar Agendamento
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <TextField
-              label="Data"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{ marginBottom: "10px", width: "100%" }}
-            />
-            <TextField
-              label="Serviço"
-              value={service}
-              onChange={(e) => setService(e.target.value)}
-              sx={{ marginBottom: "10px", width: "100%" }}
-            />
-            <TextField
-              label="Descrição"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              sx={{ marginBottom: "10px", width: "100%" }}
-            />
-            <TextField
-              label="Cliente"
-              value={client}
-              onChange={(e) => setClient(e.target.value)}
-              sx={{ marginBottom: "10px", width: "100%" }}
-            />
-            <Button
-              onClick={handleSave}
-              variant="contained"
-              sx={{
-                backgroundColor: "#EB389A",
-                color: "#FFF",
-                textTransform: "capitalize",
-                fontSize: "1rem",
-                marginTop: "20px",
-                width: "100%",
-                fontFamily: "Poppins-Bold",
-                '&:hover': {
-                  backgroundColor: "#D5006D",
-                },
-              }}
-            >
-              Salvar
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
-
-      {/* Modal de confirmação de exclusão */}
-      <Modal
-        open={confirmDeleteOpen}
-        onClose={() => setConfirmDeleteOpen(false)}
-      >
-        <Box sx={modalStyle}>
-          <Typography
-            sx={{
-              fontFamily: "Poppins-Bold",
-              fontSize: "1.3rem",
-              textAlign: "center",
-              marginTop: "30px",
-            }}
-          >
-            Tem certeza que deseja deletar este agendamento?
-          </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
-            <Button
-              onClick={() => handleDelete(currentAppointment.id)}
-              variant="contained"
-              sx={{
-                backgroundColor: "#EB389A",
-                color: "#FFF",
-                textTransform: "capitalize",
-                fontSize: "1rem",
-                fontFamily: "Poppins-Bold",
-                '&:hover': {
-                  backgroundColor: "#D5006D",
-                },
-              }}
-            >
-              Sim
-            </Button>
-            <Button
-              onClick={() => setConfirmDeleteOpen(false)}
-              variant="outlined"
-              sx={{
-                color: "#EB389A",
-                textTransform: "capitalize",
-                fontSize: "1rem",
-                fontFamily: "Poppins-Bold",
-              }}
-            >
-              Não
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
     </Box>
   );
 }
