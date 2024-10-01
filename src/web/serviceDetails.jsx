@@ -109,6 +109,7 @@ function ServiceDetails() {
       const response = await sheets.createAppointment(appointment);
       // Aqui você pode adicionar lógica para tratar a resposta (ex: mostrar uma mensagem de sucesso)
       console.log("Consulta agendada:", response.data);
+      alert("agendado tropa")
     } catch (error) {
       console.error("Erro ao agendar consulta", error);
     }
@@ -385,6 +386,7 @@ function ServiceDetails() {
                   R$ {service.price}
                 </Typography>
                 <Button
+                  onClick={handleScheduleAppointment}
                   sx={{
                     backgroundColor: "#EB389A",
                     color: "white",
