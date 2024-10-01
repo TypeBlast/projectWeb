@@ -102,12 +102,6 @@ const sheets = {
 
   // Rotas de funcionários
   getEmployersByServiceId: (id) => api.get(`/employers/service/${id}`),
-
-    //Rotas de estado
-    getAllStates:() => api.get("/states"),
-
-    //Rotas de cidade
-    getAllCitiesByStateId: (stateId) => api.get(`/cities/cityToState/${stateId}`) 
 };
 
 export default sheets;
