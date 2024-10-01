@@ -30,7 +30,8 @@ function PetModal({ open, onClose, pet, onUpdate }) {
           padding: "20px",
           borderRadius: "8px",
           boxShadow: 24,
-          width: "300px",
+          maxWidth: "300px",
+          width: "20%",
           margin: "auto",
         }}
       >

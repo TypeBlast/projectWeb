@@ -9,10 +9,10 @@ import {
   MenuItem,
   Snackbar,
   Alert,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import sheets from "../axios/axios";
 
 const theme = createTheme();
@@ -48,7 +48,10 @@ const BoxPetData = ({ pet, onPetClick, onDelete }) => {
     >
       <span>{pet.name}</span>
       <IconButton
-        onClick={(e) => { e.stopPropagation(); onDelete(pet.id); }} // Previne a propagação do clique
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(pet.id);
+        }} // Previne a propagação do clique
         sx={{
           color: "#FFF",
           "&:hover": { color: "#FF423D" },
@@ -121,7 +124,9 @@ function Pets() {
       fetchPets();
     } catch (error) {
       console.error("Error saving pet:", error);
-      alert(error.response?.data?.message ||"Erro ao salvar pet. Tente novamente.");
+      alert(
+        error.response?.data?.message || "Erro ao salvar pet. Tente novamente."
+      );
     }
   };
 
@@ -226,6 +231,13 @@ function Pets() {
                   margin="normal"
                   required
                   variant="standard"
+                  sx={{ width: "100%" }}
+                  InputLabelProps={{
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o label
+                  }}
+                  InputProps={{
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o input
+                  }}
                 />
                 <TextField
                   label="Idade"
@@ -236,6 +248,13 @@ function Pets() {
                   margin="normal"
                   required
                   variant="standard"
+                  sx={{ width: "100%" }}
+                  InputLabelProps={{
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o label
+                  }}
+                  InputProps={{
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o input
+                  }}
                 />
                 <Select
                   name="specie"
@@ -243,6 +262,14 @@ function Pets() {
                   onChange={handleChange}
                   margin="normal"
                   required
+                  sx={{ width: "100%", marginTop: "15px" }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        fontFamily: "Poppins-Regular", // Fonte para as opções do Select
+                      },
+                    },
+                  }}
                 >
                   {species.map((specie) => (
                     <MenuItem key={specie} value={specie}>
@@ -256,6 +283,14 @@ function Pets() {
                   onChange={handleChange}
                   margin="normal"
                   required
+                  sx={{ width: "100%", marginTop: "15px" }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        fontFamily: "Poppins-Regular", // Fonte para as opções do Select
+                      },
+                    },
+                  }}
                 >
                   {sizes.map((size) => (
                     <MenuItem key={size} value={size}>
@@ -289,27 +324,49 @@ function Pets() {
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
           <Alert onClose={handleCloseSnackbar} severity="success">
-            {selectedPet ? "Pet atualizado com sucesso!" : "Pet cadastrado com sucesso!"}
+            {selectedPet
+              ? "Pet atualizado com sucesso!"
+              : "Pet cadastrado com sucesso!"}
           </Alert>
         </Snackbar>
 
         <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            marginTop: "30px",
-            padding: "10px",
-          }}
-        >
-          {pets.map((pet) => (
-            <BoxPetData key={pet.id} pet={pet} onPetClick={handlePetClick} onDelete={handleDeletePet} />
-          ))}
-        </Box>
+  sx={{
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: "30px",
+    padding: "10px",
+    overflowY: "auto", // Permite rolagem vertical
+
+    "&::-webkit-scrollbar": {
+      width: "8px", // Largura da barra de rolagem
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "#CCC", // Cor do fundo da barra de rolagem
+      borderRadius: "10px", // Bordas arredondadas da trilha
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "#EB389A", // Cor da parte da barra de rolagem
+      borderRadius: "10px", // Bordas arredondadas do polegar
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      background: "#D72C7A", // Cor do polegar ao passar o mouse
+    },
+  }}
+>
+  {pets.map((pet) => (
+    <BoxPetData
+      key={pet.id}
+      pet={pet}
+      onPetClick={handlePetClick}
+      onDelete={handleDeletePet}
+    />
+  ))}
+</Box>
+
       </div>
     </ThemeProvider>
   );
 }
 
 export default Pets;
-  
