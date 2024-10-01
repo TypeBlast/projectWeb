@@ -172,10 +172,21 @@ function BoxAddress() {
                   <Typography>{`${address.complement}, ${address.number}, ${address.cep}`}</Typography>
                 </Grid>
                 <Grid item xs={4} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Button onClick={() => handleEditAddress(address)}>
+                  <Button onClick={() => handleEditAddress(address)} sx={{
+                      backgroundColor: "transparent",
+                      '&:hover': {
+                        backgroundColor: "#D9D9D9",
+                      },
+                    }}>
                     <FontAwesomeIcon icon={faPen} style={{ fontSize: "1rem", color: "#D9D9D9" }} />
                   </Button>
-                  <Button onClick={() => { setCurrentAddress(address); setConfirmDeleteOpen(true); }} sx={{ marginLeft: "10px" }}>
+                  <Button onClick={() => { setCurrentAddress(address); setConfirmDeleteOpen(true); }} sx={{
+                      marginLeft: "10px",
+                      backgroundColor: "transparent",
+                      '&:hover': {
+                        backgroundColor: "#D9D9D9",
+                      },
+                    }}>
                     <FontAwesomeIcon icon={faTrash} style={{ fontSize: "1rem", color: "#D9D9D9" }} />
                   </Button>
                 </Grid>
@@ -194,6 +205,9 @@ function BoxAddress() {
               color: "#FFF",
               textTransform: "capitalize",
               fontSize: "1rem",
+              '&:hover': {
+                backgroundColor: "#D5006D", // Cor ao passar o mouse
+              },
             }}
           >
             Adicionar Novo Endereço
@@ -218,40 +232,52 @@ function BoxAddress() {
             <InputCep value={cep} onChange={(e) => setCep(e.target.value)} />
             <InputState states={states} value={stateId} onChange={(e) => setStateId(e.target.value)} />
             <InputCity cities={cities} value={cityId} onChange={(e) => setCityId(e.target.value)} />
-
-            {/* Botão Salvar com estilo atualizado */}
-            <Button
-              variant="contained"
-              onClick={handleSave}
-              sx={{
-                width: "300px",
+            <Button onClick={handleSave} variant="contained" sx={{
                 backgroundColor: "#EB389A",
-                marginTop: "25px",
-                fontFamily: "Poppins-Bold",
                 color: "#FFF",
                 textTransform: "capitalize",
-                fontSize: "1.3rem",
-                alignSelf: "center", // Centraliza o botão
-              }}
-            >
-              {editMode ? "Salvar Alterações" : "Salvar"}
+                fontSize: "1rem",
+                marginTop: "20px",
+                width: "100%",
+                fontFamily: "Poppins-Bold",
+                '&:hover': {
+                  backgroundColor: "#D5006D",
+                },
+              }}>
+              Salvar
             </Button>
           </Box>
         </Box>
       </Modal>
 
-      {/* Modal de Confirmação de Deleção */}
+      {/* Modal de confirmação de exclusão */}
       <Modal open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
         <Box sx={modalStyle}>
-          <Typography sx={{ fontFamily: "Poppins-Bold", fontSize: "1.3rem", textAlign: "center" }}>
+          <Typography sx={{ fontFamily: "Poppins-Bold", fontSize: "1.3rem", textAlign: "center", marginBottom: "20px" }}>
             Tem certeza que deseja deletar este endereço?
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: "20px" }}>
-            <Button onClick={() => handleDeleteAddress(currentAddress.id)} variant="contained" color="error">
-              Deletar
+          <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+            <Button onClick={() => handleDeleteAddress(currentAddress.id)} variant="contained" sx={{
+                backgroundColor: "#EB389A",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                '&:hover': {
+                  backgroundColor: "#D5006D",
+                },
+              }}>
+              Sim
             </Button>
-            <Button onClick={() => setConfirmDeleteOpen(false)} variant="contained" color="inherit">
-              Cancelar
+            <Button onClick={() => setConfirmDeleteOpen(false)} variant="outlined" sx={{
+                color: "#EB389A",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                borderColor: "#EB389A",
+                '&:hover': {
+                  borderColor: "#D5006D",
+                },
+              }}>
+              Não
             </Button>
           </Box>
         </Box>
