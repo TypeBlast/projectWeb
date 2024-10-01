@@ -4,6 +4,7 @@ import { Typography, Box, Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import BoxPersonalData from "../components/layout/boxPersonalData";
+import BoxAddress from "../components/layout/boxAddressData";
 
 function User() {
   const initialUserState = { name: "", profilePicture: "" }; // Estado inicial do usuário
@@ -89,6 +90,7 @@ function User() {
 
           {/* Passa as props corretamente para BoxPersonalData */}
           <BoxPersonalData user={user} updateUser={setUser} />
+          <BoxAddress user={user}/>
         </div>
       ) : (
         <Typography variant="h6">Nenhum usuário logado</Typography>
