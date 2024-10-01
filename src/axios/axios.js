@@ -3,15 +3,15 @@ import axios from "axios";
 // Configuração do Axios com timeout e cabeçalhos padrões
 const api = axios.create({
   baseURL: "http://localhost:5000/api/",
-  timeout: 10000, 
+  timeout: 10000,
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
   },
 });
 
 // Função para obter o token armazenado no localStorage
-const getToken = () => localStorage.getItem('token');
+const getToken = () => localStorage.getItem("token");
 
 // Interceptor para adicionar o token de autenticação somente em rotas específicas
 api.interceptors.request.use(
@@ -20,17 +20,20 @@ api.interceptors.request.use(
 
     // Condição para adicionar o token apenas em rotas específicas
     const authenticatedRoutes = [
-      '/addresses',    // Rotas de endereços
-      '/auth',         // Rotas de autenticação
-      '/orders',       // Rotas de pedidos
-      '/payments',     // Rotas de pagamentos
-      '/appointments', // Rotas de agendamentos
-      '/carts',         // Rotas de carrinho
-      '/pets'          // Rotas de pets
+      "/addresses", // Rotas de endereços
+      "/auth", // Rotas de autenticação
+      "/orders", // Rotas de pedidos
+      "/payments", // Rotas de pagamentos
+      "/appointments", // Rotas de agendamentos
+      "/carts", // Rotas de carrinho
+      "/pets", // Rotas de pets
     ];
 
     // Verifica se a URL da requisição começa com alguma das rotas autenticadas
-    if (token && authenticatedRoutes.some(route => config.url.startsWith(route))) {
+    if (
+      token &&
+      authenticatedRoutes.some((route) => config.url.startsWith(route))
+    ) {
       config.headers.Authorization = `Bearer ${token}`; // Adiciona o token no cabeçalho
     }
 
@@ -55,7 +58,8 @@ const sheets = {
   getProductById: (id) => api.get(`/products/${id}`),
   updateProduct: (id, product) => api.put(`/products/${id}`, product),
   deleteProduct: (id) => api.delete(`/products/${id}`),
-  getProductsByCategory: (category_id) => api.get(`/products/category/${category_id}`),
+  getProductsByCategory: (category_id) =>
+    api.get(`/products/category/${category_id}`),
   getProductsBySpecie: (specie_id) => api.get(`/products/specie/${specie_id}`),
   getProductsByName: (name) => api.get(`/products/search/${name}`),
 
@@ -73,15 +77,15 @@ const sheets = {
   deleteService: (id) => api.delete(`/services/${id}`),
 
   // Rotas de endereços (Address)
-  createAddress: (address) => api.post("/addresses", address), 
-  getAllAddresses: () => api.get("/addresses"),
+  createAddress: (address) => api.post("/addresses", address),
+  getAddressByUser: () => api.get("/addresses"),
   getAddressById: (id) => api.get(`/addresses/${id}`),
   updateAddress: (id, address) => api.put(`/addresses/${id}`, address),
   deleteAddress: (id) => api.delete(`/addresses/${id}`),
 
   // Rotas de agendamentos (Appointments)
   createAppointment: (appointment) => api.post("/appointments", appointment),
-  getAllAppointments: () => api.get("/appointments"),
+  getAppointmentByUser: () => api.get("/appointments"),
   getAppointmentById: (id) => api.get(`/appointments/${id}`),
   updateAppointment: (id, appointment) => api.put(`/appointments/${id}`, appointment),
   deleteAppointment: (id) => api.delete(`/appointments/${id}`),
@@ -95,7 +99,7 @@ const sheets = {
 
   // Rotas de pets (Pets)
   createPet: (pet) => api.post("/pets", pet),
-  getAllPets: () => api.get("/pets"),
+  getPetByUser: () => api.get(`/pets`),
   getPetById: (id) => api.get(`/pets/${id}`),
   updatePet: (id, pet) => api.put(`/pets/${id}`, pet),
   deletePet: (id) => api.delete(`/pets/${id}`),
@@ -103,11 +107,11 @@ const sheets = {
   // Rotas de funcionários
   getEmployersByServiceId: (id) => api.get(`/employers/service/${id}`),
 
-    //Rotas de estado
-    getAllStates:() => api.get("/states"),
+  //Rotas de estado
+  getAllStates: () => api.get("/states"),
 
-    //Rotas de cidade
-    getAllCitiesByStateId: (stateId) => api.get(`/cities/cityToState/${stateId}`) 
+  //Rotas de cidade
+  getAllCitiesByStateId: (stateId) => api.get(`/cities/cityToState/${stateId}`),
 };
 
 export default sheets;
