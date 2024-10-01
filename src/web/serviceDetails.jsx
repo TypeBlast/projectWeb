@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; 
 import sheets from "../axios/axios"; 
-import { Box, Typography, Grid, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Box, Typography, Grid, Select, MenuItem, FormControl, InputLabel, Button, TextField } from "@mui/material";
 
 function ServiceDetails() {
   const { id } = useParams(); 
   const [service, setService] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [pets, setPets] = useState([]); 
-  const [selectedPet, setSelectedPet] = useState(""); 
+  const [selectedPet, setSelectedPet] = useState("");
+  const [employers, setEmployers] = useState([]); 
+  const [selectedEmployer, setSelectedEmployer] = useState(""); 
+  const [appointmentDate, setAppointmentDate] = useState(""); // Estado para a data
+  const [appointmentTime, setAppointmentTime] = useState(""); // Estado para a hora
+  const [availableTimes, setAvailableTimes] = useState([]); // Estado para horários disponíveis
 
-  // Pegar o token do usuário, que pode estar no localStorage
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -25,22 +29,74 @@ function ServiceDetails() {
       }
     };
 
-    // Função atualizada para buscar todos os pets
     const fetchPets = async () => {
       try {
-        const response = await sheets.getAllPets(); // Chamada para buscar todos os pets
-        setPets(response.data); // Define a lista de pets
+        const response = await sheets.getAllPets(); 
+        setPets(response.data);
       } catch (error) {
         console.error("Erro ao buscar pets", error);
       }
     };
 
+    const fetchEmployers = async () => {
+      try {
+        const response = await sheets.getEmployersByServiceId(id);
+        setEmployers(response.data.data); 
+      } catch (error) {
+        console.error("Erro ao buscar funcionários", error);
+      }
+    };
+
+    // Gerar horários disponíveis
+    const generateAvailableTimes = () => {
+      const times = [];
+      for (let hour = 8; hour <= 18; hour++) {
+        for (let minute = 0; minute < 60; minute += 30) {
+          const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+          times.push(time);
+        }
+      }
+      setAvailableTimes(times);
+    };
+
     fetchService();
-    fetchPets(); // Buscar a lista de pets do usuário
+    fetchPets();
+    fetchEmployers();
+    generateAvailableTimes(); // Gera horários disponíveis
   }, [id]);
 
   const handlePetChange = (event) => {
-    setSelectedPet(event.target.value); // Atualiza o pet selecionado
+    setSelectedPet(event.target.value); 
+  };
+
+  const handleEmployerChange = (event) => {
+    setSelectedEmployer(event.target.value); 
+  };
+
+  const handleDateChange = (event) => {
+    setAppointmentDate(event.target.value); 
+  };
+
+  const handleTimeChange = (event) => {
+    setAppointmentTime(event.target.value); 
+  };
+
+  const handleScheduleAppointment = async () => {
+    const appointment = {
+      service_id: service.id,
+      employer_id: selectedEmployer,
+      pet_id: selectedPet,
+      appointment_date: appointmentDate,
+      appointment_time: appointmentTime,
+    };
+
+    try {
+      const response = await sheets.createAppointment(appointment);
+      // Aqui você pode adicionar lógica para tratar a resposta (ex: mostrar uma mensagem de sucesso)
+      console.log("Consulta agendada:", response.data);
+    } catch (error) {
+      console.error("Erro ao agendar consulta", error);
+    }
   };
 
   if (loading) {
@@ -53,7 +109,7 @@ function ServiceDetails() {
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" minHeight="95vh">
-      <Box width="80%" maxWidth="900px" border="3px solid #BFBFBF" borderRadius="15px" minHeight="450px" paddingBottom="10px">
+      <Box width="80%" maxWidth="900px" border="3px solid #BFBFBF" borderRadius="15px" minHeight="450px" paddingBottom="10px" boxShadow={3}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Box display="flex" flexDirection="column" justifyContent="center" alignItems={{ xs: "center", md: "flex-start" }} minHeight="325px" padding={{ xs: "20px", md: "50px" }}>
@@ -68,28 +124,94 @@ function ServiceDetails() {
 
           {/* Lado direito - Select com lista de pets */}
           <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100%", marginTop: "50px" }}>
-            <FormControl fullWidth>
-              <InputLabel id="pet-select-label">Selecione um Pet</InputLabel>
-              <Select
-                labelId="pet-select-label"
-                id="pet-select"
-                value={selectedPet}
-                onChange={handlePetChange}
-                label="Selecione um Pet"
-              >
-                {pets.data && pets.data.length > 0 ? (
-                  pets.data.map((pet) => (
-                    <MenuItem key={pet.id} value={pet.id}>
-                      {pet.name} 
+            <Box>
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="pet-select-label">Selecione um Pet</InputLabel>
+                <Select
+                  labelId="pet-select-label"
+                  id="pet-select"
+                  value={selectedPet}
+                  onChange={handlePetChange}
+                  label="Selecione um Pet"
+                >
+                  {pets.data && pets.data.length > 0 ? (
+                    pets.data.map((pet) => (
+                      <MenuItem key={pet.id} value={pet.id}>
+                        {pet.name} 
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem value="" disabled>
+                      Nenhum pet disponível
                     </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem value="" disabled>
-                    Nenhum pet disponível
-                  </MenuItem>
-                )}
-              </Select>
-            </FormControl>
+                  )}
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="employer-select-label">Selecione um funcionário</InputLabel>
+                <Select
+                  labelId="employer-select-label"
+                  id="employer-select"
+                  value={selectedEmployer}  
+                  onChange={handleEmployerChange}  
+                  label="Selecione um funcionário"
+                >
+                  {employers && employers.length > 0 ? (
+                    employers.map((employer) => (
+                      <MenuItem key={employer.id} value={employer.id}>
+                        {employer.name} 
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem value="" disabled>
+                      Nenhum funcionário disponível
+                    </MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+
+              {/* Campo de Data */}
+              <TextField
+                type="date"
+                label="Data da Consulta"
+                fullWidth
+                margin="normal"
+                value={appointmentDate}
+                onChange={handleDateChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              {/* Campo de Horário */}
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="time-select-label">Hora da Consulta</InputLabel>
+                <Select
+                  labelId="time-select-label"
+                  id="time-select"
+                  value={appointmentTime}
+                  onChange={handleTimeChange}
+                  label="Hora da Consulta"
+                >
+                  {availableTimes.map((time) => (
+                    <MenuItem key={time} value={time}>
+                      {time}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* Preço e Botão */}
+              <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="20px" paddingX="20px">
+                <Typography variant="h6" sx={{ color: "#BFBFBF", fontWeight: "bold" }}>
+                  R$ {service.price}
+                </Typography>
+                <Button variant="contained" sx={{ backgroundColor: "#D5006D", color: "white", '&:hover': { backgroundColor: "#B0004A" } }}>
+                  Agendar
+                </Button>
+              </Box>
+            </Box>
           </Grid>
         </Grid>
       </Box>

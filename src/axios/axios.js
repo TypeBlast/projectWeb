@@ -99,6 +99,9 @@ const sheets = {
   getPetById: (id) => api.get(`/pets/${id}`),
   updatePet: (id, pet) => api.put(`/pets/${id}`, pet),
   deletePet: (id) => api.delete(`/pets/${id}`),
+
+  // Rotas de funcionários
+  getEmployersByServiceId: (id) => api.get(`/employers/service/${id}`),
 };
 
 export default sheets;
