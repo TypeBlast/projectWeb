@@ -160,7 +160,7 @@ function Header() {
                 <ListItemText primary="Serviços" />
               </ListItem>
               <ListItem button onClick={() => handleNavigation("/myPets")}>
-                <ListItemText primary="Consultas" />
+                <ListItemText primary="Meus Pets" />
               </ListItem>
               <ListItem button onClick={() => handleNavigation("/cart")}>
                 <ListItemText primary="Carrinho" />
