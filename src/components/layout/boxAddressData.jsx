@@ -42,7 +42,7 @@ function BoxAddress() {
       try {
         const [statesResponse, addressesResponse] = await Promise.all([
           axios.getAllStates(),
-          axios.getAllAddresses(),
+          axios.getAddressByUser(),
         ]);
         setStates(statesResponse.data.data);
         setAddresses(addressesResponse.data.data);
@@ -120,13 +120,13 @@ function BoxAddress() {
       }
 
       // Atualiza os endereços após a edição ou adição
-      const response = await axios.getAllAddresses();
+      const response = await axios.getAddressByUser();
       setAddresses(response.data.data);
       
       handleClose();
     } catch (error) {
       console.error("Erro ao salvar endereço:", error.response?.data || error.message);
-      setError("Erro ao salvar endereço. Tente novamente.");
+      setError(error.response?.data?.message || "Erro ao realizar login.");
     }
   };
 
@@ -136,7 +136,7 @@ function BoxAddress() {
       setSuccess("Endereço deletado com sucesso!");
       
       // Atualiza os endereços após a deleção
-      const response = await axios.getAllAddresses();
+      const response = await axios.getAddressByUser();
       setAddresses(response.data.data);
       
       setConfirmDeleteOpen(false);
