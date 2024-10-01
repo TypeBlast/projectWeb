@@ -5,11 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons"
-
-// Importe a configuração do Firebase
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { auth, provider, signInWithPopup } from "../firebaseConfig"; 
-
 import imageLogin from "../assets/images/imageLogin.png";
 import InputEmail from "../components/inputs/inputEmail";
 import InputPassword from "../components/inputs/inputPassword";
@@ -34,13 +31,8 @@ function Login() {
   
       if (response.status === 201) {
         const { user, token } = response.data; 
-  
-        // Verifique se os campos CPF e phone estão presentes
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", token);
-        console.log(token)
-
-  
         navigate("/home");
       }
     } catch (error) {
@@ -48,71 +40,45 @@ function Login() {
       setError(error.response?.data?.message || "Erro ao realizar login.");
     }
   };
-  // Função de login com o Google
+
   const handleGoogleLogin = async () => {
     try {
-      // Configura para que o popup force a seleção de conta
       provider.setCustomParameters({
         prompt: 'select_account',
       });
   
-      // Faz o login com o Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
-      console.log("Usuário logado com o Google:", user);
-  
-      // Faz a chamada para obter todos os usuários do banco de dados
       const allUsersResponse = await sheets.getAllUsers();
-      console.log("Resposta da API com todos os usuários:", allUsersResponse);
-  
+
       if (allUsersResponse.status === 200 || allUsersResponse.status === 201) {
         const allUsers = allUsersResponse.data.data;
-        console.log("Todos os usuários cadastrados:", allUsers);
-  
         const userEmail = user.email;
-        const userName = user.displayName; // Pega o nome do usuário logado
-        console.log("E-mail do usuário logado:", userEmail);
-        console.log("Nome do usuário logado:", userName);
-  
+        const userName = user.displayName;
+
         const emailExists = allUsers.some(u => u.email === userEmail);
-        console.log("E-mail já existe no banco de dados?", emailExists);
-  
+
         if (emailExists) {
           const loginData = { email: userEmail };
-          console.log("Dados de login a serem enviados:", loginData);
-  
           const response = await sheets.logUser(loginData);
-          console.log("Resposta do backend após tentativa de login:", response);
   
           if (response.status === 200) {
             const { user, token } = response.data; 
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("token", token);
-            console.log("Token recebido e armazenado:", token);
             navigate("/home");
-            console.log("Redirecionado para /home");
           }
         } else {
-          // Redireciona para a página de registro, passando o nome e o e-mail
-          console.log("E-mail não encontrado, redirecionando para /register com nome e e-mail do Google");
           navigate("/register", { state: { email: userEmail, name: userName } });
         }
-      } else {
-        console.error("Erro ao obter todos os usuários, status:", allUsersResponse.status);
       }
     } catch (error) {
-      console.error("Erro ao realizar login com o Google:", error);
       setError(error.response?.data?.message || "Erro ao realizar login com o Google.");
     }
   };
   
-  
-  
-
   return (
     <Grid container style={{ height: "100vh" }}>
-      {/* Nome no canto superior esquerdo que leva à página inicial */}
       <Button
         onClick={() => handleNavigation("/")}
         sx={{
@@ -132,7 +98,6 @@ function Login() {
         PetExpress
       </Button>
 
-      {/* Metade esquerda da tela */}
       <Grid
         item
         xs={12}
@@ -144,7 +109,6 @@ function Login() {
           alignItems: "center",
         }}
       >
-        {/* Box centralizada no meio da tela */}
         <Box
           sx={{
             backgroundColor: "white",
@@ -188,7 +152,6 @@ function Login() {
                 Entre em sua conta!
               </Typography>
 
-              {/* Input de email e senha */}
               <Box
                 sx={{
                   marginTop: "20px",
@@ -230,7 +193,6 @@ function Login() {
                 Entrar
               </Button>
 
-              {/* Botão de login com o Google */}
               <Button
                 sx={{
                   border: "1px solid #D9D9D9",

@@ -28,13 +28,19 @@ function Cart() {
 
   const handleRemoveFromCart = async (productId) => {
     try {
-      const response = await sheets.deleteCart(productId); // Chame a função para remover o item
+      console.log(`Tentando remover o item com ID: ${productId}`);
+  
+      // Envie o ID do produto no corpo da requisição POST
+      const response = await sheets.removeFromCart({ productId });
+  
+      console.log('Resposta da API ao remover:', response);
+  
       if (response.status === 200) {
-        // Atualize o estado local para remover o item da lista
+        // Remove o item imediatamente do estado local
         setCartItems((prevItems) => prevItems.filter(item => item.productId !== productId));
-        console.log(`Item com ID ${productId} removido com sucesso`);
+        console.log(`Item com ID ${productId} removido com sucesso.`);
       }
-    } catch (err) { 
+    } catch (err) {
       console.error('Erro ao remover o item do carrinho:', err);
       setError('Falha ao remover o item do carrinho.');
     }
@@ -42,7 +48,7 @@ function Cart() {
 
   const handleClearCart = async () => {
     try {
-      const response = await sheets.clearCart(); // Chame a função para limpar o carrinho
+      const response = await sheets.clearCart();
       if (response.status === 200) {
         setCartItems([]); // Limpa os itens no estado local
         console.log('Carrinho limpo com sucesso');
