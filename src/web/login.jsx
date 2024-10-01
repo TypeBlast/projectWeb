@@ -51,37 +51,65 @@ function Login() {
   // Função de login com o Google
   const handleGoogleLogin = async () => {
     try {
-        // Configura para que o popup force a seleção de conta
-        provider.setCustomParameters({
-            prompt: 'select_account',
-        });
-
-        // Faz o login com o Google
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-
-        // Envia o e-mail para o backend
-        const loginData = { email: user.email }; // Envia apenas o e-mail
-
-        const response = await sheets.logUser(loginData); // Chama a mesma função de login
-
-        if (response.status === 200) {
+      // Configura para que o popup force a seleção de conta
+      provider.setCustomParameters({
+        prompt: 'select_account',
+      });
+  
+      // Faz o login com o Google
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      console.log("Usuário logado com o Google:", user);
+  
+      // Faz a chamada para obter todos os usuários do banco de dados
+      const allUsersResponse = await sheets.getAllUsers();
+      console.log("Resposta da API com todos os usuários:", allUsersResponse);
+  
+      if (allUsersResponse.status === 200 || allUsersResponse.status === 201) {
+        const allUsers = allUsersResponse.data.data;
+        console.log("Todos os usuários cadastrados:", allUsers);
+  
+        const userEmail = user.email;
+        const userName = user.displayName; // Pega o nome do usuário logado
+        console.log("E-mail do usuário logado:", userEmail);
+        console.log("Nome do usuário logado:", userName);
+  
+        const emailExists = allUsers.some(u => u.email === userEmail);
+        console.log("E-mail já existe no banco de dados?", emailExists);
+  
+        if (emailExists) {
+          const loginData = { email: userEmail };
+          console.log("Dados de login a serem enviados:", loginData);
+  
+          const response = await sheets.logUser(loginData);
+          console.log("Resposta do backend após tentativa de login:", response);
+  
+          if (response.status === 200) {
             const { user, token } = response.data; 
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("token", token);
-            console.log(token);
-            navigate("/home"); // Redireciona para a página Home
+            console.log("Token recebido e armazenado:", token);
+            navigate("/home");
+            console.log("Redirecionado para /home");
+          }
+        } else {
+          // Redireciona para a página de registro, passando o nome e o e-mail
+          console.log("E-mail não encontrado, redirecionando para /register com nome e e-mail do Google");
+          navigate("/register", { state: { email: userEmail, name: userName } });
         }
+      } else {
+        console.error("Erro ao obter todos os usuários, status:", allUsersResponse.status);
+      }
     } catch (error) {
-        console.error("Erro ao realizar login com o Google:", error);
-        setError(error.response?.data?.message || "Erro ao realizar login com o Google.");
+      console.error("Erro ao realizar login com o Google:", error);
+      setError(error.response?.data?.message || "Erro ao realizar login com o Google.");
     }
-};
+  };
+  
+  
+  
 
-  
-  
-  
-  
   return (
     <Grid container style={{ height: "100vh" }}>
       {/* Nome no canto superior esquerdo que leva à página inicial */}
