@@ -28,6 +28,30 @@ const styles = {
     padding: "20px 10px",
     marginBottom: "25px",
   },
+  productInfo: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    marginLeft: "50px",
+  },
+  productName: {
+    fontFamily: "Poppins-Bold",
+    color: "#A8A8A8",
+    fontSize: "1.1rem",
+  },
+  productQuantity: {
+    marginTop: "5px",
+    fontFamily: "Poppins-Regular",
+    color: "#A8A8A8",
+    fontSize: "0.9rem",
+  },
+  productPrice: {
+    marginTop: "20px",
+    color: "#A8A8A8",
+    marginRight: "20px",
+    fontFamily: "Poppins-Bold",
+    fontSize: "1.2rem",
+  },
   fixedBox: {
     position: "fixed",
     width: "90%",
