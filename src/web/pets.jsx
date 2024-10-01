@@ -8,13 +8,57 @@ import {
   Select,
   MenuItem,
   Snackbar,
-  Alert
+  Alert,
+  IconButton
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import sheets from "../axios/axios";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import DeleteIcon from '@mui/icons-material/Delete';
+import sheets from "../axios/axios";
 
 const theme = createTheme();
+
+const BoxPetData = ({ pet, onPetClick, onDelete }) => {
+  const colors = ["#BA60E8", "#FF423D"];
+  const HOVER_COLOR = "#F25CAE";
+
+  return (
+    <Box
+      onClick={() => onPetClick(pet)} // Chama a função de clique no pet
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+        color: "#FFF",
+        fontFamily: "Poppins-Bold",
+        textTransform: "unset",
+        fontSize: "1.5rem",
+        padding: "10px 30px",
+        marginRight: "30px",
+        height: "200px",
+        width: "300px",
+        borderRadius: "20px",
+        transition: "background-color 0.3s, transform 0.3s",
+        "&:hover": {
+          backgroundColor: HOVER_COLOR,
+          transform: "scale(1.05)",
+          cursor: "pointer", // Muda o cursor para indicar que é clicável
+        },
+      }}
+    >
+      <span>{pet.name}</span>
+      <IconButton
+        onClick={(e) => { e.stopPropagation(); onDelete(pet.id); }} // Previne a propagação do clique
+        sx={{
+          color: "#FFF",
+          "&:hover": { color: "#FF423D" },
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+    </Box>
+  );
+};
 
 function Pets() {
   const [pets, setPets] = useState([]);
@@ -25,9 +69,8 @@ function Pets() {
     specie: "Cachorro",
     size: "Médio",
   });
-
+  const [selectedPet, setSelectedPet] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
   const species = ["Cachorro", "Gato"];
   const sizes = ["Pequeno", "Médio", "Grande"];
 
@@ -38,14 +81,20 @@ function Pets() {
   const handleCloseModal = () => {
     setIsOpen(false);
     setNewPet({ name: "", age: "", specie: "Cachorro", size: "Médio" });
+    setSelectedPet(null); // Limpa o pet selecionado ao fechar
   };
 
   const fetchPets = async () => {
     try {
-      const response = await sheets.getAllPets();
-      setPets(response.data);
+      const response = await sheets.getPetByUser();
+      if (response.data && Array.isArray(response.data.data)) {
+        setPets(response.data.data);
+      } else {
+        setPets([]);
+      }
     } catch (error) {
       console.error("Error fetching pets:", error);
+      setPets([]);
     }
   };
 
@@ -60,13 +109,29 @@ function Pets() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await sheets.createPet(newPet);
+      if (selectedPet) {
+        // Se um pet estiver selecionado, atualiza
+        await sheets.updatePet(selectedPet.id, newPet);
+      } else {
+        // Caso contrário, cria um novo pet
+        await sheets.createPet(newPet);
+      }
       setOpenSnackbar(true);
       handleCloseModal();
       fetchPets();
     } catch (error) {
-      console.error("Error creating pet:", error);
-      alert("Erro ao cadastrar pet. Tente novamente.");
+      console.error("Error saving pet:", error);
+      alert("Erro ao salvar pet. Tente novamente.");
+    }
+  };
+
+  const handleDeletePet = async (id) => {
+    try {
+      await sheets.deletePet(id);
+      fetchPets();
+    } catch (error) {
+      console.error("Erro ao deletar pet:", error);
+      alert("Erro ao deletar pet. Tente novamente.");
     }
   };
 
@@ -77,8 +142,20 @@ function Pets() {
     setOpenSnackbar(false);
   };
 
-  const colors = ["#BA60E8", "#FF423D"];
-  const HOVER_COLOR = "#F25CAE";
+  const handlePetClick = (pet) => {
+    setSelectedPet(pet);
+    setNewPet({
+      name: pet.name,
+      age: pet.age,
+      specie: pet.specie,
+      size: pet.size,
+    });
+    handleOpenModal(); // Abre o modal com os dados do pet
+  };
+
+  const handleClosePetDetails = () => {
+    setSelectedPet(null);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -125,7 +202,7 @@ function Pets() {
                 marginTop: "10px",
               }}
             >
-              Cadastrar Pet
+              {selectedPet ? "Atualizar Pet" : "Cadastrar Pet"}
             </Typography>
             <Box
               sx={{
@@ -149,27 +226,6 @@ function Pets() {
                   margin="normal"
                   required
                   variant="standard"
-                  sx={{
-                    width: "100%",
-                    marginTop: "10px",
-                    "& label": {
-                      color: "#333",
-                      fontFamily: "Poppins-Regular",
-                    },
-                    "& label.Mui-focused": {
-                      color: "#A8A8A8",
-                    },
-                    "& .MuiInput-underline:before": {
-                      borderBottomColor: "#D9D9D9",
-                      borderBottomWidth: "2px",
-                    },
-                    "& .MuiInput-underline:after": {
-                      borderBottomColor: "#A8A8A8",
-                    },
-                    "& .MuiInputBase-input": {
-                      color: "#333",
-                    },
-                  }}
                 />
                 <TextField
                   label="Idade"
@@ -180,27 +236,6 @@ function Pets() {
                   margin="normal"
                   required
                   variant="standard"
-                  sx={{
-                    width: "100%",
-                    marginTop: "5px",
-                    "& label": {
-                      color: "#333",
-                      fontFamily: "Poppins-Regular",
-                    },
-                    "& label.Mui-focused": {
-                      color: "#A8A8A8",
-                    },
-                    "& .MuiInput-underline:before": {
-                      borderBottomColor: "#D9D9D9",
-                      borderBottomWidth: "2px",
-                    },
-                    "& .MuiInput-underline:after": {
-                      borderBottomColor: "#A8A8A8",
-                    },
-                    "& .MuiInputBase-input": {
-                      color: "#333",
-                    },
-                  }}
                 />
                 <Select
                   name="specie"
@@ -208,23 +243,6 @@ function Pets() {
                   onChange={handleChange}
                   margin="normal"
                   required
-                  sx={{
-                    width: "100%",
-                    marginTop: "10px",
-                    "& .MuiSelect-select": {
-                      color: "#333",
-                      fontFamily: "Poppins-Regular",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      border: "2px solid #D9D9D9",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#A8A8A8",
-                    },
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#A8A8A8",
-                    },
-                  }}
                 >
                   {species.map((specie) => (
                     <MenuItem key={specie} value={specie}>
@@ -238,23 +256,6 @@ function Pets() {
                   onChange={handleChange}
                   margin="normal"
                   required
-                  sx={{
-                    width: "100%",
-                    marginTop: "15px",
-                    "& .MuiSelect-select": {
-                      color: "#333",
-                      fontFamily: "Poppins-Regular",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      border: "2px solid #D9D9D9",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#A8A8A8",
-                    },
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#A8A8A8",
-                    },
-                  }}
                 >
                   {sizes.map((size) => (
                     <MenuItem key={size} value={size}>
@@ -262,27 +263,19 @@ function Pets() {
                     </MenuItem>
                   ))}
                 </Select>
+
                 <Button
                   type="submit"
                   variant="contained"
-                  color="primary"
-                  fullWidth
                   sx={{
-                    marginTop: "25px",
                     backgroundColor: "#EB389A",
-                    height: "50px",
-                    borderRadius: "5px",
-                    fontFamily: "Poppins-Bold",
-                    textTransform: "unset",
-                    fontSize: "1.2rem",
+                    color: "#FFF",
                     width: "100%",
-                    "&:hover": {
-                      backgroundColor: "#D72C7A",
-                      transform: "scale(1.05)",
-                    },
+                    marginTop: "20px",
+                    "&:hover": { backgroundColor: "#D72C7A" },
                   }}
                 >
-                  Cadastrar
+                  {selectedPet ? "Atualizar Pet" : "Adicionar Pet"}
                 </Button>
               </form>
             </Box>
@@ -291,85 +284,32 @@ function Pets() {
 
         <Snackbar
           open={openSnackbar}
-          autoHideDuration={3000}
+          autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-            Pet cadastrado com sucesso!
+          <Alert onClose={handleCloseSnackbar} severity="success">
+            {selectedPet ? "Pet atualizado com sucesso!" : "Pet cadastrado com sucesso!"}
           </Alert>
         </Snackbar>
 
-        {pets.data && pets.data.length > 0 ? (
-          <Box
-            sx={{
-              display: "flex",
-              overflowX: "auto",
-              whiteSpace: "nowrap",
-              justifyContent: "flex-start",
-              p: 1,
-              marginLeft: "55px",
-              marginTop: "50px",
-              "&::-webkit-scrollbar": {
-                width: "8px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "#E01483",
-                borderRadius: "10px",
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                backgroundColor: "#C01374",
-              },
-              "&::-webkit-scrollbar-track": {
-                backgroundColor: "#F1F1F1",
-              },
-            }}
-          >
-            {pets.data.map((pet, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: colors[index % colors.length],
-                  color: "#FFF",
-                  fontFamily: "Poppins-Bold",
-                  textTransform: "unset",
-                  fontSize: "1.5rem",
-                  padding: "10px 50px",
-                  marginRight: "30px",
-                  height: "200px",
-                  width: "300px",
-                  borderRadius: "20px",
-                  transition: "background-color 0.3s, transform 0.3s",
-                  "&:hover": {
-                    backgroundColor: HOVER_COLOR,
-                    transform: "scale(1.05)",
-                  },
-                }}
-              >
-                {pet.name}
-              </Box>
-            ))}
-          </Box>
-        ) : (
-          <Typography
-            sx={{
-              fontFamily: "Poppins-Bold",
-              fontSize: "1.4rem",
-              textTransform: "unset",
-              textAlign: "center",
-              marginTop: "50px",
-              color: "#A8A8A8",
-            }}
-          >
-            Nenhum pet cadastrado.
-          </Typography>
-        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+            marginTop: "30px",
+            padding: "10px",
+          }}
+        >
+          {pets.map((pet) => (
+            <BoxPetData key={pet.id} pet={pet} onPetClick={handlePetClick} onDelete={handleDeletePet} />
+          ))}
+        </Box>
       </div>
     </ThemeProvider>
   );
 }
 
 export default Pets;
+  
