@@ -9,10 +9,10 @@ import {
   Paper,
   CircularProgress,
   useTheme,
-  useMediaQuery, // Importação correta
+  useMediaQuery,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const styles = {
@@ -100,7 +100,7 @@ function Cart() {
 
   const navigate = useNavigate();
   const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.down("md")); // Verifica se a tela é md ou menor
+  const isMd = useMediaQuery(theme.breakpoints.down("md"));
 
   const fetchCart = async () => {
     try {
@@ -119,17 +119,36 @@ function Cart() {
   };
 
   const handleRemoveFromCart = async (productId) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.productId === productId && item.quantity > 0
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      ).filter(item => item.quantity > 0) // Remove o item se a quantidade for 0
+    );
+
+    // Lógica para atualizar o backend se necessário
     try {
-      const response = await sheets.removeFromCart({ productId });
-      if (response.status === 200) {
-        setCartItems((prevItems) =>
-          prevItems.filter((item) => item.productId !== productId)
-        );
-      } else {
-        setError("Falha ao remover o item do carrinho.");
-      }
+      await sheets.removeFromCart({ productId, quantity: 1 });
     } catch (err) {
       setError("Falha ao remover o item do carrinho.");
+    }
+  };
+
+  const handleAddToCart = async (productId) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.productId === productId && item.quantity < 10
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
+
+    // Lógica para atualizar o backend se necessário
+    try {
+      await sheets.addToCart({ productId, quantity: 1 });
+    } catch (err) {
+      setError("Falha ao adicionar o item ao carrinho.");
     }
   };
 
@@ -220,12 +239,28 @@ function Cart() {
                   marginLeft: "auto",
                 }}
               >
-                <Button onClick={() => handleRemoveFromCart(item.productId)}>
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    style={{ fontSize: "20px", color: "#EB1A0E" }}
-                  />
-                </Button>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Button
+                    onClick={() => handleRemoveFromCart(item.productId)} // Remover 1 item
+                    sx={{ minWidth: "30px", disabled: item.quantity === 0 }}
+                    disabled={item.quantity === 0} // Desabilita se a quantidade for 0
+                  >
+                    <FontAwesomeIcon
+                      icon={faMinus}
+                      style={{ fontSize: "20px", color: "#EB1A0E" }}
+                    />
+                  </Button>
+                  <Button
+                    onClick={() => handleAddToCart(item.productId)} // Adicionar 1 item
+                    sx={{ minWidth: "30px" }}
+                    disabled={item.quantity >= 10} // Desabilita se a quantidade for 10 ou mais
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      style={{ fontSize: "20px", color: "#4CAF50" }}
+                    />
+                  </Button>
+                </Box>
                 <Typography sx={styles.productPrice}>
                   ${parseFloat(item.productPrice).toFixed(2)}
                 </Typography>
