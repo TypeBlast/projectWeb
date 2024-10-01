@@ -121,7 +121,7 @@ function Pets() {
       fetchPets();
     } catch (error) {
       console.error("Error saving pet:", error);
-      alert("Erro ao salvar pet. Tente novamente.");
+      alert(error.response?.data?.message ||"Erro ao salvar pet. Tente novamente.");
     }
   };
 

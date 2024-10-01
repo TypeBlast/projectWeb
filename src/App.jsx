@@ -1,5 +1,6 @@
 //Import das funcões do router
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import ProtectedRoute from "./components/utils/protectroute";
 
 //Import das páginas para navegação
 import Index from "./web";
@@ -46,16 +47,16 @@ function App() {
             <Route path="/" element={<Index />} />
           </Route>
           <Route path="/" element={<Layout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/category/:category_id" element={<Products />} /> {/* Rota para produtos por categoria */}
-            <Route path="/products/specie/:specie_id" element={<Products />} /> {/* Rota para produtos por espécie */}
-            <Route path="/products/:id" element={<ProductsDetails />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:id" element={<ServiceDetails />} />
-            <Route path="/user" element={<User />} />
-            <Route path="/myPets" element={<Pets/>} />
-            <Route path="/cart" element={<Cart/>} />
+            <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+            <Route path="/products/category/:category_id" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+            <Route path="/products/specie/:specie_id" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+            <Route path="/products/:id" element={<ProtectedRoute><ProductsDetails /></ProtectedRoute>} />
+            <Route path="/services" element={<ProtectedRoute><Services /></ProtectedRoute>} />
+            <Route path="/services/:id" element={<ProtectedRoute><ServiceDetails /></ProtectedRoute>} />
+            <Route path="/user" element={<ProtectedRoute><User /></ProtectedRoute>} />
+            <Route path="/myPets" element={<ProtectedRoute><Pets /></ProtectedRoute>} />
+            <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           </Route>
           <Route path="/error" element={<Error />} />
           <Route path="/login" element={<Login />} />
@@ -65,5 +66,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
