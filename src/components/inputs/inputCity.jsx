@@ -1,51 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { TextField, MenuItem } from "@mui/material";
-import sheets from "../../axios/axios"; // Supondo que este seja o caminho do arquivo onde o axios está configurado
+import React from "react";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 
-function InputCity({ stateId, value, onChange, disabled }) {
-  const [cities, setCities] = useState([]); // Estado para armazenar as cidades
-  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
-
-  useEffect(() => {
-    const fetchCities = async () => {
-      if (!stateId) return; // Se nenhum estado foi selecionado, não buscar cidades
-      setLoading(true);
-      try {
-        const response = await sheets.getAllCitiesByStateId(stateId); // Buscando cidades pela API
-        setCities(response.data.data); // Atualiza o estado com as cidades
-      } catch (error) {
-        console.error("Erro ao carregar as cidades: ", error);
-      } finally {
-        setLoading(false); // Define o carregamento como finalizado
-      }
-    };
-
-    fetchCities();
-  }, [stateId]); // O useEffect será disparado quando o stateId mudar
-
+function InputCity({ cities, value, onChange }) {
   return (
-    <TextField
-      label="Cidade"
-      select
-      value={value}
-      onChange={onChange}
-      fullWidth
-      required
-      sx={{ marginTop: "15px" }}
-      disabled={disabled || !stateId || loading} // Desabilita o input enquanto carrega ou se não houver estado
-    >
-      {loading ? (
-        <MenuItem disabled>Carregando...</MenuItem>
-      ) : cities.length > 0 ? (
-        cities.map((city) => (
-          <MenuItem key={city.id} value={city.id}>
-            {city.name}
-          </MenuItem>
-        ))
-      ) : (
-        <MenuItem disabled>Nenhuma cidade encontrada</MenuItem>
-      )}
-    </TextField>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <FontAwesomeIcon icon={faBuilding} style={{ marginRight: '10px', marginTop: "20px", fontSize: '20px', color: "#D9D9D9" }} />
+      <FormControl variant="standard" sx={{ width: '220px', margin: "2px" }}>
+        <InputLabel sx={{ color: '#D9D9D9' }}>Cidade</InputLabel>
+        <Select
+          value={value}
+          onChange={onChange}
+          label="Cidade"
+          sx={{
+            '& .MuiInputBase-input': {
+              color: '#333',
+            },
+            '& .Mui-focused .MuiInputLabel-root': {
+              color: '#A8A8A8',
+            },
+            '& .MuiInput-underline:before': {
+              borderBottomColor: '#D9D9D9',
+            },
+            '& .MuiInput-underline:after': {
+              borderBottomColor: '#A8A8A8',
+            },
+          }}
+        >
+          {cities.map((city) => (
+            <MenuItem key={city.id} value={city.id}>
+              {city.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
   );
 }
 

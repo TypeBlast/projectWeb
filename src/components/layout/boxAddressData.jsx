@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Box, Grid, Button, Modal, TextField, MenuItem } from "@mui/material";
+import { Typography, Box, Grid, Button, Modal } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt, faPen, faXmark, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faXmark, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "../../axios/axios";
+import InputComplement from "../inputs/inputComplement";
+import InputNumber from "../inputs/inputNumber";
+import InputCep from "../inputs/inputCep";
+import InputState from "../inputs/inputState"; // Componente para selecionar o estado
+import InputCity from "../inputs/inputCity"; // Componente para selecionar a cidade
 
 const modalStyle = {
   position: "absolute",
@@ -37,7 +42,7 @@ function BoxAddress() {
       try {
         const [statesResponse, addressesResponse] = await Promise.all([
           axios.getAllStates(),
-          axios.getAllAddresses()
+          axios.getAllAddresses(),
         ]);
         setStates(statesResponse.data.data);
         setAddresses(addressesResponse.data.data);
@@ -177,7 +182,20 @@ function BoxAddress() {
               </Grid>
             ))
           )}
-          <Button variant="contained" onClick={handleOpen} sx={{ marginTop: "20px", backgroundColor: "#EB389A", color: "#FFF" }}>
+          {/* Botão Adicionar Novo Endereço com estilo atualizado */}
+          <Button
+            variant="contained"
+            onClick={handleOpen}
+            sx={{
+              width: "300px",
+              backgroundColor: "#EB389A",
+              marginTop: "20px",
+              fontFamily: "Poppins-Bold",
+              color: "#FFF",
+              textTransform: "capitalize",
+              fontSize: "1rem",
+            }}
+          >
             Adicionar Novo Endereço
           </Button>
         </Box>
@@ -189,31 +207,34 @@ function BoxAddress() {
           <Button onClick={handleClose} sx={{ position: "absolute", top: 10, right: 25, minWidth: "auto" }}>
             <FontAwesomeIcon icon={faXmark} style={{ color: "#BFBFBF", fontSize: "1.5rem" }} />
           </Button>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", margin: "auto" }}>
-            <Typography sx={{ fontFamily: "Poppins-Bold", fontSize: "1.3rem", marginTop: "30px" }}>
-              {editMode ? "Editar Endereço" : "Cadastrar Novo Endereço"}
-            </Typography>
-            {error && <Typography sx={{ color: "red" }}>{error}</Typography>}
-            {success && <Typography sx={{ color: "green" }}>{success}</Typography>}
-            <TextField label="Complemento" value={complement} onChange={(e) => setComplement(e.target.value)} fullWidth sx={{ marginTop: "15px" }} />
-            <TextField label="Número" value={number} onChange={(e) => setNumber(e.target.value)} fullWidth required sx={{ marginTop: "15px" }} />
-            <TextField label="CEP" value={cep} onChange={(e) => setCep(e.target.value)} fullWidth required sx={{ marginTop: "15px" }} />
-            <TextField label="Estado" select value={stateId} onChange={(e) => { setStateId(e.target.value); setCityId(""); setCities([]); }} fullWidth required sx={{ marginTop: "15px" }}>
-              {states.map((state) => (
-                <MenuItem key={state.id} value={state.id}>
-                  {state.name}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField label="Cidade" select value={cityId} onChange={(e) => setCityId(e.target.value)} fullWidth required sx={{ marginTop: "15px" }}>
-              {cities.map((city) => (
-                <MenuItem key={city.id} value={city.id}>
-                  {city.name}
-                </MenuItem>
-              ))}
-            </TextField>
-            <Button variant="contained" onClick={handleSave} sx={{ marginTop: "20px", backgroundColor: "#EB389A", color: "#FFF" }}>
-              {editMode ? "Atualizar Endereço" : "Cadastrar Endereço"}
+          <Typography sx={{ fontFamily: "Poppins-Bold", fontSize: "1.3rem", marginTop: "30px", textAlign: "center" }}>
+            {editMode ? "Editar Endereço" : "Adicionar Endereço"}
+          </Typography>
+          {error && <Typography sx={{ color: "red", textAlign: "center" }}>{error}</Typography>}
+          {success && <Typography sx={{ color: "green", textAlign: "center" }}>{success}</Typography>}
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+            <InputComplement value={complement} onChange={(e) => setComplement(e.target.value)} />
+            <InputNumber value={number} onChange={(e) => setNumber(e.target.value)} />
+            <InputCep value={cep} onChange={(e) => setCep(e.target.value)} />
+            <InputState states={states} value={stateId} onChange={(e) => setStateId(e.target.value)} />
+            <InputCity cities={cities} value={cityId} onChange={(e) => setCityId(e.target.value)} />
+
+            {/* Botão Salvar com estilo atualizado */}
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              sx={{
+                width: "300px",
+                backgroundColor: "#EB389A",
+                marginTop: "25px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1.3rem",
+                alignSelf: "center", // Centraliza o botão
+              }}
+            >
+              {editMode ? "Salvar Alterações" : "Salvar"}
             </Button>
           </Box>
         </Box>
@@ -222,10 +243,16 @@ function BoxAddress() {
       {/* Modal de Confirmação de Deleção */}
       <Modal open={confirmDeleteOpen} onClose={() => setConfirmDeleteOpen(false)}>
         <Box sx={modalStyle}>
-          <Typography>Tem certeza que deseja deletar este endereço?</Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
-            <Button variant="outlined" onClick={() => setConfirmDeleteOpen(false)}>Cancelar</Button>
-            <Button variant="contained" onClick={() => handleDeleteAddress(currentAddress.id)}>Confirmar</Button>
+          <Typography sx={{ fontFamily: "Poppins-Bold", fontSize: "1.3rem", textAlign: "center" }}>
+            Tem certeza que deseja deletar este endereço?
+          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: "20px" }}>
+            <Button onClick={() => handleDeleteAddress(currentAddress.id)} variant="contained" color="error">
+              Deletar
+            </Button>
+            <Button onClick={() => setConfirmDeleteOpen(false)} variant="contained" color="inherit">
+              Cancelar
+            </Button>
           </Box>
         </Box>
       </Modal>
