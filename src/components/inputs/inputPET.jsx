@@ -6,9 +6,9 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 const InputPet = ({ pets, selectedPet, handlePetChange }) => {
   return (
     <FormControl
+      variant="standard"
       fullWidth
       margin="normal"
-      style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
       sx={{
         maxWidth: "500px",
         width: "90%",
@@ -17,7 +17,7 @@ const InputPet = ({ pets, selectedPet, handlePetChange }) => {
     >
       <InputLabel
         id="pet-select-label"
-        sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
+        sx={{ color: "#D9D9D9", fontFamily: "Poppins-Regular" }}
       >
         Pet
       </InputLabel>
@@ -26,6 +26,20 @@ const InputPet = ({ pets, selectedPet, handlePetChange }) => {
         id="pet-select"
         value={selectedPet}
         onChange={handlePetChange}
+        sx={{
+          '& .MuiInputBase-input': {
+            color: '#333',
+          },
+          '& .Mui-focused .MuiInputLabel-root': {
+            color: '#A8A8A8',
+          },
+          '& .MuiInput-underline:before': {
+            borderBottomColor: '#D9D9D9',
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: '#A8A8A8',
+          },
+        }}
         IconComponent={() => (
           <FontAwesomeIcon
             icon={faPlus}

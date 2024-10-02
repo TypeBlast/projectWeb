@@ -6,9 +6,9 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 const InputEmployer = ({ employers, selectedEmployer, handleEmployerChange }) => {
   return (
     <FormControl
+      variant="standard"
       fullWidth
       margin="normal"
-      style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
       sx={{
         maxWidth: "500px",
         width: "90%",
@@ -17,7 +17,7 @@ const InputEmployer = ({ employers, selectedEmployer, handleEmployerChange }) =>
     >
       <InputLabel
         id="employer-select-label"
-        sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
+        sx={{ color: "#D9D9D9", fontFamily: "Poppins-Regular" }}
       >
         Funcionário
       </InputLabel>
@@ -26,6 +26,20 @@ const InputEmployer = ({ employers, selectedEmployer, handleEmployerChange }) =>
         id="employer-select"
         value={selectedEmployer}
         onChange={handleEmployerChange}
+        sx={{
+          '& .MuiInputBase-input': {
+            color: '#333',
+          },
+          '& .Mui-focused .MuiInputLabel-root': {
+            color: '#A8A8A8',
+          },
+          '& .MuiInput-underline:before': {
+            borderBottomColor: '#D9D9D9',
+          },
+          '& .MuiInput-underline:after': {
+            borderBottomColor: '#A8A8A8',
+          },
+        }}
         IconComponent={() => (
           <FontAwesomeIcon
             icon={faChevronDown}
