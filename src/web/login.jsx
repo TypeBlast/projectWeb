@@ -49,33 +49,36 @@ function Login() {
   
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      console.log('User PhotoURL:', user.photoURL);
       const allUsersResponse = await sheets.getAllUsers();
-
+  
       if (allUsersResponse.status === 200 || allUsersResponse.status === 201) {
         const allUsers = allUsersResponse.data.data;
         const userEmail = user.email;
         const userName = user.displayName;
-
+        const userPhoto = user.photoURL;  // Adiciona a foto de perfil
+  
         const emailExists = allUsers.some(u => u.email === userEmail);
-
+  
         if (emailExists) {
           const loginData = { email: userEmail };
           const response = await sheets.logUser(loginData);
   
           if (response.status === 200) {
             const { user, token } = response.data; 
-            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("user", JSON.stringify({ ...user, name: userName, profilePicture: userPhoto }));
             localStorage.setItem("token", token);
             navigate("/home");
           }
         } else {
-          navigate("/register", { state: { email: userEmail, name: userName } });
+          navigate("/register", { state: { email: userEmail, name: userName, photoURL: userPhoto } });
         }
       }
     } catch (error) {
       setError(error.response?.data?.message || "Erro ao realizar login com o Google.");
     }
   };
+  
   
   return (
     <Grid container style={{ height: "100vh" }}>

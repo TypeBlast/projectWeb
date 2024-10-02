@@ -5,24 +5,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import BoxPersonalData from "../components/layout/boxPersonalData";
 import BoxAddress from "../components/layout/boxAddressData";
-import BoxAppointment from"../components/layout/boxAppointmentData";
+import BoxAppointment from "../components/layout/boxAppointmentData";
 
 function User() {
-  const initialUserState = { name: "", profilePicture: "" }; // Estado inicial do usuário
+  // Estado inicial do usuário
+  const initialUserState = { name: "", profilePicture: null }; // Modifique para profilePicture
   const [user, setUser] = useState(initialUserState);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Recuperar o usuário do localStorage
     const storedUser = localStorage.getItem("user");
+
     if (storedUser && storedUser !== "undefined") {
       try {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        console.log("Usuário recuperado do localStorage:", parsedUser); // Verificar o que está sendo recuperado
+
+        // Atualizar o estado com os dados do usuário
+        setUser(parsedUser);
       } catch (error) {
         console.error("Erro ao fazer parse dos dados do usuário", error);
       }
     }
   }, []);
 
+  // Função de logout
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -31,7 +39,7 @@ function User() {
 
   return (
     <div>
-      {user.name ? ( // Verifica se user.name existe
+      {user.name ? (  // Verificar se o nome do usuário está presente
         <div>
           <Box
             sx={{
@@ -55,8 +63,12 @@ function User() {
                 marginLeft: "75px",
               }}
             >
+              {/* Verificar se a foto do perfil está disponível */}
               <img
-                src={user.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} // Usa a foto de perfil do Google ou uma imagem padrão
+                src={
+                  user.profilePicture ||  // Usar o profilePicture correto
+                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                }
                 alt={user.name}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
@@ -70,7 +82,7 @@ function User() {
                 fontSize: "1.5rem",
               }}
             >
-              {user.name}
+              {user.name}  {/* Exibir o nome do usuário */}
             </Typography>
 
             <Box
@@ -89,10 +101,10 @@ function User() {
             </Box>
           </Box>
 
-          {/* Passa as props corretamente para BoxPersonalData */}
+          {/* Componentes adicionais que utilizam os dados do usuário */}
           <BoxPersonalData user={user} updateUser={setUser} />
-          <BoxAddress user={user}/>
-          <BoxAppointment user={user}/>
+          <BoxAddress user={user} />
+          <BoxAppointment user={user} />
         </div>
       ) : (
         <Typography variant="h6">Nenhum usuário logado</Typography>
