@@ -13,8 +13,9 @@ import Services from "./web/services";
 import ServiceDetails from "./web/serviceDetails";
 import User from "./web/user";
 import ProductsDetails from "./web/productsDetails";
-import Pets from "./web/pets"
-import Cart from "./web/cart"
+import Pets from "./web/pets";
+import Cart from "./web/cart";
+import Admin from "./web/admin/admin";
 
 //Import de components
 import HeaderIndex from "./components/index/header";
@@ -57,6 +58,7 @@ function App() {
             <Route path="/user" element={<ProtectedRoute><User /></ProtectedRoute>} />
             <Route path="/myPets" element={<ProtectedRoute><Pets /></ProtectedRoute>} />
             <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
           </Route>
           <Route path="/error" element={<Error />} />
           <Route path="/login" element={<Login />} />
