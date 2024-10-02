@@ -15,8 +15,13 @@ import User from "./web/user";
 import ProductsDetails from "./web/productsDetails";
 import Pets from "./web/pets";
 import Cart from "./web/cart";
-import Admin from "./web/admin/admin";
 import Payments from "./web/payments";
+
+import Admin from "./web/admin/admin";
+import AdminSales from "./web/admin/pages/adminSales";
+import AdminEmployers from "./web/admin/pages/adminEmployers";
+import AdminProducts from "./web/admin/pages/adminProducts";
+import AdminUsers from "./web/admin/pages/adminUsers";
 
 //Import de components
 import HeaderIndex from "./components/index/header";
@@ -61,6 +66,11 @@ function App() {
             <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
             <Route path="/payments" element={<ProtectedRoute><Payments /></ProtectedRoute>} />
             <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+            <Route path="/adminSales" element={<ProtectedRoute><AdminSales /></ProtectedRoute>} />
+            <Route path="/adminEmployers" element={<ProtectedRoute><AdminEmployers /></ProtectedRoute>} />
+            <Route path="/adminProducts" element={<ProtectedRoute><AdminProducts /></ProtectedRoute>} />
+            <Route path="/adminUsers" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
+
           </Route>
           <Route path="/error" element={<Error />} />
           <Route path="/login" element={<Login />} />
