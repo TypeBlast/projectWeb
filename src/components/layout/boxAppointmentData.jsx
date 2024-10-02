@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Typography,
-  Box,
-  Grid,
-  Button,
-  Modal,
-  TextField,
-} from "@mui/material";
+import { Typography, Box, Grid, Button, Modal } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faTimes, faEdit } from "@fortawesome/free-solid-svg-icons"; // Ícones
-import axios from "../../axios/axios"; // Ajuste se necessário
+import { faCalendar, faTimes, faPen } from "@fortawesome/free-solid-svg-icons";
+import axios from "../../axios/axios";
+import InputTime from "../inputs/inputTime";
+import InputDate from "../inputs/inputDate";
 
 function BoxAppointments({ user }) {
   const [appointments, setAppointments] = useState([]);
@@ -17,8 +12,9 @@ function BoxAppointments({ user }) {
   const [services, setServices] = useState({});
   const [employees, setEmployees] = useState({});
   const [error, setError] = useState("");
-  const [openModal, setOpenModal] = useState(false); // Estado para controlar o modal
-  const [selectedAppointment, setSelectedAppointment] = useState(null); // Agendamento selecionado para edição
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false); // Modal de confirmação
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [updatedDate, setUpdatedDate] = useState("");
   const [updatedTime, setUpdatedTime] = useState("");
 
@@ -72,10 +68,16 @@ function BoxAppointments({ user }) {
     try {
       await axios.deleteAppointment(appointmentId);
       fetchAppointments();
+      setOpenConfirmModal(false); // Fecha o modal de confirmação
     } catch (err) {
       console.error("Erro ao cancelar agendamento:", err);
       setError("Erro ao cancelar agendamento.");
     }
+  };
+
+  const openConfirmationModal = (appointment) => {
+    setSelectedAppointment(appointment);
+    setOpenConfirmModal(true); // Abre o modal de confirmação
   };
 
   const handleEditAppointment = (appointment) => {
@@ -94,13 +96,16 @@ function BoxAppointments({ user }) {
       setOpenModal(false);
       fetchAppointments();
     } catch (err) {
-      console.error("Erro ao atualizar agendamento:", err);
       setError("Erro ao atualizar agendamento.");
     }
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setOpenConfirmModal(false);
   };
 
   const formatDateTime = (date, time) => {
@@ -172,16 +177,16 @@ function BoxAppointments({ user }) {
                     <Typography sx={{ fontFamily: "Poppins-Regular", display: "flex", alignItems: "center" }}>
                       Pet: {pets[appt.pet_id]?.name || "Carregando..."}
                       <Button
-                        onClick={() => handleEditAppointment(appt)} // Passa o agendamento para edição
+                        onClick={() => handleEditAppointment(appt)}
                         sx={{ marginLeft: "10px", padding: "0", minWidth: "0" }}
                       >
-                        <FontAwesomeIcon icon={faEdit} style={{ color: "blue" }} />
+                        <FontAwesomeIcon icon={faPen} style={{ color: "#D9D9D9", fontSize: "15px" }} />
                       </Button>
                       <Button
-                        onClick={() => handleCancelAppointment(appt.id)}
+                        onClick={() => openConfirmationModal(appt)} // Abre o modal de confirmação
                         sx={{ marginLeft: "10px", padding: "0", minWidth: "0" }}
                       >
-                        <FontAwesomeIcon icon={faTimes} style={{ color: "red" }} />
+                        <FontAwesomeIcon icon={faTimes} style={{ color: "#D9D9D9", fontSize: "15px" }} />
                       </Button>
                     </Typography>
                   </Grid>
@@ -201,6 +206,70 @@ function BoxAppointments({ user }) {
       >
         <Box
           sx={{
+            width: 500,
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
+            margin: "auto",
+            marginTop: "100px",
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2" sx={{ textAlign: "center", marginBottom: "20px" }}>
+            Editar Agendamento
+          </Typography>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
+            <InputDate appointmentDate={updatedDate} setAppointmentDate={setUpdatedDate} />
+            <InputTime appointmentTime={updatedTime} setAppointmentTime={setUpdatedTime} />
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
+            <Button
+              onClick={handleCloseModal}
+              sx={{
+                width: "300px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",
+                },
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleUpdateAppointment}
+              sx={{
+                width: "300px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",
+                },
+              }}
+            >
+              Confirmar
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Modal de Confirmação de Exclusão */}
+      <Modal
+        open={openConfirmModal}
+        onClose={handleCloseConfirmModal}
+        aria-labelledby="confirm-modal-title"
+        aria-describedby="confirm-modal-description"
+      >
+        <Box
+          sx={{
             width: 400,
             bgcolor: "background.paper",
             borderRadius: "8px",
@@ -210,31 +279,44 @@ function BoxAppointments({ user }) {
             marginTop: "100px",
           }}
         >
-          <Typography id="modal-title" variant="h6" component="h2">
-            Editar Agendamento
+          <Typography id="confirm-modal-title" variant="h6" component="h2" sx={{ textAlign: "center", marginBottom: "20px" }}>
+            Confirmar Exclusão
           </Typography>
-          <TextField
-            label="Data"
-            type="date"
-            value={updatedDate}
-            onChange={(e) => setUpdatedDate(e.target.value)}
-            fullWidth
-            sx={{ marginBottom: 2 }}
-          />
-          <TextField
-            label="Hora"
-            type="time"
-            value={updatedTime}
-            onChange={(e) => setUpdatedTime(e.target.value)}
-            fullWidth
-            sx={{ marginBottom: 2 }}
-          />
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={handleCloseModal} sx={{ marginRight: 2 }}>
+          <Typography sx={{ textAlign: "center", marginBottom: "20px" }}>
+            Você tem certeza que deseja excluir este agendamento?
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button onClick={handleCloseConfirmModal} 
+           sx={{
+            width: "150px",
+            backgroundColor: "#EB389A",
+            marginTop: "20px",
+            fontFamily: "Poppins-Bold",
+            color: "#FFF",
+            textTransform: "capitalize",
+            fontSize: "1rem",
+            "&:hover": {
+              backgroundColor: "#D5006D",
+            },
+          }}>
               Cancelar
             </Button>
-            <Button onClick={handleUpdateAppointment} variant="contained" color="primary">
-              Atualizar
+            <Button
+              onClick={() => handleCancelAppointment(selectedAppointment.id)}
+              sx={{
+                width: "150px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",
+                },
+              }}
+            >
+              Confirmar
             </Button>
           </Box>
         </Box>
