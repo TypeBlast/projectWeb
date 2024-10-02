@@ -113,6 +113,18 @@
 
     //Rotas de cidade
     getAllCitiesByStateId: (stateId) => api.get(`/cities/cityToState/${stateId}`),
+
+     // Rotas de pagamentos
+    processPayment: (paymentData) => api.post("/payments/pay", paymentData),
+    getCartSummary: (cartId) => api.get(`/payments/${cartId}`),
+
+    // Rotas de pedidos
+    getOrderByPaymentId: (paymentId) => api.get(`/orders/${paymentId}`),
+    deleteOrder: (orderId) => api.delete(`/orders/${orderId}`),
+    cancelOrder: (orderId) => api.delete(`/orders/cancel/${orderId}`),
+    markOrderAsDelivered: (orderId) => api.put(`/orders/${orderId}`),
+    getAllOrders: () => api.get("/orders"),
+    
   };
 
   export default sheets;

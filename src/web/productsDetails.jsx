@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { Box, Button, Grid, Typography, IconButton, Snackbar, Alert } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,7 @@ import axios from "../axios/axios";
 function ProductDetails() {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate(); // Adicionando useNavigate
   const product = location.state?.product;
 
   const [isTextExpanded, setTextExpanded] = useState(false);
@@ -53,9 +54,23 @@ function ProductDetails() {
   };
 
   const increaseQuantity = () =>
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity((prevQuantity) => Math.min(prevQuantity + 1, 10)); // Limitar a quantidade máxima a 10
   const decreaseQuantity = () =>
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+
+  // Função para redirecionar para o carrinho
+  const handleBuyNow = () => {
+    if (quantity > 0 && quantity <= 10) {
+      handleAddToCart(); // Adicionar ao carrinho
+      setTimeout(() => {
+        navigate("/cart"); // Redirecionar para a página /cart após 1 segundo
+      }, 1000);
+    } else {
+      setSnackbarMessage("Você pode adicionar no máximo 10 produtos ao carrinho.");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    }
+  };
 
   return (
     <Box
@@ -250,13 +265,17 @@ function ProductDetails() {
               >
                 <Button
                   sx={{
-                    width: "100%",
-                    backgroundColor: "#EB389A",
+                    width: "90%",
+                    fontSize:'20px',
                     fontFamily: "Poppins-Bold",
+                    backgroundColor: "#EB389A",
                     color: "#FFF",
-                    textTransform: "capitalize",
-                    fontSize: "1.2rem",
+                    "&:hover": {
+                      backgroundColor: "#F27DBD",
+                      color: "#FFF",
+                    },
                   }}
+                  onClick={handleBuyNow} // Chama a nova função de comprar
                 >
                   Comprar
                 </Button>
@@ -264,19 +283,13 @@ function ProductDetails() {
             </Box>
           </Grid>
         </Grid>
-
-        {/* Snackbar para sucesso/erro */}
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={6000}
-          onClose={handleSnackbarClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        >
-          <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
-            {snackbarMessage}
-          </Alert>
-        </Snackbar>
       </Box>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

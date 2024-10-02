@@ -167,6 +167,14 @@ function Cart() {
     navigate('/products');
   };
 
+  const handleFinalizePurchase = () => {
+    if (cartItems.length === 0) {
+      alert("Por favor, adicione algum item ao carrinho antes de finalizar a compra.");
+    } else {
+      navigate('/payments');
+    }
+  };
+
   useEffect(() => {
     fetchCart();
   }, []);
@@ -209,7 +217,7 @@ function Cart() {
             </>
           )}
         </Button>
-        <Button sx={styles.buttonFinalizePurchase}>
+        <Button onClick={handleFinalizePurchase} sx={styles.buttonFinalizePurchase}>
           Finalizar compra
         </Button>
       </Box>

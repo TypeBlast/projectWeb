@@ -104,14 +104,20 @@ function ServiceDetails() {
       appointment_date: appointmentDate,
       appointment_time: appointmentTime,
     };
-
+  
     try {
       const response = await sheets.createAppointment(appointment);
-      // Aqui você pode adicionar lógica para tratar a resposta (ex: mostrar uma mensagem de sucesso)
-      console.log("Consulta agendada:", response.data);
-      alert("agendado tropa")
+
+      alert(`${response.data.message}`);
+      window.location.reload();
     } catch (error) {
-      console.error("Erro ao agendar consulta", error);
+
+      if (error.response && error.response.data) {
+        alert(`${error.response.data.message}`);
+        window.location.reload();
+      } else {
+        alert("Erro ao agendar a consulta.");
+      }
     }
   };
 
