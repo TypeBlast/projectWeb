@@ -1,27 +1,67 @@
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import sheets from "../../axios/axios"; // O arquivo onde seu Axios está configurado
 
 function ProtectedRoute({ children }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [loading, setLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAdminRoute, setIsAdminRoute] = useState(false);
+
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log("Usuário armazenado:", user);
 
-  // Verifica se o token existe
-  if (!token) {
+  const role = user?.role;
+
+  useEffect(() => {
+    async function verifyToken() {
+      if (!token) {
+        console.log("Token não encontrado");
+        setIsAuthorized(false);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await sheets.getUser(user?.id);
+        console.log("Resposta do servidor:", response);
+        setIsAuthorized(true);
+      } catch (error) {
+        console.error("Erro ao verificar token:", error.response ? error.response.data : error.message);
+        if (error.response && error.response.status === 401) {
+          console.log("Token inválido");
+          setIsAuthorized(false);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    verifyToken();
+
+    const adminRoutes = ["/admin", "/adminSales", "/adminEmployers", "/adminProducts", "/adminUsers"];
+    setIsAdminRoute(adminRoutes.includes(window.location.pathname));
+    console.log("Verificando se é rota de admin:", isAdminRoute);
+  }, [token, user]);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (!isAuthorized) {
     return <Navigate to="/error" />;
   }
 
-  // Obtém a role do usuário
-  const role = user?.data?.role; 
-
-  // Verifica se a rota requer acesso administrativo
-  const adminRoutes = ["/admin"];
-  const requiresAdmin = adminRoutes.includes(window.location.pathname);
-
-  // Se a rota requer acesso admin e o usuário não é admin, redireciona para erro
-  if (requiresAdmin && role !== "admin") {
+  if (isAdminRoute && role === undefined) {
+    console.error("Cargo não encontrado no objeto do usuário.");
     return <Navigate to="/error" />;
   }
 
-  // Se for admin ou a rota não requer admin, permite acesso
+  if (isAdminRoute && role !== "admin") {
+    console.log("Acesso negado a uma rota de administrador.");
+    return <Navigate to="/error" />;
+  }
+
   return children;
 }
 
