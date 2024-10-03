@@ -93,9 +93,11 @@ function Services() {
               textTransform: "unset",
               fontSize: "1.7rem",
               gap: "15%",
+              borderRadius: "10px",
               "&:hover": {
                 backgroundColor: "#EB389A", // Cor de fundo ao passar o mouse (hover)
                 color: "#FFF", // Cor do texto ao passar o mouse
+                transform: "scale(1.05)",
               },
             }}
             onClick={() => handleServiceClick(service.id)} // Adiciona o evento de clique

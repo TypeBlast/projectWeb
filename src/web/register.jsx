@@ -210,8 +210,9 @@ function Register() {
                   fontSize: "1.3rem",
                   marginTop: "30px",
                   "&:hover": {
-                    backgroundColor: "#FF8DBA",
+                    backgroundColor: "#D72C7A",
                     color: "#FFF",
+                    transform: "scale(1.05)"
                   },
                 }}
                 onClick={handleRegister}

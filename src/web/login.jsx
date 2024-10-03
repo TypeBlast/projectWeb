@@ -191,8 +191,9 @@ function Login() {
                   fontSize: "1.3rem",
                   marginTop: "30px",
                   "&:hover": {
-                    backgroundColor: "#FF8DBA",
+                    backgroundColor: "#D72C7A",
                     color: "#FFF",
+                    transform: "scale(1.05)"
                   },
                 }}
                 onClick={handleLogin}
@@ -210,6 +211,9 @@ function Login() {
                   width: "275px",
                   color: "#000",
                   marginTop: "20px",
+                  "&:hover": {
+                    transform: "scale(1.05)"
+                  }
                 }}
                 onClick={handleGoogleLogin}
               >
@@ -230,6 +234,9 @@ function Login() {
                   textTransform: "capitalize",
                   color: "#E01483",
                   marginTop: "10px",
+                  "&:hover": {
+                    transform: "scale(1.05)"
+                  }
                 }}
                 onClick={() => handleNavigation("/register")}
               >

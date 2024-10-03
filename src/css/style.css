@@ -96,8 +96,9 @@
     color: #FFF;
   }
   .MuiButton-root.buttonComecar:hover {
-    background-color: #FF8DBA;
+    background-color: #D72C7A;
     color: #FFF;
+    transform: scale(1.05);
   }
   .MuiTypography-root.titleOnboarding {
     font-family: "IntegralCF-Bold";
@@ -139,6 +140,7 @@
     margin-top: 30px;
   }
   .MuiButton-root.buttonError:hover{
-    background-color: #FF8DBA; 
-  color: white;              
+    background-color: #D72C7A;
+    color: #FFF;
+    transform: scale(1.05);              
   }

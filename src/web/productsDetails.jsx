@@ -228,6 +228,9 @@ function ProductDetails() {
                     border: "2px solid #BFBFBF",
                     borderRadius: "5px",
                     width: "100%",
+                    "&:hover": {
+                      transform: "scale(1.05)"
+                    }
                   }}
                   onClick={handleAddToCart}
                   disabled={isAddingToCart}
@@ -270,9 +273,11 @@ function ProductDetails() {
                     fontFamily: "Poppins-Bold",
                     backgroundColor: "#EB389A",
                     color: "#FFF",
+                    textTransform: "unset",
                     "&:hover": {
                       backgroundColor: "#F27DBD",
                       color: "#FFF",
+                      transform: "scale(1.05)"
                     },
                   }}
                   onClick={handleBuyNow} // Chama a nova função de comprar
