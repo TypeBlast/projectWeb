@@ -8,21 +8,17 @@ import BoxAddress from "../components/layout/boxAddressData";
 import BoxAppointment from "../components/layout/boxAppointmentData";
 
 function User() {
-  // Estado inicial do usuário
-  const initialUserState = { name: "", profilePicture: null }; // Modifique para profilePicture
+  const initialUserState = { name: "", profilePicture: null };
   const [user, setUser] = useState(initialUserState);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Recuperar o usuário do localStorage
     const storedUser = localStorage.getItem("user");
 
     if (storedUser && storedUser !== "undefined") {
       try {
         const parsedUser = JSON.parse(storedUser);
-        console.log("Usuário recuperado do localStorage:", parsedUser); // Verificar o que está sendo recuperado
-
-        // Atualizar o estado com os dados do usuário
+        console.log("Usuário recuperado do localStorage:", parsedUser);
         setUser(parsedUser);
       } catch (error) {
         console.error("Erro ao fazer parse dos dados do usuário", error);
@@ -30,16 +26,19 @@ function User() {
     }
   }, []);
 
-  // Função de logout
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate("/login");
   };
 
+  const handleAdminRedirect = () => {
+    navigate("/admin");
+  };
+
   return (
     <div>
-      {user.name ? (  // Verificar se o nome do usuário está presente
+      {user.name ? (
         <div>
           <Box
             sx={{
@@ -60,16 +59,17 @@ function User() {
                 justifyContent: "center",
                 alignItems: "center",
                 border: "2px solid #ddd",
-                marginLeft: "75px",
+                marginLeft: "140px",
               }}
             >
-              {/* Verificar se a foto do perfil está disponível */}
               <img
-  src={user.photoURL || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
-  alt={user.name}
-  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-/>
-
+                src={
+                  user.photoURL ||
+                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                }
+                alt={user.name}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             </Box>
 
             <Typography
@@ -80,7 +80,7 @@ function User() {
                 fontSize: "1.5rem",
               }}
             >
-              {user.name}  {/* Exibir o nome do usuário */}
+              {user.name}
             </Typography>
 
             <Box
@@ -99,7 +99,30 @@ function User() {
             </Box>
           </Box>
 
-          {/* Componentes adicionais que utilizam os dados do usuário */}
+          {/* Botão para Admin */}
+          {user.role === "admin" && (
+            <Box sx={{ marginTop: "20px", marginLeft: "140px" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAdminRedirect}
+                sx={{
+                  width: "400px",
+                  backgroundColor: "#EB389A",
+                  marginTop: "20px",
+                  fontFamily: "Poppins-Bold",
+                  color: "#FFF",
+                  textTransform: "capitalize",
+                  fontSize: "1rem",
+                  "&:hover": {
+                    backgroundColor: "#D5006D", // Cor ao passar o mouse
+                  },
+                }}
+              >
+                Acessar painel de administração
+              </Button>
+            </Box>
+          )}
           <BoxPersonalData user={user} updateUser={setUser} />
           <BoxAddress user={user} />
           <BoxAppointment user={user} />
