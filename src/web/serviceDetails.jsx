@@ -67,16 +67,15 @@ function ServiceDetails() {
 
     const generateAvailableTimes = () => {
       const times = [];
-      for (let hour = 8; hour <= 18; hour++) {
+      for (let hour = 8; hour < 18; hour++) { // Alterado para parar às 17h
         for (let minute = 0; minute < 60; minute += 30) {
-          const time = `${String(hour).padStart(2, "0")}:${String(
-            minute
-          ).padStart(2, "0")}`;
+          const time = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
           times.push(time);
         }
       }
       setAvailableTimes(times);
     };
+    
 
     fetchService();
     fetchPets();
