@@ -128,6 +128,8 @@
     cancelOrder: (orderId) => api.delete(`/orders/cancel/${orderId}`),
     markOrderAsDelivered: (orderId) => api.put(`/orders/${orderId}`),
     getAllOrders: () => api.get("/orders"),
+    getAllOrdersAllUsers: () => api.get("/orders/all/users"),
+
     
   };
 
