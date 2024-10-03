@@ -74,6 +74,7 @@ function Pets() {
   });
   const [selectedPet, setSelectedPet] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false); 
   const species = ["Cachorro", "Gato"];
   const sizes = ["Pequeno", "Médio", "Grande"];
 
@@ -133,6 +134,7 @@ function Pets() {
   const handleDeletePet = async (id) => {
     try {
       await sheets.deletePet(id);
+      setOpenDeleteSnackbar(true); 
       fetchPets();
     } catch (error) {
       console.error("Erro ao deletar pet:", error);
@@ -145,6 +147,7 @@ function Pets() {
       return;
     }
     setOpenSnackbar(false);
+    setOpenDeleteSnackbar(false); 
   };
 
   const handlePetClick = (pet) => {
@@ -307,7 +310,13 @@ function Pets() {
                     color: "#FFF",
                     width: "100%",
                     marginTop: "20px",
-                    "&:hover": { backgroundColor: "#D72C7A" },
+                    textTransform: "unset",
+                    fontFamily: "Poppins-Bold",
+                    fontSize: "1.1rem",
+                    "&:hover": {
+                      backgroundColor: "#D72C7A",
+                      transform: "scale(1.05)",
+                    },
                   }}
                 >
                   {selectedPet ? "Atualizar Pet" : "Adicionar Pet"}
@@ -321,7 +330,7 @@ function Pets() {
           open={openSnackbar}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         >
           <Alert onClose={handleCloseSnackbar} severity="success">
             {selectedPet
@@ -330,40 +339,55 @@ function Pets() {
           </Alert>
         </Snackbar>
 
+        {/* Snackbar para deletar */}
+        <Snackbar
+          open={openDeleteSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            Pet deletado com sucesso!
+          </Alert>
+        </Snackbar>
+
         <Box
-  sx={{
-    display: "flex",
-    justifyContent: "space-around",
-    marginTop: "30px",
-    padding: "10px",
-    overflowY: "auto", // Permite rolagem vertical
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            marginTop: "30px",
+            padding: "10px",
+            overflowY: "auto", // Permite rolagem vertical
 
-    "&::-webkit-scrollbar": {
-      width: "8px", // Largura da barra de rolagem
-    },
-    "&::-webkit-scrollbar-track": {
-      background: "#CCC", // Cor do fundo da barra de rolagem
-      borderRadius: "10px", // Bordas arredondadas da trilha
-    },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#EB389A", // Cor da parte da barra de rolagem
-      borderRadius: "10px", // Bordas arredondadas do polegar
-    },
-    "&::-webkit-scrollbar-thumb:hover": {
-      background: "#D72C7A", // Cor do polegar ao passar o mouse
-    },
-  }}
->
-  {pets.map((pet) => (
-    <BoxPetData
-      key={pet.id}
-      pet={pet}
-      onPetClick={handlePetClick}
-      onDelete={handleDeletePet}
-    />
-  ))}
-</Box>
-
+            "&::-webkit-scrollbar": {
+              width: "8px", // Largura da barra de rolagem
+            },
+            "&::-webkit-scrollbar-track": {
+              background: "#CCC", // Cor do fundo da barra de rolagem
+              borderRadius: "10px", // Bordas arredondadas da trilha
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#EB389A", // Cor da parte da barra de rolagem
+              borderRadius: "10px", // Bordas arredondadas do polegar
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#D72C7A", // Cor do polegar ao passar o mouse
+            },
+          }}
+        >
+          {pets.map((pet) => (
+            <BoxPetData
+              key={pet.id}
+              pet={pet}
+              onPetClick={handlePetClick}
+              onDelete={handleDeletePet}
+            />
+          ))}
+        </Box>
       </div>
     </ThemeProvider>
   );

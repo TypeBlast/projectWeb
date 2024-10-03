@@ -11,10 +11,11 @@ import {
   InputLabel,
   Button,
   TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 function ServiceDetails() {
   const { id } = useParams();
@@ -24,9 +25,13 @@ function ServiceDetails() {
   const [selectedPet, setSelectedPet] = useState("");
   const [employers, setEmployers] = useState([]);
   const [selectedEmployer, setSelectedEmployer] = useState("");
-  const [appointmentDate, setAppointmentDate] = useState(""); // Estado para a data
-  const [appointmentTime, setAppointmentTime] = useState(""); // Estado para a hora
-  const [availableTimes, setAvailableTimes] = useState([]); // Estado para horários disponíveis
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [appointmentTime, setAppointmentTime] = useState("");
+  const [availableTimes, setAvailableTimes] = useState([]);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // Estado do Snackbar
+  const [snackbarMessage, setSnackbarMessage] = useState(""); // Mensagem do Snackbar
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // Tipo de alerta
 
   const token = localStorage.getItem("token");
 
@@ -60,7 +65,6 @@ function ServiceDetails() {
       }
     };
 
-    // Gerar horários disponíveis
     const generateAvailableTimes = () => {
       const times = [];
       for (let hour = 8; hour <= 18; hour++) {
@@ -77,7 +81,7 @@ function ServiceDetails() {
     fetchService();
     fetchPets();
     fetchEmployers();
-    generateAvailableTimes(); // Gera horários disponíveis
+    generateAvailableTimes();
   }, [id]);
 
   const handlePetChange = (event) => {
@@ -96,6 +100,10 @@ function ServiceDetails() {
     setAppointmentTime(event.target.value);
   };
 
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
   const handleScheduleAppointment = async () => {
     const appointment = {
       service_id: service.id,
@@ -104,19 +112,22 @@ function ServiceDetails() {
       appointment_date: appointmentDate,
       appointment_time: appointmentTime,
     };
-  
+
     try {
       const response = await sheets.createAppointment(appointment);
-
-      alert(`${response.data.message}`);
-      window.location.reload();
+      setSnackbarMessage(response.data.message);
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+      setTimeout(() => window.location.reload(), 2000);
     } catch (error) {
-
       if (error.response && error.response.data) {
-        alert(`${error.response.data.message}`);
-        window.location.reload();
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
       } else {
-        alert("Erro ao agendar a consulta.");
+        setSnackbarMessage("Erro ao agendar a consulta.");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
       }
     }
   };
@@ -178,7 +189,6 @@ function ServiceDetails() {
             </Box>
           </Grid>
 
-          {/* Lado direito - Select com lista de pets */}
           <Grid
             item
             xs={12}
@@ -410,6 +420,21 @@ function ServiceDetails() {
           </Grid>
         </Grid>
       </Box>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }} // Define a posição à direita
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
