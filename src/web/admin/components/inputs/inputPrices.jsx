@@ -14,31 +14,31 @@ function InputPrice({ value, onChange }) {
         id="price"
         label="Preço do Produto"
         variant="standard"
-        value={value} // Define o valor do input
-        onChange={onChange} // Define a função de alteração
-        type="number" // Tipo numérico para o preço
-        placeholder="0.00" // Placeholder para o preço
+        value={value} 
+        onChange={onChange} 
+        type="number" 
+        placeholder="0.00" 
         inputProps={{ 
-          min: "0", // Impede valores negativos
-          step: "0.01" // Permite valores decimais
+          min: "0", 
+          step: "0.01" 
         }}
         sx={{
           margin: "2px",
-          width: '220px', // Controla o tamanho
+          width: '220px', 
           '& label': {
-            color: '#D9D9D9', // Cor do label
+            color: '#D9D9D9', 
           },
           '& label.Mui-focused': {
-            color: '#A8A8A8', // Cor do label quando focado
+            color: '#A8A8A8',
           },
           '& .MuiInput-underline:before': {
-            borderBottomColor: '#D9D9D9', // Cor da linha inferior antes do foco
+            borderBottomColor: '#D9D9D9', 
           },
           '& .MuiInput-underline:after': {
-            borderBottomColor: '#A8A8A8', // Cor da linha inferior quando focado
+            borderBottomColor: '#A8A8A8', 
           },
           '& .MuiInputBase-input': {
-            color: '#333', // Cor do texto digitado
+            color: '#333', 
           },
         }}
       />

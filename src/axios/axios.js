@@ -105,8 +105,12 @@
     deletePet: (id) => api.delete(`/pets/${id}`),
 
     // Rotas de funcionários
+    createEmployer: (employers) => api.post("/employers", employers),
+    getAllEmployers: () => api.get("/employers"),
     getEmployersByServiceId: (id) => api.get(`/employers/service/${id}`),
     getEmployeeById: (id) => api.get(`/employers/${id}`), 
+    deleteEmployer: (id) => api.delete(`/employers/${id}`),
+
 
     //Rotas de estado
     getAllStates: () => api.get("/states"),

@@ -79,7 +79,7 @@ function AdminProducts() {
                     R$ {product.price}
                   </Typography>
                   <Button
-                    onClick={() => handleClickOpen(product.id)} // Abre o modal
+                    onClick={() => handleClickOpen(product.id)} 
                     sx={{
                       width: "100%",
                       backgroundColor: "#EB389A",
