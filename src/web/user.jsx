@@ -60,6 +60,7 @@ function User() {
                 alignItems: "center",
                 border: "2px solid #ddd",
                 marginLeft: "140px",
+                
               }}
             >
               <img
@@ -126,6 +127,7 @@ function User() {
           <BoxPersonalData user={user} updateUser={setUser} />
           <BoxAddress user={user} />
           <BoxAppointment user={user} />
+          <Box sx={{ paddingBottom: "30px" }} />
         </div>
       ) : (
         <Typography variant="h6">Nenhum usuário logado</Typography>
