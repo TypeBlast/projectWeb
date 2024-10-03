@@ -65,13 +65,11 @@ function User() {
             >
               {/* Verificar se a foto do perfil está disponível */}
               <img
-                src={
-                  user.profilePicture ||  // Usar o profilePicture correto
-                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                }
-                alt={user.name}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
+  src={user.photoURL || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} 
+  alt={user.name}
+  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+/>
+
             </Box>
 
             <Typography

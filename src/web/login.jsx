@@ -40,7 +40,6 @@ function Login() {
       setError(error.response?.data?.message || "Erro ao realizar login.");
     }
   };
-
   const handleGoogleLogin = async () => {
     try {
       provider.setCustomParameters({
@@ -49,14 +48,17 @@ function Login() {
   
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+  
+      // Verifique se o photoURL está sendo capturado
       console.log('User PhotoURL:', user.photoURL);
+  
       const allUsersResponse = await sheets.getAllUsers();
   
       if (allUsersResponse.status === 200 || allUsersResponse.status === 201) {
         const allUsers = allUsersResponse.data.data;
         const userEmail = user.email;
         const userName = user.displayName;
-        const userPhoto = user.photoURL;  // Adiciona a foto de perfil
+        const userPhoto = user.photoURL;
   
         const emailExists = allUsers.some(u => u.email === userEmail);
   
@@ -66,7 +68,9 @@ function Login() {
   
           if (response.status === 200) {
             const { user, token } = response.data; 
-            localStorage.setItem("user", JSON.stringify({ ...user, name: userName, profilePicture: userPhoto }));
+            // Verifique o que está sendo armazenado no localStorage
+            console.log("Armazenando user:", { ...user, photoURL: userPhoto });
+            localStorage.setItem("user", JSON.stringify({ ...user, photoURL: userPhoto }));
             localStorage.setItem("token", token);
             navigate("/home");
           }
