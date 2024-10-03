@@ -74,6 +74,9 @@ const styles = {
     fontFamily: "Poppins-Bold",
     padding: "10px 50px",
     width: "25%",
+    "&:hover": {
+      transform: "scale(1.05)", 
+    },
   },
   buttonAddNewItems: {
     border: "1.5px solid #BFBFBF",
@@ -82,6 +85,9 @@ const styles = {
     textTransform: "unset",
     fontFamily: "Poppins-Bold",
     width: "25%",
+    "&:hover": {
+      transform: "scale(1.05)", 
+    },
   },
   buttonFinalizePurchase: {
     backgroundColor: "#EB389A",
@@ -90,6 +96,10 @@ const styles = {
     textTransform: "unset",
     fontFamily: "Poppins-Bold",
     width: "40%",
+    "&:hover": {
+      transform: "scale(1.05)", 
+      backgroundColor: "#D72C7A"
+    },
   },
 };
 

@@ -257,6 +257,7 @@ function BoxAddress() {
               fontSize: "1rem",
               "&:hover": {
                 backgroundColor: "#D5006D", // Cor ao passar o mouse
+                transform: "scale(1.05)"
               },
             }}
           >

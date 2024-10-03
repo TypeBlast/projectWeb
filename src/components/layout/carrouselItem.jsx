@@ -21,6 +21,9 @@ const CarouselItem = ({ items, colors, images, handleClick, itemKey }) => {
           backgroundColor: '#EB389A',
           borderRadius: '10px',
         },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "#F1F1F1", // Cor do fundo da barra de rolagem
+        },
       }}
     >
       {items.map((item, index) => (
@@ -42,6 +45,7 @@ const CarouselItem = ({ items, colors, images, handleClick, itemKey }) => {
             fontSize: '1.5rem',
             '&:hover': {
               backgroundColor: '#EB389A',
+                transform: "scale(1.05)"
             },
           }}
           onClick={() => handleClick(item[itemKey])}

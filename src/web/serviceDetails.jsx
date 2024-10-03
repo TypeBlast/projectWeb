@@ -409,7 +409,7 @@ function ServiceDetails() {
                     fontFamily: "Poppins-Bold",
                     textTransform: "unset",
                     fontSize: "1.2rem",
-                    "&:hover": { backgroundColor: "#D5006D" },
+                    "&:hover": { backgroundColor: "#D5006D", transform: "scale(1.05)" },
                   }}
                 >
                   Agendar
