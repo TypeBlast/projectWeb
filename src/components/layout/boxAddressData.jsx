@@ -10,7 +10,7 @@ import {
 import axios from "../../axios/axios";
 import InputComplement from "../inputs/inputComplement";
 import InputNumber from "../inputs/inputNumber";
-import InputCep from "../inputs/inputCep";
+import InputCep from "../inputs/inputCEP";
 import InputState from "../inputs/inputState"; // Componente para selecionar o estado
 import InputCity from "../inputs/inputCity"; // Componente para selecionar a cidade
 
