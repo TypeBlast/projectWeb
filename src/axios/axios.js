@@ -8,6 +8,7 @@ const api = axios.create({
     Accept: "application/json",
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // Função para obter o token armazenado no localStorage
