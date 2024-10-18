@@ -19,6 +19,7 @@ import { faPlus, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 function ServiceDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pets, setPets] = useState([]);
@@ -117,7 +118,9 @@ function ServiceDetails() {
       setSnackbarMessage(response.data.message);
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
-      setTimeout(() => window.location.reload(), 2000);
+      setTimeout(() => {
+        navigate('/user'); 
+      }, 2000);
     } catch (error) {
       if (error.response && error.response.data) {
         setSnackbarMessage(error.response.data.message);
