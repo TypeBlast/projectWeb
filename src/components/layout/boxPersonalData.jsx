@@ -55,22 +55,22 @@ function BoxPersonalData({ user, updateUser }) {
   const handleUpdate = async () => {
     try {
       const updatedUser = { name, email, cpf, phone };
-  
+
       // Validar campos antes de enviar
       if (!name || !email || !cpf || !phone) {
         setError("Todos os campos são obrigatórios.");
         return;
       }
-  
+
       console.log("Enviando dados:", updatedUser);
-  
+
       // Chamar a API de atualização
       await sheets.putUser(updatedUser, user.id);
-  
+
       // Atualizar informações no frontend e fechar modal
       updateUser(updatedUser);
       handleClose();
-  
+
       setSuccess("Dados atualizados com sucesso!");
       setError("");
     } catch (err) {
@@ -80,8 +80,6 @@ function BoxPersonalData({ user, updateUser }) {
       setSuccess("");
     }
   };
-  
-  
 
   return (
     <Box>
@@ -91,6 +89,7 @@ function BoxPersonalData({ user, updateUser }) {
             border: "1px solid #BFBFBF",
             borderRadius: "10px",
             width: "80%",
+            minWidth: "300px",
             margin: "auto",
             padding: "20px",
             boxShadow: "0px 4px 4px rgba(191, 191, 191, 0.75)",
@@ -148,11 +147,13 @@ function BoxPersonalData({ user, updateUser }) {
             </Grid>
             <Grid
               item
-              xs={4}
+              xs={12} // Agora ocupa 100% em telas pequenas
+              md={4}  // Ocupa 4/12 em telas médias e maiores
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-end",
+                marginTop: { xs: "10px", md: "0" }, // Margem em telas pequenas
               }}
             >
               <Button onClick={handleOpen}>

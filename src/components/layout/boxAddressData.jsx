@@ -173,6 +173,7 @@ function BoxAddress() {
             border: "1px solid #BFBFBF",
             borderRadius: "10px",
             width: "80%",
+            minWidth: "300px",
             margin: "auto",
             padding: "20px",
             boxShadow: "0px 4px 4px rgba(191, 191, 191, 0.75)",
@@ -191,22 +192,27 @@ function BoxAddress() {
               <Grid container key={address.id} sx={{ marginBottom: "10px" }}>
                 <Grid
                   item
-                  xs={8}
+                  xs={12} // Ocupa 100% da largura em telas pequenas
+                  md={8} // Ocupa 8/12 da largura em telas médias e maiores
                   sx={{ display: "flex", alignItems: "center" }}
                 >
-                  {/* Contêiner flexível para alinhar o ícone e o texto */}
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <FontAwesomeIcon
                       icon={faLocationDot}
                       style={{ marginRight: "8px", color: "#D9D9D9" }}
                     />
-                    <Typography>{`${address.complement}, ${address.number}, ${address.cep}`}</Typography>
+                    <Typography>{`${address.cep} - ${address.complement}`}</Typography>
                   </Box>
                 </Grid>
                 <Grid
                   item
-                  xs={4}
-                  sx={{ display: "flex", justifyContent: "flex-end" }}
+                  xs={12} // Ocupa 100% da largura em telas pequenas
+                  md={4} // Ocupa 4/12 da largura em telas médias e maiores
+                  sx={{
+                    display: "flex",
+                    justifyContent: { xs: "flex-start", md: "flex-end" }, // Ajusta o alinhamento conforme o tamanho da tela
+                    marginTop: { xs: "10px", md: "0" }, // Adiciona espaço entre as colunas em telas pequenas
+                  }}
                 >
                   <Button
                     onClick={() => handleEditAddress(address)}
@@ -259,7 +265,7 @@ function BoxAddress() {
               fontSize: "1rem",
               "&:hover": {
                 backgroundColor: "#D5006D", // Cor ao passar o mouse
-                transform: "scale(1.05)"
+                transform: "scale(1.05)",
               },
             }}
           >
