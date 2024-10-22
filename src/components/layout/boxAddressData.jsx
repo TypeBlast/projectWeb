@@ -249,7 +249,8 @@ function BoxAddress() {
             variant="contained"
             onClick={handleOpen}
             sx={{
-              width: "300px",
+              maxWidth: "300px",
+              width: "80%",
               backgroundColor: "#EB389A",
               marginTop: "20px",
               fontFamily: "Poppins-Bold",
