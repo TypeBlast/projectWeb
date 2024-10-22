@@ -367,7 +367,7 @@ function Pets() {
               width: "8px", // Largura da barra de rolagem
             },
             "&::-webkit-scrollbar-track": {
-              background: "#CCC", // Cor do fundo da barra de rolagem
+              background: "#F1F1F1", // Cor do fundo da barra de rolagem
               borderRadius: "10px", // Bordas arredondadas da trilha
             },
             "&::-webkit-scrollbar-thumb": {
@@ -375,7 +375,7 @@ function Pets() {
               borderRadius: "10px", // Bordas arredondadas do polegar
             },
             "&::-webkit-scrollbar-thumb:hover": {
-              background: "#D72C7A", // Cor do polegar ao passar o mouse
+              background: "#C01374", // Cor do polegar ao passar o mouse
             },
           }}
         >

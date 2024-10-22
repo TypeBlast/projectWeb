@@ -63,11 +63,11 @@ function Services() {
             width: "8px", // Largura da barra de rolagem
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#ccc", // Cor do "polegar" da barra de rolagem
+            backgroundColor: "#EB389A", // Cor do "polegar" da barra de rolagem
             borderRadius: "10px", // Borda arredondada
           },
           "&::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: "#A8A8A8", // Cor ao passar o mouse sobre o "polegar"
+            backgroundColor: "#C01374", // Cor ao passar o mouse sobre o "polegar"
           },
           "&::-webkit-scrollbar-track": {
             backgroundColor: "#F1F1F1", // Cor do fundo da barra de rolagem
