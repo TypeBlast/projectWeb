@@ -1,146 +1,180 @@
 /* Padrão geral */
 @font-face {
-    font-family: 'IntegralCF-Bold';
-    src: url('../assets//fonts/IntegralCF-Bold.otf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: "IntegralCF-Bold";
+  src: url("../assets//fonts/IntegralCF-Bold.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'IntegralCF-Regular';
-    src: url('../assets//fonts/IntegralCF-Regular.otf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "IntegralCF-Regular";
+  src: url("../assets//fonts/IntegralCF-Regular.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'MonumentExtend-Regular';
-    src: url('../assets//fonts/MonumentExtended-Regular.otf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "MonumentExtend-Regular";
+  src: url("../assets//fonts/MonumentExtended-Regular.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'MonumentExtend-UltraBold';
-    src: url('../assets//fonts/MonumentExtended-Ultrabold.otf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "MonumentExtend-UltraBold";
+  src: url("../assets//fonts/MonumentExtended-Ultrabold.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Poppins-Bold';
-    src: url('../assets//fonts/Poppins-Bold.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins-Bold";
+  src: url("../assets//fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Poppins-ExtraBold';
-    src: url('../assets//fonts/Poppins-ExtraBold.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins-ExtraBold";
+  src: url("../assets//fonts/Poppins-ExtraBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Poppins-SemiBold';
-    src: url('../assets//fonts/Poppins-SemiBold.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins-SemiBold";
+  src: url("../assets//fonts/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Poppins-Medium';
-    src: url('../assets//fonts/Poppins-Medium.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins-Medium";
+  src: url("../assets//fonts/Poppins-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Poppins-Regular';
-    src: url('../assets//fonts/Poppins-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url("../assets//fonts/Poppins-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  /* Index */
-  .MuiTypography-root.titleWelcome {
-    font-family: "Poppins-ExtraBold";
-    font-size: 1.8rem;
-    margin-top: 100px;
-    margin-left: 71px;
-    width: 380px;
+/* Index */
+.MuiTypography-root.titleWelcome {
+  font-family: "Poppins-ExtraBold";
+  font-size: 1.8rem;
+  margin-top: 100px;
+  margin-left: 71px;
+  margin-right: auto;
+  width: 380px;
+}
+
+.MuiTypography-root.textWelcome {
+  font-family: "Poppins-Regular";
+  font-size: 1.5rem;
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 71px;
+  margin-right: auto; /* Alinha à esquerda em telas maiores */
+}
+
+.MuiButton-root.buttonComecar {
+  width: 100%; /* Ajusta a largura do botão */
+  max-width: 400px;
+  background-color: #EB389A;
+  height: 60px;
+  margin-left: 70px;
+  margin-right: auto; /* Alinha à esquerda em telas maiores */
+  margin-top: 30px;
+  border-radius: 10px;
+  font-family: "Poppins-ExtraBold";
+  font-size: 1.6rem;
+  text-transform: capitalize;
+  color: #FFF;
+}
+
+.MuiButton-root.buttonComecar:hover {
+  background-color: #D72C7A;
+  color: #FFF;
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .MuiTypography-root.titleWelcome,
+  .MuiTypography-root.textWelcome,
+  .MuiButton-root.buttonComecar {
+    margin-left: auto;
+    margin-right: auto;
   }
-  .MuiTypography-root.textWelcome {
-    font-family: "Poppins-Regular";
-    font-size: 1.5rem;
-    width: 380px;
-    margin-top: 10px;
-    margin-left: 71px;
+  .MuiTypography-root.titleWelcome{
+    font-size: 1.4rem;
+    width: 250px;
+  }
+  .MuiTypography-root.textWelcome{
+    font-size: 1.2rem;
+    width: 250px;
   }
   .MuiButton-root.buttonComecar {
-    width: 400px;
-    background-color: #EB389A;
-    height: 60px;
-    margin-left: 70px;
-    margin-top: 30px;
-    border-radius: 10px;
-    font-family: "Poppins-ExtraBold";
-    font-size: 1.6rem;
-    text-transform: capitalize;
-    color: #FFF;
+    font-size: 1.4rem;
+    width: 90%; /* Ajusta a largura para 90% em telas pequenas */
   }
-  .MuiButton-root.buttonComecar:hover {
-    background-color: #D72C7A;
-    color: #FFF;
-    transform: scale(1.05);
-  }
-  .MuiTypography-root.titleOnboarding {
-    font-family: "IntegralCF-Bold";
-    font-size: 2rem;
-    color: #EB389A;
-  }
-  .MuiTypography-root.textOnboarding {
-    font-family: "Poppins-Regular";
-    width: 280px;
-    font-size: 1.2rem;
-    margin-top: 20px;
-    text-align: 'center';
-  }
+}
 
-  /* Error */
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .MuiTypography-root.textError {
-    font-family: "Poppins-Regular";
-    font-size: 1.2rem;
-    width: 550px;
-    text-align: center;
-    margin-top: 20px;
-  }
-  .MuiButton-root.buttonError{
-    background-color: #EB389A;
-    color: #FFF;
-    margin: 10px;
-    width: 200px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-family: "Poppins-Bold";
-    font-size: 1.3rem;
-    text-transform: capitalize;
-    margin-top: 30px;
-  }
-  .MuiButton-root.buttonError:hover{
-    background-color: #D72C7A;
-    color: #FFF;
-    transform: scale(1.05);              
-  }
+.MuiButton-root.buttonComecar:hover {
+  background-color: #d72c7a;
+  color: #fff;
+  transform: scale(1.05);
+}
+.MuiTypography-root.titleOnboarding {
+  font-family: "IntegralCF-Bold";
+  font-size: 2rem;
+  color: #eb389a;
+}
+.MuiTypography-root.textOnboarding {
+  font-family: "Poppins-Regular";
+  width: 280px;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  text-align: "center";
+}
+
+/* Error */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.MuiTypography-root.textError {
+  font-family: "Poppins-Regular";
+  font-size: 1.2rem;
+  width: 550px;
+  text-align: center;
+  margin-top: 20px;
+}
+.MuiButton-root.buttonError {
+  background-color: #eb389a;
+  color: #fff;
+  margin: 10px;
+  width: 200px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: "Poppins-Bold";
+  font-size: 1.3rem;
+  text-transform: capitalize;
+  margin-top: 30px;
+}
+.MuiButton-root.buttonError:hover {
+  background-color: #d72c7a;
+  color: #fff;
+  transform: scale(1.05);
+}

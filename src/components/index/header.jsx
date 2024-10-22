@@ -64,17 +64,27 @@ function HeaderIndex() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" className="logo">
+        
+        {/* Oculta o nome PetExpress em telas xs */}
+        <Typography 
+          variant="h6" 
+          component="div" 
+          className="logo"
+          sx={{ display: { xs: 'none', sm: 'block' } }}  // Oculta em xs
+        >
           PetExpress
         </Typography>
+
         <Box sx={{ display: { xs: 'none', lg: 'flex', marginLeft: '5%' } }}>
           <Button className="buttonHeader spacingHeader" onClick={() => handleNavigation('/error')}>Produtos</Button>
           <Button className="buttonHeader" onClick={() => handleNavigation('/error')}>Serviços</Button>
           <Button className="buttonHeader" onClick={() => handleNavigation('/error')}>Meus pets</Button>
         </Box>
+
         <Box sx={{ display: { xs: 'none', lg: 'flex' }, marginLeft: 'auto' }}>
-        <Button className='buttonLogin' onClick={() => handleNavigation('/login')}>Entrar</Button>
+          <Button className='buttonLogin' onClick={() => handleNavigation('/login')}>Entrar</Button>
         </Box>
+
         <StyledModal
           open={open}
           onClose={handleModalClose}
