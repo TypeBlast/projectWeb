@@ -22,6 +22,7 @@ import AdminSales from "./web/admin/pages/adminSales";
 import AdminEmployers from "./web/admin/pages/adminEmployers";
 import AdminProducts from "./web/admin/pages/adminProducts";
 import AdminUsers from "./web/admin/pages/adminUsers";
+import AdminAppointments from "./web/admin/pages/adminAppointments";
 
 //Import de components
 import HeaderIndex from "./components/index/header";
@@ -70,6 +71,8 @@ function App() {
             <Route path="/adminEmployers" element={<ProtectedRoute><AdminEmployers /></ProtectedRoute>} />
             <Route path="/adminProducts" element={<ProtectedRoute><AdminProducts /></ProtectedRoute>} />
             <Route path="/adminUsers" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
+            <Route path="/adminAppointments" element={<ProtectedRoute><AdminAppointments /></ProtectedRoute>} />
+
 
           </Route>
           <Route path="/error" element={<Error />} />

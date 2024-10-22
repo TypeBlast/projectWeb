@@ -16,6 +16,8 @@ const Cards = () => {
     { title: "Vendas", image: sales, route: "/adminSales" },
     { title: "Usuários", image: users, route: "/adminUsers" },
     { title: "Funcionários", image: employees, route: "/adminEmployers" },
+    { title: "Agendamentos", image: users, route: "/adminAppointments" },
+
   ];
 
   const handleClick = (route) => {
