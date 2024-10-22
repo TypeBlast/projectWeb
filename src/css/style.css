@@ -153,14 +153,18 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  min-height: 100vh; /* Para centralizar verticalmente */
+  padding: 0 20px; /* Um pouco de padding nas laterais para telas pequenas */
 }
 .MuiTypography-root.textError {
   font-family: "Poppins-Regular";
   font-size: 1.2rem;
-  width: 550px;
+  width: 60%;
+  max-width: 550px;
   text-align: center;
   margin-top: 20px;
 }
+
 .MuiButton-root.buttonError {
   background-color: #eb389a;
   color: #fff;
@@ -173,8 +177,30 @@
   text-transform: capitalize;
   margin-top: 30px;
 }
+
 .MuiButton-root.buttonError:hover {
   background-color: #d72c7a;
   color: #fff;
   transform: scale(1.05);
 }
+@media (max-width: 960px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Faz com que o conteúdo ocupe toda a altura da tela */
+    text-align: center;
+  }
+
+  .MuiTypography-root.textError {
+    width: 80%; /* Para garantir uma melhor adaptação */
+    max-width: 100%;
+    margin-top: 10px; /* Ajusta a margem para um espaçamento menor em telas pequenas */
+  }
+
+  .MuiButton-root.buttonError {
+    margin-top: 20px; /* Ajusta o espaçamento dos botões */
+  }
+}
+
