@@ -74,7 +74,7 @@ function Pets() {
   });
   const [selectedPet, setSelectedPet] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false); 
+  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false);
   const species = ["Cachorro", "Gato"];
   const sizes = ["Pequeno", "Médio", "Grande"];
 
@@ -134,7 +134,7 @@ function Pets() {
   const handleDeletePet = async (id) => {
     try {
       await sheets.deletePet(id);
-      setOpenDeleteSnackbar(true); 
+      setOpenDeleteSnackbar(true);
       fetchPets();
     } catch (error) {
       console.error("Erro ao deletar pet:", error);
@@ -147,7 +147,7 @@ function Pets() {
       return;
     }
     setOpenSnackbar(false);
-    setOpenDeleteSnackbar(false); 
+    setOpenDeleteSnackbar(false);
   };
 
   const handlePetClick = (pet) => {
@@ -195,8 +195,8 @@ function Pets() {
               p: 2,
               bgcolor: "background.paper",
               borderRadius: "10px",
-              maxWidth: "400px",
-              width: "35%",
+              minWidth: "300px",
+              width: "40%",
               margin: "auto",
               marginTop: "20vh",
             }}
@@ -224,7 +224,13 @@ function Pets() {
             >
               <form
                 onSubmit={handleSubmit}
-                style={{ width: "80%", maxWidth: "500px" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center", // Centraliza o conteúdo horizontalmente
+                  justifyContent: "center", // Centraliza verticalmente
+                  width: "100%",
+                }}
               >
                 <TextField
                   label="Nome"
@@ -234,7 +240,7 @@ function Pets() {
                   margin="normal"
                   required
                   variant="standard"
-                  sx={{ width: "100%" }}
+                  sx={{ width: "80%" }}
                   InputLabelProps={{
                     sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o label
                   }}
@@ -251,7 +257,7 @@ function Pets() {
                   margin="normal"
                   required
                   variant="standard"
-                  sx={{ width: "100%" }}
+                  sx={{ width: "80%" }}
                   InputLabelProps={{
                     sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o label
                   }}
@@ -265,7 +271,7 @@ function Pets() {
                   onChange={handleChange}
                   margin="normal"
                   required
-                  sx={{ width: "100%", marginTop: "15px" }}
+                  sx={{ width: "80%", marginTop: "15px" }}
                   MenuProps={{
                     PaperProps: {
                       sx: {
@@ -286,7 +292,7 @@ function Pets() {
                   onChange={handleChange}
                   margin="normal"
                   required
-                  sx={{ width: "100%", marginTop: "15px" }}
+                  sx={{ width: "80%", marginTop: "15px" }}
                   MenuProps={{
                     PaperProps: {
                       sx: {
@@ -308,7 +314,9 @@ function Pets() {
                   sx={{
                     backgroundColor: "#EB389A",
                     color: "#FFF",
-                    width: "100%",
+                    width: "80%",
+                    maxWidth: "300px",
+                    alignSelf: "center",
                     marginTop: "20px",
                     textTransform: "unset",
                     fontFamily: "Poppins-Bold",

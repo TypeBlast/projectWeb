@@ -19,7 +19,8 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "35%",
+  width: "40%",
+  minWidth: "300px",
   bgcolor: "background.paper",
   borderRadius: "10px",
   boxShadow: 24,
@@ -194,8 +195,9 @@ function BoxPersonalData({ user, updateUser }) {
             <Typography
               sx={{
                 fontFamily: "Poppins-Bold",
-                fontSize: "1.3rem",
+                fontSize: "1.2rem",
                 marginTop: "30px",
+                marginBottom: "10px"
               }}
             >
               Atualizar dados pessoais
@@ -204,7 +206,7 @@ function BoxPersonalData({ user, updateUser }) {
             {success && (
               <Typography sx={{ color: "green" }}>{success}</Typography>
             )}
-            <InputName value={name} onChange={(e) => setName(e.target.value)} />
+            <InputName value={name} onChange={(e) => setName(e.target.value)}/>
             <InputEmail
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -215,13 +217,17 @@ function BoxPersonalData({ user, updateUser }) {
             />
             <Button
               sx={{
-                width: "300px",
+                width: "80%",
+                maxWidth: "300px",
                 backgroundColor: "#EB389A",
                 marginTop: "25px",
                 fontFamily: "Poppins-Bold",
                 color: "#FFF",
                 textTransform: "capitalize",
                 fontSize: "1.3rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",
+                },
               }}
               onClick={handleUpdate}
             >
