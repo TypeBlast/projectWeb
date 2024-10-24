@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 const styles = {
   cartContainer: {
     padding: "20px",
+    paddingBottom: "100px"
   },
   cartList: {
     margin: "0px 2%",
