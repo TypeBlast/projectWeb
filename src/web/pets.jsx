@@ -176,7 +176,8 @@ function Pets() {
             textTransform: "unset",
             fontSize: "1.2rem",
             padding: "10px 50px",
-            marginLeft: "75px",
+            marginLeft: "7%",
+            marginRight: "2%",
             marginTop: "50px",
             transition: "background-color 0.3s, transform 0.3s",
             "&:hover": {
