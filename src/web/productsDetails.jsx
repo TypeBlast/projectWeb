@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { Box, Button, Grid, Typography, IconButton, Snackbar, Alert } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  IconButton,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import axios from "../axios/axios";
@@ -8,7 +16,7 @@ import axios from "../axios/axios";
 function ProductDetails() {
   const { id } = useParams();
   const location = useLocation();
-  const navigate = useNavigate(); // Adicionando useNavigate
+  const navigate = useNavigate();
   const product = location.state?.product;
 
   const [isTextExpanded, setTextExpanded] = useState(false);
@@ -16,7 +24,7 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // success or error
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   if (!product || product.id !== parseInt(id)) {
     return <div>Produto não encontrado</div>;
@@ -40,11 +48,16 @@ function ProductDetails() {
       setSnackbarMessage(response.data.message);
       setSnackbarSeverity("success");
     } catch (error) {
-      console.error("Erro ao adicionar produto ao carrinho:", error.response.data.message);
-      setSnackbarMessage(error.response.data.message || "Erro ao adicionar ao carrinho");
+      console.error(
+        "Erro ao adicionar produto ao carrinho:",
+        error.response.data.message
+      );
+      setSnackbarMessage(
+        error.response.data.message || "Erro ao adicionar ao carrinho"
+      );
       setSnackbarSeverity("error");
     } finally {
-      setOpenSnackbar(true);  // Exibe a Snackbar
+      setOpenSnackbar(true);
       setIsAddingToCart(false);
     }
   };
@@ -54,19 +67,20 @@ function ProductDetails() {
   };
 
   const increaseQuantity = () =>
-    setQuantity((prevQuantity) => Math.min(prevQuantity + 1, 10)); // Limitar a quantidade máxima a 10
+    setQuantity((prevQuantity) => Math.min(prevQuantity + 1, 10));
   const decreaseQuantity = () =>
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
 
-  // Função para redirecionar para o carrinho
   const handleBuyNow = () => {
     if (quantity > 0 && quantity <= 10) {
-      handleAddToCart(); // Adicionar ao carrinho
+      handleAddToCart();
       setTimeout(() => {
-        navigate("/cart"); // Redirecionar para a página /cart após 1 segundo
+        navigate("/cart");
       }, 1000);
     } else {
-      setSnackbarMessage("Você pode adicionar no máximo 10 produtos ao carrinho.");
+      setSnackbarMessage(
+        "Você pode adicionar no máximo 10 produtos ao carrinho."
+      );
       setSnackbarSeverity("error");
       setOpenSnackbar(true);
     }
@@ -83,11 +97,13 @@ function ProductDetails() {
       <Box
         width="80%"
         maxWidth="900px"
+        minWidth="300px" // Define a largura mínima
         border="3px solid #BFBFBF"
         borderRadius="15px"
         minHeight="450px"
         paddingBottom="10px"
         margin="auto"
+        overflow="hidden" // Evita que itens vazem para fora
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
@@ -101,9 +117,10 @@ function ProductDetails() {
                 src={product.url}
                 style={{
                   maxWidth: "300px",
-                  width: { xs: "100%", md: "75%" },
+                  width: "100%", // Usa 100% para garantir que a imagem se ajuste
                   maxHeight: "250px",
                 }}
+                alt={product.name}
               />
             </Box>
             <Box
@@ -153,7 +170,7 @@ function ProductDetails() {
             <Box textAlign={{ xs: "left", md: "left" }}>
               <Typography
                 sx={{
-                  width: "350px",
+                  width: "100%", // Altera para 100% para evitar que o texto exceda
                   fontFamily: "Poppins-Regular",
                   color: "#A8A8A8",
                   marginTop: { xs: "10px", md: "40px" },
@@ -188,11 +205,11 @@ function ProductDetails() {
                   gap: "30px",
                   justifyContent: "center",
                   marginTop: "20px",
+                  flexWrap: "wrap", // Permite que as caixas se ajustem
                 }}
               >
                 <Typography
                   sx={{
-                    width: "40%",
                     backgroundColor: "#A8A8A8",
                     color: "#FFF",
                     textAlign: "center",
@@ -204,7 +221,6 @@ function ProductDetails() {
                 </Typography>
                 <Typography
                   sx={{
-                    width: "40%",
                     backgroundColor: "#A8A8A8",
                     color: "#FFF",
                     textAlign: "center",
@@ -221,44 +237,64 @@ function ProductDetails() {
                   display: "flex",
                   justifyContent: "center",
                   gap: "15px",
+                  flexWrap: "wrap",
                 }}
               >
-                <Button
+                <Box
                   sx={{
-                    border: "2px solid #BFBFBF",
-                    borderRadius: "5px",
-                    width: "100%",
-                    "&:hover": {
-                      transform: "scale(1.05)"
-                    }
+                    marginTop: "60px",
+                    display: "flex",
+                    
+                    width: "100%", // Ocupa toda a largura
+                    alignItems: "center", // Alinha os itens verticalmente
                   }}
-                  onClick={handleAddToCart}
-                  disabled={isAddingToCart}
                 >
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    style={{
-                      fontSize: "25px",
-                      color: location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
+                  <Button
+                    sx={{
+                      border: "2px solid #BFBFBF",
+                      borderRadius: "5px",
+                      width: "70%", // Ocupa toda a largura
+                      height: "50px", // Aumenta a altura do botão
+                      marginLeft: "5%",
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                      },
                     }}
-                  />
-                </Button>
-                <IconButton onClick={decreaseQuantity} disabled={quantity <= 1}>
-                  <FontAwesomeIcon icon={faMinus} />
-                </IconButton>
-                <Typography
-                  sx={{
-                    fontFamily: "Poppins-Regular",
-                    marginTop: "7px",
-                    fontSize: "1.2rem",
-                  }}
-                >
-                  {quantity}
-                </Typography>
-                <IconButton onClick={increaseQuantity}>
-                  <FontAwesomeIcon icon={faPlus} />
-                </IconButton>
+                    onClick={handleAddToCart}
+                    disabled={isAddingToCart}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCartPlus}
+                      style={{
+                        fontSize: "25px", // Aumenta o tamanho do ícone
+                        color:
+                          location.pathname === "/cart" ? "#EB389A" : "#BFBFBF",
+                      }}
+                    />
+                  </Button>
+                  <Box display="flex" alignItems="center" gap="10px" marginRight="5%">
+                    <IconButton
+                      onClick={decreaseQuantity}
+                      disabled={quantity <= 1}
+                    >
+                      <FontAwesomeIcon icon={faMinus} />
+                    </IconButton>
+                    <Typography
+                      sx={{
+                        fontFamily: "Poppins-Regular",
+                        marginTop: "7px",
+                        fontSize: { xs: "1rem", md: "1.2rem" },
+                      }}
+                    >
+                      {quantity}
+                    </Typography>
+                    <IconButton onClick={increaseQuantity}>
+                      <FontAwesomeIcon icon={faPlus} />
+                    </IconButton>
+                  </Box>
+                </Box>
               </Box>
+
               <Box
                 sx={{
                   marginTop: "30px",
@@ -268,8 +304,8 @@ function ProductDetails() {
               >
                 <Button
                   sx={{
-                    width: "90%",
-                    fontSize:'20px',
+                    width: { xs: "90%", md: "90%" },
+                    fontSize: { xs: "16px", md: "20px" }, // Diminui em telas pequenas
                     fontFamily: "Poppins-Bold",
                     backgroundColor: "#EB389A",
                     color: "#FFF",
@@ -277,10 +313,10 @@ function ProductDetails() {
                     "&:hover": {
                       backgroundColor: "#F27DBD",
                       color: "#FFF",
-                      transform: "scale(1.05)"
+                      transform: "scale(1.05)",
                     },
                   }}
-                  onClick={handleBuyNow} // Chama a nova função de comprar
+                  onClick={handleBuyNow}
                 >
                   Comprar
                 </Button>
@@ -290,7 +326,11 @@ function ProductDetails() {
         </Grid>
       </Box>
 
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
         <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
           {snackbarMessage}
         </Alert>
