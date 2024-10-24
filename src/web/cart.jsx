@@ -20,12 +20,13 @@ const styles = {
     padding: "20px",
   },
   cartList: {
-    margin: "0px 20px",
+    margin: "0px 2%",
   },
   cartItem: {
     display: "flex",
     justifyContent: "space-between",
     padding: "20px 10px",
+    minWidth: "300px",
     marginBottom: "25px",
   },
   productInfo: {
