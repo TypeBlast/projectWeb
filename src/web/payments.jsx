@@ -308,7 +308,7 @@ const Payments = () => {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              gap: "50%",
               backgroundColor: "#FFF",
               borderBottom: "2px solid #D9D9D9",
               marginTop: "25px",
@@ -328,7 +328,7 @@ const Payments = () => {
               style={{
                 color: "#000",
                 fontFamily: "Poppins-SemiBold",
-                fontSize: "1rem",
+                fontSize: {md: "1rem", xs: "0.5rem"},
               }}
             >
               Valor do pedido: R$ {cartSummary.data.summary.totalValue}
@@ -477,15 +477,15 @@ const Payments = () => {
       >
         <DialogTitle
           style={{
-            backgroundColor: "#ED45A1",
-            color: "#FFF",
+            backgroundColor: "#FFF",
+            color: "#000",
             fontFamily: "Poppins-Bold",
             textAlign: "center",
           }}
         >
           Pagamento
         </DialogTitle>
-        <DialogContent style={{ backgroundColor: "#f9f9f9", padding: "20px" }}>
+        <DialogContent style={{ backgroundColor: "#FFF", padding: "20px" }}>
           <Typography
             style={{ fontFamily: "Poppins-Regular", marginBottom: "16px" }}
           >
@@ -499,7 +499,7 @@ const Payments = () => {
             style={{
               marginBottom: "16px",
               borderRadius: "4px",
-              border: "1px solid #ED45A1",
+              border: "1px solid #D9D9D9",
             }}
           >
             <MenuItem value="">
@@ -523,7 +523,7 @@ const Payments = () => {
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
             displayEmpty
-            style={{ borderRadius: "4px", border: "1px solid #ED45A1" }}
+            style={{ borderRadius: "4px", border: "1px solid #D9D9D9" }}
           >
             <MenuItem value="">
               <em>Selecione um método</em>
@@ -538,7 +538,7 @@ const Payments = () => {
           style={{
             justifyContent: "center",
             padding: "16px",
-            backgroundColor: "#f9f9f9",
+            backgroundColor: "#FFF",
           }}
         >
           <Button
@@ -547,8 +547,9 @@ const Payments = () => {
             style={{
               backgroundColor: "#ED45A1",
               color: "#FFF",
-              fontFamily: "Poppins-Medium",
+              fontFamily: "Poppins-Bold",
               marginRight: "8px",
+              textTransform: "unset",
             }}
           >
             Confirmar Pagamento
@@ -559,7 +560,8 @@ const Payments = () => {
             style={{
               backgroundColor: "#ED45A1",
               color: "#FFF",
-              fontFamily: "Poppins-Medium",
+              fontFamily: "Poppins-Bold",
+              textTransform: "unset"
             }}
           >
             Cancelar
