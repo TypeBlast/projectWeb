@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate  } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import sheets from "../axios/axios";
 import {
   Box,
@@ -29,12 +29,9 @@ function ServiceDetails() {
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
   const [availableTimes, setAvailableTimes] = useState([]);
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false); // Estado do Snackbar
-  const [snackbarMessage, setSnackbarMessage] = useState(""); // Mensagem do Snackbar
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // Tipo de alerta
-
-  const token = localStorage.getItem("token");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   useEffect(() => {
     const fetchService = async () => {
@@ -68,15 +65,16 @@ function ServiceDetails() {
 
     const generateAvailableTimes = () => {
       const times = [];
-      for (let hour = 8; hour < 18; hour++) { // Alterado para parar às 17h
+      for (let hour = 8; hour < 18; hour++) {
         for (let minute = 0; minute < 60; minute += 30) {
-          const time = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+          const time = `${String(hour).padStart(2, "0")}:${String(
+            minute
+          ).padStart(2, "0")}`;
           times.push(time);
         }
       }
       setAvailableTimes(times);
     };
-    
 
     fetchService();
     fetchPets();
@@ -148,9 +146,11 @@ function ServiceDetails() {
       justifyContent="center"
       alignItems="center"
       minHeight="95vh"
+      minWidth="300px"
     >
       <Box
         width="80%"
+        minWidth="300px"
         maxWidth="900px"
         border="3px solid #BFBFBF"
         borderRadius="15px"
@@ -191,232 +191,227 @@ function ServiceDetails() {
             </Box>
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "100%",
-              marginTop: "50px",
-            }}
-          >
-            <Box>
-              <FormControl
-                fullWidth
-                margin="normal"
-                style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
-                sx={{
-                  maxWidth: "500px", // Largura máxima de 500px
-                  width: "90%", // Largura padrão de 80%
-                  margin: "0 auto", // Centraliza o formControl
-                }}
-              >
-                <InputLabel
-                  id="pet-select-label"
-                  sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
-                >
-                  Pet
-                </InputLabel>
-                <Select
-                  labelId="pet-select-label"
-                  id="pet-select"
-                  value={selectedPet}
-                  onChange={handlePetChange}
-                  IconComponent={() => (
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      style={{
-                        marginRight: "20px",
-                        fontSize: "1.2rem",
-                        color: "#BFBFBF",
-                      }}
-                    />
-                  )}
-                  label="Selecione um Pet"
-                >
-                  {pets.data && pets.data.length > 0 ? (
-                    pets.data.map((pet) => (
-                      <MenuItem
-                        key={pet.id}
-                        value={pet.id}
-                        sx={{ fontFamily: "Poppins-Regular" }}
-                      >
-                        {pet.name}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem
-                      value=""
-                      disabled
-                      sx={{ fontFamily: "Poppins-Regular" }}
-                    >
-                      Nenhum pet disponível
-                    </MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-
-              <FormControl
-                fullWidth
-                margin="normal"
-                style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
-                sx={{
-                  maxWidth: "500px", // Largura máxima de 500px
-                  width: "90%", // Largura padrão de 80%
-                  margin: "25px auto", // Centraliza o formControl
-                }}
-              >
-                <InputLabel
-                  id="employer-select-label"
-                  sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
-                >
-                  Funcionário
-                </InputLabel>
-                <Select
-                  labelId="employer-select-label"
-                  id="employer-select"
-                  value={selectedEmployer}
-                  onChange={handleEmployerChange}
-                  IconComponent={() => (
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      style={{
-                        marginRight: "20px",
-                        fontSize: "1.2rem",
-                        color: "#BFBFBF",
-                      }}
-                    />
-                  )}
-                  label="Selecione um funcionário"
-                >
-                  {employers && employers.length > 0 ? (
-                    employers.map((employer) => (
-                      <MenuItem
-                        key={employer.id}
-                        value={employer.id}
-                        sx={{ fontFamily: "Poppins-Regular" }}
-                      >
-                        {employer.name}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem value="" disabled>
-                      Nenhum funcionário disponível
-                    </MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-
-              {/* Campo de Data */}
-              <TextField
-                type="date"
-                fullWidth
-                margin="normal"
-                value={appointmentDate}
-                onChange={handleDateChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                InputProps={{
-                  inputProps: {
-                    placeholder: "dd/mm/aaaa", // Define o placeholder
-                  },
-                }}
-                sx={{
-                  border: "1px solid #BFBFBF",
-                  borderRadius: "5px",
-                  maxWidth: "500px", // Largura máxima de 500px
-                  width: "90%", // Largura padrão de 80%
-                  margin: "0 auto", // Centraliza o formControl
-                  "& input": {
-                    fontFamily: "Poppins-Regular", // Personaliza a fonte do texto
-                    fontSize: "1rem", // Tamanho da fonte
-                    color: "#A8A8A8", // Cor do texto
-                  },
-                  "& input::placeholder": {
-                    color: "#BFBFBF", // Cor do placeholder
-                    opacity: 1, // Para garantir que o placeholder tenha a cor definida
-                  },
-                }}
-              />
-
-              {/* Campo de Horário */}
-              <FormControl
-                fullWidth
-                margin="normal"
-                style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
-                sx={{
-                  maxWidth: "500px", // Largura máxima de 500px
-                  width: "90%", // Largura padrão de 80%
-                  margin: "25px auto", // Centraliza o formControl
-                }}
-              >
-                <InputLabel
-                  id="time-select-label"
-                  sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
-                >
-                  Hora da Consulta
-                </InputLabel>
-                <Select
-                  labelId="time-select-label"
-                  id="time-select"
-                  value={appointmentTime}
-                  onChange={handleTimeChange}
-                  IconComponent={() => (
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      style={{
-                        marginRight: "20px",
-                        fontSize: "1.2rem",
-                        color: "#BFBFBF",
-                      }}
-                    />
-                  )}
-                  label="Hora da Consulta"
-                >
-                  {availableTimes.map((time) => (
-                    <MenuItem
-                      key={time}
-                      value={time}
-                      sx={{ fontFamily: "Poppins-Regular" }}
-                    >
-                      {time}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              {/* Preço e Botão */}
+          <Grid item xs={12} md={6}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              minHeight="100%"
+              marginTop={{ xs: "20px", md: "50px" }} // Ajusta o margin top em telas pequenas
+            >
               <Box
                 display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                marginTop="20px"
-                paddingX="20px"
+                flexDirection="column"
+                alignItems="center" // Centraliza em telas pequenas
+                width="90%"
               >
-                <Typography
-                  variant="h6"
-                  sx={{ color: "#BFBFBF", fontWeight: "bold" }}
-                >
-                  R$ {service.price}
-                </Typography>
-                <Button
-                  onClick={handleScheduleAppointment}
+                <FormControl
+                  fullWidth
+                  margin="normal"
+                  style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
                   sx={{
-                    backgroundColor: "#EB389A",
-                    color: "white",
-                    width: "60%",
-                    fontFamily: "Poppins-Bold",
-                    textTransform: "unset",
-                    fontSize: "1.2rem",
-                    "&:hover": { backgroundColor: "#D5006D", transform: "scale(1.05)" },
+                    maxWidth: "500px",
+                    margin: "0 auto", // Centraliza o FormControl
                   }}
                 >
-                  Agendar
-                </Button>
+                  <InputLabel
+                    id="pet-select-label"
+                    sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
+                  >
+                    Pet
+                  </InputLabel>
+                  <Select
+                    labelId="pet-select-label"
+                    id="pet-select"
+                    value={selectedPet}
+                    onChange={handlePetChange}
+                    IconComponent={() => (
+                      <FontAwesomeIcon
+                        icon={faPlus}
+                        style={{
+                          marginRight: "20px",
+                          fontSize: "1.2rem",
+                          color: "#BFBFBF",
+                        }}
+                      />
+                    )}
+                    label="Selecione um Pet"
+                  >
+                    {pets.data && pets.data.length > 0 ? (
+                      pets.data.map((pet) => (
+                        <MenuItem
+                          key={pet.id}
+                          value={pet.id}
+                          sx={{ fontFamily: "Poppins-Regular" }}
+                        >
+                          {pet.name}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem
+                        value=""
+                        disabled
+                        sx={{ fontFamily: "Poppins-Regular" }}
+                      >
+                        Nenhum pet disponível
+                      </MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+
+                <FormControl
+                  fullWidth
+                  margin="normal"
+                  style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
+                  sx={{
+                    maxWidth: "500px",
+                    margin: "25px auto", // Centraliza o FormControl
+                  }}
+                >
+                  <InputLabel
+                    id="employer-select-label"
+                    sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
+                  >
+                    Funcionário
+                  </InputLabel>
+                  <Select
+                    labelId="employer-select-label"
+                    id="employer-select"
+                    value={selectedEmployer}
+                    onChange={handleEmployerChange}
+                    IconComponent={() => (
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        style={{
+                          marginRight: "20px",
+                          fontSize: "1.2rem",
+                          color: "#BFBFBF",
+                        }}
+                      />
+                    )}
+                    label="Selecione um funcionário"
+                  >
+                    {employers && employers.length > 0 ? (
+                      employers.map((employer) => (
+                        <MenuItem
+                          key={employer.id}
+                          value={employer.id}
+                          sx={{ fontFamily: "Poppins-Regular" }}
+                        >
+                          {employer.name}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem value="" disabled>
+                        Nenhum funcionário disponível
+                      </MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  type="date"
+                  fullWidth
+                  margin="normal"
+                  value={appointmentDate}
+                  onChange={handleDateChange}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    border: "1px solid #BFBFBF",
+                    borderRadius: "5px",
+                    maxWidth: "500px",
+                    margin: "0 auto", // Centraliza o TextField
+                    "& input": {
+                      fontFamily: "Poppins-Regular",
+                      fontSize: "1rem",
+                      color: "#A8A8A8",
+                    },
+                    "& input::placeholder": {
+                      color: "#BFBFBF",
+                      opacity: 1,
+                    },
+                  }}
+                />
+
+                <FormControl
+                  fullWidth
+                  margin="normal"
+                  style={{ border: "1px solid #BFBFBF", borderRadius: "5px" }}
+                  sx={{
+                    maxWidth: "500px",
+                    margin: "25px auto", // Centraliza o FormControl
+                  }}
+                >
+                  <InputLabel
+                    id="time-select-label"
+                    sx={{ color: "#A8A8A8", fontFamily: "Poppins-Regular" }}
+                  >
+                    Hora da Consulta
+                  </InputLabel>
+                  <Select
+                    labelId="time-select-label"
+                    id="time-select"
+                    value={appointmentTime}
+                    onChange={handleTimeChange}
+                    IconComponent={() => (
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        style={{
+                          marginRight: "20px",
+                          fontSize: "1.2rem",
+                          color: "#BFBFBF",
+                        }}
+                      />
+                    )}
+                    label="Hora da Consulta"
+                  >
+                    {availableTimes.map((time) => (
+                      <MenuItem
+                        key={time}
+                        value={time}
+                        sx={{ fontFamily: "Poppins-Regular" }}
+                      >
+                        {time}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  marginTop="20px"
+                  paddingX="20px"
+                  sx={{ width: "100%" }} // Garante que a Box use toda a largura disponível
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ color: "#BFBFBF", fontWeight: "bold" }}
+                  >
+                    R$ {service.price}
+                  </Typography>
+                  <Button
+                    onClick={handleScheduleAppointment}
+                    sx={{
+                      backgroundColor: "#EB389A",
+                      color: "white",
+                      width: "60%",
+                      minWidth: "150px",
+                      marginLeft: "20px", // Espaço entre o preço e o botão
+                      fontFamily: "Poppins-Bold",
+                      textTransform: "unset",
+                      fontSize: "1.2rem",
+                      marginBottom: "25px",
+                      "&:hover": {
+                        backgroundColor: "#D5006D",
+                        transform: "scale(1.05)",
+                      },
+                    }}
+                  >
+                    Agendar
+                  </Button>
+                </Box>
               </Box>
             </Box>
           </Grid>
@@ -427,7 +422,7 @@ function ServiceDetails() {
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }} // Define a posição à direita
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
