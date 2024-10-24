@@ -24,13 +24,13 @@ import SearchBar from "../components/layout/searchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
-const StyledModal = styled(Modal)({
+const StyledModal = styled(Modal)(() => ({
   display: "flex",
   alignItems: "start",
   justifyContent: "end",
-});
+}));
 
-const ModalContent = styled(Box)({
+const ModalContent = styled(Box)(() => ({
   backgroundColor: "white",
   padding: "20px",
   outline: "none",
@@ -38,7 +38,7 @@ const ModalContent = styled(Box)({
   maxWidth: "400px",
   height: "100%",
   borderRadius: 7,
-});
+}));
 
 function Products() {
   const [open, setOpen] = useState(false);
@@ -61,9 +61,9 @@ function Products() {
   });
   const [products, setProducts] = useState([]);
 
-  const { category_id } = useParams(); // Captura o category_id da URL
-  const { specie_id } = useParams(); // Captura o specie_id da URL
-  const navigate = useNavigate(); // Hook para navegação
+  const { category_id } = useParams();
+  const { specie_id } = useParams();
+  const navigate = useNavigate();
 
   const handleModalOpen = () => {
     setOpen(true);
@@ -92,7 +92,7 @@ function Products() {
   };
 
   const handleClear = () => {
-    setSortOrder(""); // Limpar o select
+    setSortOrder("");
     setSelectedCategories({
       saude: false,
       petiscos: false,
@@ -108,20 +108,19 @@ function Products() {
       rabbits: false,
       hamster: false,
       reptile: false,
-    }); // Limpar os checkboxes
+    });
   };
 
-  // Busca produtos da API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         let response;
         if (category_id) {
-          response = await axios.getProductsByCategory(category_id); // Chamada correta da função
+          response = await axios.getProductsByCategory(category_id);
         } else if (specie_id) {
           response = await axios.getProductsBySpecie(specie_id);
         } else {
-          response = await axios.getAllProducts(); // Pega todos os produtos se não houver filtro
+          response = await axios.getAllProducts();
         }
 
         const productsData = response.data.data;
@@ -142,28 +141,35 @@ function Products() {
   const handleCardClick = (product) => {
     navigate(`/products/${product.id}`, { state: { product } });
   };
+
   const handleSearch = async (name) => {
     try {
       if (name.trim()) {
-        // Verifica se o campo de pesquisa não está vazio (ou apenas espaços)
         const response = await axios.getProductsByName(name);
         const productsData = response.data.data;
-        setProducts(productsData); // Atualiza os produtos com os resultados da pesquisa
+        setProducts(productsData);
       } else {
-        // Se o campo de pesquisa estiver vazio, busca todos os produtos
-        const response = await axios.getAllProducts("/api/products");
+        const response = await axios.getAllProducts();
         const allProductsData = response.data.data;
-        setProducts(allProductsData); // Exibe todos os produtos
+        setProducts(allProductsData);
       }
     } catch (error) {
       console.error("Erro ao buscar produtos:", error);
-      setProducts([]); // Define produtos como vazio se houver erro
+      setProducts([]);
     }
   };
 
   return (
-    <div className="container" style={{ paddingBottom: "50px" }}>
-      <Box sx={{ marginTop: "75px", display: "flex", alignItems: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: "75px",
+        paddingBottom: "50px",
+      }}
+    >
+      <Box sx={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
         <SearchBar onSearch={handleSearch} />
         <Button sx={{ marginLeft: "3%" }} onClick={handleModalOpen}>
           <FontAwesomeIcon
@@ -172,27 +178,19 @@ function Products() {
           />
         </Button>
       </Box>
-      {Array.isArray(products) && products.length > 0 ? (
-        <Grid container spacing={2}>
-          {products.map((product) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              key={product.id}
-              sx={{ marginTop: "25px" }}
-            >
+      <Grid container spacing={2} justifyContent="center">
+        {Array.isArray(products) && products.length > 0 ? (
+          products.map((product) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
               <Card
                 sx={{
-                  width: "300px",
-                  margin: "auto",
-                  marginTop: "10px",
+                  width: "100%",
+                  maxWidth: "300px",
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-between", // Para garantir que o conteúdo ocupe o mesmo espaço
-                  height: "100%", // Faz o card ocupar todo o espaço disponível
+                  justifyContent: "space-between",
+                  height: "100%",
+                  margin: "auto",
                 }}
                 onClick={() => handleCardClick(product)}
               >
@@ -201,7 +199,7 @@ function Products() {
                     component="img"
                     image={product.url}
                     alt={product.name}
-                    sx={{ height: "200px", objectFit: "cover" }} // Define a altura da imagem
+                    sx={{ height: "200px", objectFit: "cover" }}
                   />
                   <CardContent sx={{ paddingBottom: "2px" }}>
                     <Typography
@@ -217,7 +215,11 @@ function Products() {
                       }}
                     >
                       <Typography
-                        sx={{ fontFamily: "Poppins-Bold", color: "#A8A8A8", fontSize: "1.2rem" }}
+                        sx={{
+                          fontFamily: "Poppins-Bold",
+                          color: "#A8A8A8",
+                          fontSize: "1.2rem",
+                        }}
                       >
                         R$ {product.price}
                       </Typography>
@@ -226,13 +228,13 @@ function Products() {
                 </CardActionArea>
               </Card>
             </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="body1" color="text.secondary">
-          Nenhum produto disponível.
-        </Typography>
-      )}
+          ))
+        ) : (
+          <Typography variant="body1" color="text.secondary">
+            Nenhum produto disponível.
+          </Typography>
+        )}
+      </Grid>
 
       <StyledModal
         open={open}
