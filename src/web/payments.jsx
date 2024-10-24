@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate  } from "react-router-dom";
 import sheets from "../axios/axios"; 
 import {
   Button,
@@ -31,6 +32,8 @@ const Payments = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [addresses, setAddresses] = useState([]);
   const [userData, setUserData] = useState(null); 
+  const navigate = useNavigate();
+
 
   
   const getCartId = async () => {
@@ -122,12 +125,13 @@ const Payments = () => {
       console.log("Response processPayment:", response);
       alert("Pagamento realizado com sucesso!");
       setIsModalOpen(false);
-      window.location.reload();
+      setTimeout(() => {
+        navigate("/user");
+      }, 2000);
     } catch (err) {
       setError(err);
       console.error("Erro ao processar pagamento:", err.response?.data?.message || err.message);
       alert("Erro ao processar pagamento: " + (err.response?.data?.message || "Erro desconhecido."));
-      window.location.reload();
     }
   };
 
