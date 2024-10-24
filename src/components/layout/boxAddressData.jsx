@@ -365,14 +365,14 @@ function BoxAddress() {
           <Typography
             sx={{
               fontFamily: "Poppins-Bold",
-              fontSize: "1.3rem",
+              fontSize: "1.2rem",
               textAlign: "center",
               marginBottom: "20px",
             }}
           >
             Tem certeza que deseja deletar este endereço?
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
             <Button
               onClick={() => handleDeleteAddress(currentAddress.id)}
               variant="contained"
@@ -390,14 +390,13 @@ function BoxAddress() {
             </Button>
             <Button
               onClick={() => setConfirmDeleteOpen(false)}
-              variant="outlined"
               sx={{
-                color: "#EB389A",
+                backgroundColor: "#EB389A",
+                color: "#FFF",
                 textTransform: "capitalize",
                 fontSize: "1rem",
-                borderColor: "#EB389A",
                 "&:hover": {
-                  borderColor: "#D5006D",
+                  backgroundColor: "#D5006D",
                 },
               }}
             >

@@ -130,6 +130,7 @@ function BoxAppointments({ user }) {
             border: "1px solid #BFBFBF",
             borderRadius: "10px",
             width: "80%",
+            minWidth: "300px",
             margin: "auto",
             padding: "20px",
             boxShadow: "0px 4px 4px rgba(191, 191, 191, 0.75)",
@@ -206,7 +207,8 @@ function BoxAppointments({ user }) {
       >
         <Box
           sx={{
-            width: 500,
+            width: "40%",
+            minWidth: "300px",
             bgcolor: "background.paper",
             borderRadius: "8px",
             boxShadow: 24,
@@ -270,7 +272,8 @@ function BoxAppointments({ user }) {
       >
         <Box
           sx={{
-            width: 400,
+            width: "40%",
+            minWidth: "300px",
             bgcolor: "background.paper",
             borderRadius: "8px",
             boxShadow: 24,
@@ -285,7 +288,7 @@ function BoxAppointments({ user }) {
           <Typography sx={{ textAlign: "center", marginBottom: "20px" }}>
             Você tem certeza que deseja excluir este agendamento?
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
             <Button onClick={handleCloseConfirmModal} 
            sx={{
             width: "150px",

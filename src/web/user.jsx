@@ -51,15 +51,17 @@ function User() {
           >
             <Box
               sx={{
-                width: "150px",
-                height: "150px",
+                width: "12%",
+                height: "12%",
+                minWidth: "100px",
+                minHeight: "100px",
                 borderRadius: "50%",
                 overflow: "hidden",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 border: "2px solid #ddd",
-                marginLeft: "140px",
+                marginLeft: "11%",
                 
               }}
             >
@@ -88,7 +90,7 @@ function User() {
               sx={{
                 position: "absolute",
                 top: 0,
-                right: "125px",
+                right: "9%",
               }}
             >
               <Button onClick={handleLogout}>
