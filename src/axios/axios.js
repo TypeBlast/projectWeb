@@ -1,3 +1,22 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import axios from "axios";
 
 // Configuração do Axios com timeout e cabeçalhos padrões
@@ -88,6 +107,7 @@ const sheets = {
   createAppointment: (appointment) => api.post("/appointments", appointment),
   getAppointmentByUser: () => api.get("/appointments"),
   getAppointmentById: (id) => api.get(`/appointments/${id}`),
+  getAllAppointments: () => api.get("/appointments/all"),
   updateAppointment: (id, appointment) => api.put(`/appointments/${id}`, appointment),
   deleteAppointment: (id) => api.delete(`/appointments/${id}`),
 
