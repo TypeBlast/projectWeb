@@ -9,6 +9,15 @@
     min-width: 120px; /* Ajuste conforme necessário */
     white-space: nowrap; /* Impede a quebra de linha */
 }
+.MuiButton-root.buttonHeaderAdmin {
+    font-family: 'Poppins-Bold';
+    font-size: 1.1rem;
+    color: #000;
+    text-transform: capitalize;
+    margin-top: 50px;
+    min-width: 120px; /* Ajuste conforme necessário */
+    white-space: nowrap; /* Impede a quebra de linha */
+}
 .MuiButton-root.activeButton {
     color: #EB389A; /* Cor do texto */
   }
