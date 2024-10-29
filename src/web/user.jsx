@@ -6,6 +6,7 @@ import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import BoxPersonalData from "../components/layout/boxPersonalData";
 import BoxAddress from "../components/layout/boxAddressData";
 import BoxAppointment from "../components/layout/boxAppointmentData";
+import BoxOrders from "../components/layout/boxOrdersData";
 
 function User() {
   const initialUserState = { name: "", profilePicture: null, photoURL: null };
@@ -126,6 +127,7 @@ function User() {
           <BoxPersonalData user={user} updateUser={setUser} />
           <BoxAddress user={user} />
           <BoxAppointment user={user} />
+          <BoxOrders user={user} />
           <Box sx={{ paddingBottom: "30px" }} />
         </div>
       ) : (
