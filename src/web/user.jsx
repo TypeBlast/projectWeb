@@ -8,7 +8,7 @@ import BoxAddress from "../components/layout/boxAddressData";
 import BoxAppointment from "../components/layout/boxAppointmentData";
 
 function User() {
-  const initialUserState = { name: "", profilePicture: null };
+  const initialUserState = { name: "", profilePicture: null, photoURL: null };
   const [user, setUser] = useState(initialUserState);
   const navigate = useNavigate();
 
@@ -18,7 +18,6 @@ function User() {
     if (storedUser && storedUser !== "undefined") {
       try {
         const parsedUser = JSON.parse(storedUser);
-        console.log("Usuário recuperado do localStorage:", parsedUser);
         setUser(parsedUser);
       } catch (error) {
         console.error("Erro ao fazer parse dos dados do usuário", error);
@@ -62,7 +61,6 @@ function User() {
                 alignItems: "center",
                 border: "2px solid #ddd",
                 marginLeft: "11%",
-                
               }}
             >
               <img
@@ -102,7 +100,6 @@ function User() {
             </Box>
           </Box>
 
-          {/* Botão para Admin */}
           {user.role === "admin" && (
             <Box sx={{ marginTop: "20px", marginLeft: "140px" }}>
               <Button
@@ -118,7 +115,7 @@ function User() {
                   textTransform: "capitalize",
                   fontSize: "1rem",
                   "&:hover": {
-                    backgroundColor: "#D5006D", // Cor ao passar o mouse
+                    backgroundColor: "#D5006D",
                   },
                 }}
               >

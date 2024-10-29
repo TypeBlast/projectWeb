@@ -37,7 +37,6 @@ function BoxPersonalData({ user, updateUser }) {
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
-    // Reinicia os valores quando o usuário é atualizado
     setName(user.name);
     setEmail(user.email);
     setCpf(user.cpf);
@@ -45,18 +44,23 @@ function BoxPersonalData({ user, updateUser }) {
   }, [user]);
 
   const handleOpen = () => {
-    setError(""); // Limpa as mensagens de erro
-    setSuccess(""); // Limpa as mensagens de sucesso
-    setOpen(true); // Abre o modal
+    setError("");
+    setSuccess("");
+    setOpen(true);
   };
 
   const handleClose = () => setOpen(false);
 
   const handleUpdate = async () => {
     try {
-      const updatedUser = { name, email, cpf, phone };
+      const updatedUser = {
+        ...user, // Mantém as propriedades atuais, como photoURL
+        name,
+        email,
+        cpf,
+        phone,
+      };
 
-      // Validar campos antes de enviar
       if (!name || !email || !cpf || !phone) {
         setError("Todos os campos são obrigatórios.");
         return;
@@ -64,17 +68,16 @@ function BoxPersonalData({ user, updateUser }) {
 
       console.log("Enviando dados:", updatedUser);
 
-      // Chamar a API de atualização
       await sheets.putUser(updatedUser, user.id);
 
-      // Atualizar informações no frontend e fechar modal
       updateUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser)); // Atualiza o localStorage
+
       handleClose();
 
       setSuccess("Dados atualizados com sucesso!");
       setError("");
     } catch (err) {
-      // Logar erro detalhado
       console.error("Erro na atualização:", err.response?.data || err.message);
       setError("Erro ao atualizar dados. Tente novamente.");
       setSuccess("");
