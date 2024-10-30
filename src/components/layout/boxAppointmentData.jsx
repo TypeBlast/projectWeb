@@ -306,10 +306,10 @@ function BoxAppointments({ user }) {
           }}
         >
           <Typography id="confirm-modal-title" variant="h6" component="h2" sx={{ textAlign: "center", marginBottom: "20px" }}>
-            Confirmar Exclusão
+            Confirmar Cancelamento
           </Typography>
           <Typography sx={{ textAlign: "center", marginBottom: "20px" }}>
-            Você tem certeza que deseja excluir este agendamento?
+            Você tem certeza que deseja cancelar este agendamento?
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
             <Button onClick={handleCloseConfirmModal} 
