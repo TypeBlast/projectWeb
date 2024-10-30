@@ -10,6 +10,7 @@ function BoxOrders({ user }) {
   const [openItemsModal, setOpenItemsModal] = useState(false);
   const [selectedOrderItems, setSelectedOrderItems] = useState([]);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [confirmCancelModalOpen, setConfirmCancelModalOpen] = useState(false); // Estado para abrir o modal de confirmação
 
   useEffect(() => {
     fetchOrders();
@@ -20,15 +21,29 @@ function BoxOrders({ user }) {
       const response = await axios.getAllOrders();
       const ordersData = response.data || [];
       setOrders(ordersData);
+
+      if (ordersData.length === 0) {
+        setError("Você ainda não fez nenhum pedido.");
+      } else {
+        setError(null);
+      }
     } catch (err) {
-      console.error("Erro ao buscar pedidos:", err);
-      setError("Erro ao buscar pedidos.");
+      if (err.response && err.response.status === 400) {
+        setError("Você ainda não fez nenhum pedido.");
+        setOrders([]);
+      } else {
+        console.error("Erro ao buscar pedidos:", err);
+        setError("Erro ao buscar pedidos.");
+      }
     }
   };
 
-  const handleOpenItemsModal = (orderId, items) => {
+  const [selectedOrderStatus, setSelectedOrderStatus] = useState("");
+
+  const handleOpenItemsModal = (orderId, items, status) => {
     setSelectedOrderId(orderId);
     setSelectedOrderItems(items);
+    setSelectedOrderStatus(status);
     setOpenItemsModal(true);
   };
 
@@ -38,8 +53,6 @@ function BoxOrders({ user }) {
     setSelectedOrderItems([]);
   };
 
-  // Função para cancelar o pedido
-  // Função para cancelar o pedido e atualizar o status na lista de pedidos
   const handleCancelOrder = async (orderId) => {
     try {
       await axios.cancelOrder(orderId);
@@ -54,16 +67,25 @@ function BoxOrders({ user }) {
     }
   };
 
-  // Função para deletar o pedido
   const handleDeleteOrder = async (orderId) => {
     try {
       await axios.deleteOrder(orderId);
-      setOrders(orders.filter((order) => order.id !== orderId)); // Atualiza a lista de pedidos
-      handleCloseItemsModal(); // Fecha o modal após deletar o pedido
+      setOrders(orders.filter((order) => order.id !== orderId));
+      handleCloseItemsModal();
     } catch (err) {
       console.error("Erro ao deletar o pedido:", err);
       setError("Não foi possível deletar o pedido.");
     }
+  };
+
+  const openConfirmCancelModal = (orderId) => {
+    setSelectedOrderId(orderId);
+    setConfirmCancelModalOpen(true);
+  };
+
+  const closeConfirmCancelModal = () => {
+    setConfirmCancelModalOpen(false);
+    setSelectedOrderId(null);
   };
 
   return (
@@ -88,15 +110,10 @@ function BoxOrders({ user }) {
           </Typography>
 
           {error ? (
-            <Typography sx={{ color: "red", textAlign: "center" }}>
+            <Typography sx={{ color: "black", textAlign: "start" }}>
               {error}
             </Typography>
-          ) : orders.length === 0 ? (
-            <Typography sx={{ textAlign: "center" }}>
-              Nenhum pedido encontrado.
-            </Typography>
           ) : (
-            // Exibir todos os pedidos
             orders.map((order) => (
               <Grid
                 container
@@ -106,13 +123,14 @@ function BoxOrders({ user }) {
                   borderBottom: "1px solid #D9D9D9",
                   paddingBottom: "10px",
                 }}
-                onClick={() => handleOpenItemsModal(order.id, order.items)}
+                onClick={() =>
+                  handleOpenItemsModal(order.id, order.items, order.status)
+                }
               >
                 <Grid item xs={8}>
                   <Typography sx={{ fontFamily: "Poppins-Regular" }}>
                     Pedido: #{order.id} -{" "}
-                    {order.orderDate || "Data não especificada"} -{" "}
-                     Status: {" "}
+                    {order.orderDate || "Data não especificada"} - Status:{" "}
                     {order.status}
                   </Typography>
                 </Grid>
@@ -123,23 +141,25 @@ function BoxOrders({ user }) {
                   alignItems="center"
                   justifyContent="flex-end"
                 >
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCancelOrder(order.id);
-                    }}
-                    sx={{
-                      padding: "0",
-                      minWidth: "0",
-                      color: "#D9D9D9",
-                      "&:hover": { color: "#EB389A" },
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      style={{ fontSize: "15px" }}
-                    />
-                  </Button>
+                  {order.status !== "Cancelado" && (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openConfirmCancelModal(order.id); // Abre o modal de confirmação
+                      }}
+                      sx={{
+                        padding: "0",
+                        minWidth: "0",
+                        color: "#D9D9D9",
+                        "&:hover": { color: "#EB389A" },
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        style={{ fontSize: "30px" }}
+                      />
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
             ))
@@ -147,7 +167,6 @@ function BoxOrders({ user }) {
         </Box>
       </Grid>
 
-      {/* Modal para exibir os itens do pedido */}
       <Modal
         open={openItemsModal}
         onClose={handleCloseItemsModal}
@@ -192,19 +211,21 @@ function BoxOrders({ user }) {
               marginTop: "20px",
             }}
           >
-            <Button
-              onClick={() => handleDeleteOrder(selectedOrderId)}
-              sx={{
-                width: "150px",
-                backgroundColor: "#FF0000",
-                color: "#FFF",
-                fontFamily: "Poppins-Bold",
-                "&:hover": { backgroundColor: "#CC0000" },
-                marginRight: "10px",
-              }}
-            >
-              Deletar Pedido
-            </Button>
+            {selectedOrderStatus === "Cancelado" && (
+              <Button
+                onClick={() => handleDeleteOrder(selectedOrderId)}
+                sx={{
+                  width: "150px",
+                  backgroundColor: "#FF0000",
+                  color: "#FFF",
+                  fontFamily: "Poppins-Bold",
+                  "&:hover": { backgroundColor: "#CC0000" },
+                  marginRight: "10px",
+                }}
+              >
+                Deletar Pedido
+              </Button>
+            )}
             <Button
               onClick={handleCloseItemsModal}
               sx={{
@@ -216,6 +237,75 @@ function BoxOrders({ user }) {
               }}
             >
               Fechar
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Modal de confirmação de cancelamento */}
+      <Modal
+        open={confirmCancelModalOpen}
+        onClose={closeConfirmCancelModal}
+        aria-labelledby="confirm-cancel-modal-title"
+        aria-describedby="confirm-cancel-modal-description"
+      >
+        <Box
+          sx={{
+            width: { xs: "80%", sm: "30%" },
+            minWidth: "300px",
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
+            margin: "auto",
+            marginTop: "150px",
+            textAlign: "center",
+          }}
+        >
+          <Typography
+            id="confirm-cancel-modal-title"
+            variant="h6"
+            component="h2"
+          >
+            Confirmar Cancelamento
+          </Typography>
+          <Typography sx={{ mt: 2 }}>
+            Tem certeza de que deseja cancelar o pedido #{selectedOrderId}?
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
+            <Button
+              onClick={() => {
+                handleCancelOrder(selectedOrderId); // Cancela o pedido
+                closeConfirmCancelModal(); // Fecha o modal de confirmação
+              }}
+              sx={{
+                width: "100px",
+                backgroundColor: "#FF0000",
+                color: "#FFF",
+                fontFamily: "Poppins-Bold",
+                "&:hover": { backgroundColor: "#CC0000" },
+                marginRight: "10px",
+              }}
+            >
+              Sim
+            </Button>
+            <Button
+              onClick={closeConfirmCancelModal}
+              sx={{
+                width: "100px",
+                backgroundColor: "#EB389A",
+                color: "#FFF",
+                fontFamily: "Poppins-Bold",
+                "&:hover": { backgroundColor: "#D5006D" },
+              }}
+            >
+              Não
             </Button>
           </Box>
         </Box>
