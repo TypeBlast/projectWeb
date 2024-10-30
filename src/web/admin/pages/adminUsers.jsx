@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Modal,
-} from "@mui/material";
-import axios from "../../../axios/axios"; // Certifique-se de que o axios esteja configurado corretamente
+import { Box, Grid, Typography, Button, Modal } from "@mui/material";
+import axios from "../../../axios/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import { faTrash } from "@fortawesome/free-solid-svg-icons"; // Ícone de deletar
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -19,7 +11,7 @@ function AdminUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.getAllUsers(); // Chame sua API para buscar todos os usuários
+      const response = await axios.getAllUsers();
       const usersData = response.data.data;
       setUsers(usersData);
     } catch (error) {
@@ -31,9 +23,9 @@ function AdminUsers() {
   const handleDeleteUser = async () => {
     try {
       if (selectedUserId) {
-        await axios.deleteUser(selectedUserId); // Chame sua API para deletar o usuário
-        fetchUsers(); // Atualize a lista de usuários após a exclusão
-        handleCloseConfirmModal(); // Fecha o modal
+        await axios.deleteUser(selectedUserId);
+        fetchUsers();
+        handleCloseConfirmModal();
       }
     } catch (error) {
       console.error("Erro ao deletar usuário:", error);
@@ -47,7 +39,7 @@ function AdminUsers() {
 
   const handleCloseConfirmModal = () => {
     setOpenConfirmModal(false);
-    setSelectedUserId(null); // Limpa o id do usuário selecionado
+    setSelectedUserId(null);
   };
 
   useEffect(() => {
@@ -55,26 +47,52 @@ function AdminUsers() {
   }, []);
 
   return (
-    <div className="container" style={{ padding: "20px" }}>
-      {Array.isArray(users) && users.length > 0 ? (
-        <Grid container spacing={2}>
-          {users.map((user) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
-              <Card sx={{ margin: "10px" }}>
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {user.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {user.email}
-                  </Typography>
+    <div>
+      <Box sx={{ display: "flex", flexDirection: "row", marginTop: "50px", justifyContent: "start", position: "relative" }}>
+        <Typography sx={{ marginLeft: "140px", marginTop: "20px", fontFamily: "Poppins-Bold", fontSize: "1.5rem" }}>
+          Usuários Administrativos
+        </Typography>
+      </Box>
+
+      <Grid container spacing={2} sx={{ marginTop: "20px" }}>
+        <Box
+          sx={{
+            border: "1px solid #BFBFBF",
+            borderRadius: "10px",
+            width: "80%",
+            margin: "auto",
+            padding: "20px",
+            boxShadow: "0px 4px 4px rgba(191, 191, 191, 0.75)",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontFamily: "Poppins-Bold", marginBottom: "20px" }}>
+            Todos os Usuários
+          </Typography>
+
+          {/* Cabeçalho */}
+          <Grid container sx={{ marginBottom: "10px", borderBottom: "2px solid #000", paddingBottom: "10px" }}>
+            <Grid item xs={12} sm={4}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Nome</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>E-mail</Typography>
+            </Grid>
+          </Grid>
+
+          {Array.isArray(users) && users.length > 0 ? (
+            users.map((user) => (
+              <Grid container key={user.id} sx={{ marginBottom: "10px", borderBottom: "1px solid #D9D9D9", paddingBottom: "10px" }}>
+                <Grid item xs={12} sm={4}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular" }}>{user.name}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular", color: "text.secondary" }}>{user.email}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <Button
                     onClick={() => handleClickOpen(user.id)} 
                     sx={{
-                      width: "100%",
                       backgroundColor: "#EB389A",
-                      marginTop: "10px",
-                      fontFamily: "Poppins-Bold",
                       color: "#FFF",
                       textTransform: "capitalize",
                       fontSize: "1rem",
@@ -83,21 +101,19 @@ function AdminUsers() {
                       },
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrash} style={{ marginRight: "5px" }} />
-                    Deletar
+                    <FontAwesomeIcon icon={faTrash} />
                   </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="body1" color="text.secondary">
-          Nenhum usuário disponível.
-        </Typography>
-      )}
+                </Grid>
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="body1" color="text.secondary">
+              Nenhum usuário disponível.
+            </Typography>
+          )}
+        </Box>
+      </Grid>
 
-      {/* Modal de Confirmação de Exclusão */}
       <Modal
         open={openConfirmModal}
         onClose={handleCloseConfirmModal}
