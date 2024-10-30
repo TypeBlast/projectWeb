@@ -111,7 +111,8 @@ function BoxOrders({ user }) {
                 <Grid item xs={8}>
                   <Typography sx={{ fontFamily: "Poppins-Regular" }}>
                     Pedido: #{order.id} -{" "}
-                    {order.orderDate || "Data não especificada"} Status{" "}
+                    {order.orderDate || "Data não especificada"} -{" "}
+                     Status: {" "}
                     {order.status}
                   </Typography>
                 </Grid>
