@@ -1,6 +1,7 @@
 //Import das funcões do router
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import ProtectedRoute from "./components/utils/protectroute";
+import { AuthProvider } from "./context/authContext";
 
 //Import das páginas para navegação
 import Index from "./web";
@@ -60,6 +61,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<LayoutIndex />}>
             <Route path="/" element={<Index />} />
@@ -208,6 +210,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );
