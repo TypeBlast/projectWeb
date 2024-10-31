@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
-  Card,
-  CardMedia,
-  CardContent,
   Typography,
   Button,
   Modal,
 } from "@mui/material";
-import BoxCreateProduct from '../components/layout/boxCreateProducts';
 import axios from "../../../axios/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import { faTrash } from "@fortawesome/free-solid-svg-icons"; // Ícone de deletar
+import { faTrash } from "@fortawesome/free-solid-svg-icons"; 
+import BoxCreateProduct from '../components/layout/boxCreateProducts';
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -33,9 +30,9 @@ function AdminProducts() {
   const handleDeleteProduct = async () => {
     try {
       if (selectedProductId) {
-        await axios.deleteProduct(selectedProductId); // Chame sua API para deletar o produto
-        fetchProducts(); // Atualize a lista de produtos após a exclusão
-        handleCloseConfirmModal(); // Fecha o modal
+        await axios.deleteProduct(selectedProductId); 
+        fetchProducts(); 
+        handleCloseConfirmModal(); 
       }
     } catch (error) {
       console.error("Erro ao deletar produto:", error);
@@ -49,7 +46,7 @@ function AdminProducts() {
 
   const handleCloseConfirmModal = () => {
     setOpenConfirmModal(false);
-    setSelectedProductId(null); // Limpa o id do produto selecionado
+    setSelectedProductId(null);
   };
 
   useEffect(() => {
@@ -57,34 +54,57 @@ function AdminProducts() {
   }, []);
 
   return (
-    <div className="container" style={{ padding: "20px" }}>
-      <BoxCreateProduct/>
+    <div>
+      <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: "50px", width: "100%", padding: "0 140px" }}>
+        <Typography sx={{ fontFamily: "Poppins-Bold", fontSize: "1.5rem" }}>
+          Seus Produtos
+        </Typography>
+        <BoxCreateProduct />
+      </Box>
 
-      {Array.isArray(products) && products.length > 0 ? (
-        <Grid container spacing={2}>
-          {products.map((product) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-              <Card sx={{ margin: "10px" }}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={product.url}
-                  alt={product.name}
-                />
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {product.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    R$ {product.price}
-                  </Typography>
+      <Grid container spacing={2} sx={{ marginTop: "20px" }}>
+        <Box sx={{
+            border: "1px solid #BFBFBF",
+            borderRadius: "10px",
+            width: "80%",
+            margin: "auto",
+            padding: "20px",
+            boxShadow: "0px 4px 4px rgba(191, 191, 191, 0.75)"
+          }}>
+          <Typography variant="h6" sx={{ fontFamily: "Poppins-Bold", marginBottom: "20px" }}>
+            Todos os Produtos
+          </Typography>
+
+          {/* Cabeçalho */}
+          <Grid container sx={{ marginBottom: "10px", borderBottom: "2px solid #000", paddingBottom: "10px" }}>
+            <Grid item xs={12} sm={5}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Nome</Typography>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Preço</Typography>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Estoque</Typography>
+            </Grid>
+          </Grid>
+
+          {Array.isArray(products) && products.length > 0 ? (
+            products.map((product) => (
+              <Grid container key={product.id} sx={{ marginBottom: "10px", borderBottom: "1px solid #D9D9D9", paddingBottom: "10px" }}>
+                <Grid item xs={12} sm={5}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular" }}>{product.name}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular", color: "text.secondary" }}>R$ {product.price}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular", color: "text.secondary" }}>{product.stock}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <Button
                     onClick={() => handleClickOpen(product.id)} 
                     sx={{
-                      width: "100%",
                       backgroundColor: "#EB389A",
-                      marginTop: "10px",
-                      fontFamily: "Poppins-Bold",
                       color: "#FFF",
                       textTransform: "capitalize",
                       fontSize: "1rem",
@@ -93,21 +113,19 @@ function AdminProducts() {
                       },
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrash} style={{ marginRight: "5px" }} />
-                    Deletar
+                    <FontAwesomeIcon icon={faTrash} style={{ marginRight: "2px" }} />
                   </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="body1" color="text.secondary">
-          Nenhum produto disponível.
-        </Typography>
-      )}
+                </Grid>
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="body1" color="text.secondary">
+              Nenhum produto disponível.
+            </Typography>
+          )}
+        </Box>
+      </Grid>
 
-      {/* Modal de Confirmação de Exclusão */}
       <Modal
         open={openConfirmModal}
         onClose={handleCloseConfirmModal}

@@ -55,6 +55,7 @@ function AdminEmployers() {
     Funcionários Administrativos 
   </Typography>
   <BoxCreateEmployer />
+  
 </Box>
 
 

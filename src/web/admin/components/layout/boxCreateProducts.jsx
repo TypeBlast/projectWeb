@@ -8,6 +8,7 @@
   import InputSpecies from "../inputs/inputSpecies";
   import InputPrice from "../inputs/inputPrices";
   import InputDescription from "../inputs/inputDescriptions";
+  import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"; // Novo ícone
 
   const modalStyle = {
     position: "absolute",
@@ -96,18 +97,20 @@
           onClick={handleOpen}
           sx={{
             backgroundColor: "#EB389A",
-            marginTop: "20px",
-            fontFamily: "Poppins-Bold",
             color: "#FFF",
             textTransform: "capitalize",
             fontSize: "1rem",
+            display: "flex",
+            alignItems: "flex-end",
+            padding: "10px 10px",
+            borderRadius: "10px",
             "&:hover": {
               backgroundColor: "#D5006D",
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
             },
           }}
         >
-          Adicionar Novo Produto
-        </Button>
+          <AddShoppingCartIcon/></Button>
 
         <Modal open={open} onClose={handleClose}>
           <Box sx={modalStyle}>
