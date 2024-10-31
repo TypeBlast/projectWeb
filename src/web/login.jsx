@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +20,7 @@ function Login() {
   const [success, setSuccess] = useState("");
   const isMediumScreen = useMediaQuery("(max-width: 980px)");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -28,54 +30,46 @@ function Login() {
     try {
       const loginData = { email, password };
       const response = await sheets.logUser(loginData);
-  
+
       if (response.status === 201) {
-        const { user, token } = response.data; 
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token", token);
+        const { user, token } = response.data;
+        login(user, token); // Armazena no contexto de autenticação
         navigate("/home");
       }
     } catch (error) {
-      setSuccess("");
       setError(error.response?.data?.message || "Erro ao realizar login.");
     }
   };
+
   const handleGoogleLogin = async () => {
     try {
-      provider.setCustomParameters({
-        prompt: 'select_account',
-      });
-  
+      provider.setCustomParameters({ prompt: "select_account" });
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
-      // Verifique se o photoURL está sendo capturado
-      console.log('User PhotoURL:', user.photoURL);
-  
+
       const allUsersResponse = await sheets.getAllUsers();
-  
+
       if (allUsersResponse.status === 200 || allUsersResponse.status === 201) {
         const allUsers = allUsersResponse.data.data;
         const userEmail = user.email;
         const userName = user.displayName;
         const userPhoto = user.photoURL;
-  
-        const emailExists = allUsers.some(u => u.email === userEmail);
-  
+
+        const emailExists = allUsers.some((u) => u.email === userEmail);
+
         if (emailExists) {
           const loginData = { email: userEmail };
           const response = await sheets.logUser(loginData);
-  
+
           if (response.status === 200) {
-            const { user, token } = response.data; 
-            // Verifique o que está sendo armazenado no localStorage
-            console.log("Armazenando user:", { ...user, photoURL: userPhoto });
-            localStorage.setItem("user", JSON.stringify({ ...user, photoURL: userPhoto }));
-            localStorage.setItem("token", token);
+            const { user, token } = response.data;
+            login({ ...user, photoURL: userPhoto }, token);
             navigate("/home");
           }
         } else {
-          navigate("/register", { state: { email: userEmail, name: userName, photoURL: userPhoto } });
+          navigate("/register", {
+            state: { email: userEmail, name: userName, photoURL: userPhoto },
+          });
         }
       }
     } catch (error) {
