@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, Modal } from "@mui/material";
 import axios from "../../../../axios/axios";
 import InputNameEmployer from "../inputs/inputNameEmployer";
 import InputPhoneEmployer from "../inputs/inputPhoneEmployer";
 import InputPosition from "../inputs/inputPosition";
 import InputService from "../inputs/inputService_id";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const modalStyle = {
   position: "absolute",
@@ -19,12 +18,12 @@ const modalStyle = {
   p: 2,
 };
 
-function BoxCreateEmployers() {
+function BoxUpdateEmployer({ employer, onClose, onUpdate }) {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [position, setPosition] = useState("");
-  const [selectedService, setSelectedService] = useState("");
+  const [name, setName] = useState(employer.name || "");
+  const [phone, setPhone] = useState(employer.phone || "");
+  const [position, setPosition] = useState(employer.position || "");
+  const [selectedService, setSelectedService] = useState(employer.service_id || "");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [services, setServices] = useState([]);
@@ -33,10 +32,6 @@ function BoxCreateEmployers() {
     setOpen(true);
     setError("");
     setSuccess("");
-    setName("");
-    setPhone("");
-    setPosition("");
-    setSelectedService("");
 
     try {
       const response = await axios.getAllServices(); 
@@ -49,9 +44,10 @@ function BoxCreateEmployers() {
 
   const handleClose = () => {
     setOpen(false);
+    onClose();
   };
 
-  const handleSave = async () => {
+  const handleUpdate = async () => {
     try {
       const employerData = {
         name,
@@ -60,38 +56,22 @@ function BoxCreateEmployers() {
         service_id: selectedService,
       };
 
-      await axios.createEmployer(employerData); 
-      setSuccess("Funcionário cadastrado com sucesso!");
+      await axios.updateEmployer(employer.id, employerData); 
+      setSuccess("Funcionário atualizado com sucesso!");
       handleClose();
-      window.location.reload();
+      if (onUpdate) onUpdate();
     } catch (error) {
-      console.error("Erro ao criar funcionário:", error.response?.data || error.message);
-      setError(error.response?.data?.message || "Erro ao criar funcionário.");
+      console.error("Erro ao atualizar funcionário:", error.response?.data || error.message);
+      setError(error.response?.data?.message || "Erro ao atualizar funcionário.");
     }
   };
 
+  useEffect(() => {
+    handleOpen();
+  }, []);
+
   return (
     <Box>
-      <Button
-        variant="contained"
-        onClick={handleOpen}
-        sx={{
-          backgroundColor: "#EB389A",
-          color: "#FFF",
-          textTransform: "capitalize",
-          fontSize: "1rem",
-          display: "flex",
-          alignItems: "flex-end",
-          padding: "10px 10px",
-          borderRadius: "10px",
-          "&:hover": {
-            backgroundColor: "#D5006D",
-            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
-          },
-        }}
-      >
-        <PersonAddIcon/></Button>
-
       <Modal open={open} onClose={handleClose}>
         <Box sx={modalStyle}>
           <Typography
@@ -102,7 +82,7 @@ function BoxCreateEmployers() {
               textAlign: "center",
             }}
           >
-            Adicionar Funcionário
+            Atualizar Funcionário
           </Typography>
           {error && (
             <Typography sx={{ color: "red", textAlign: "center" }}>
@@ -119,12 +99,12 @@ function BoxCreateEmployers() {
             <InputPhoneEmployer value={phone} onChange={(e) => setPhone(e.target.value)} />
             <InputPosition value={position} onChange={(e) => setPosition(e.target.value)} />
             <InputService
-              services={services}
+              services={services} 
               selectedService={selectedService}
               handleServiceChange={(e) => setSelectedService(e.target.value)}
             />
             <Button
-              onClick={handleSave}
+              onClick={handleUpdate}
               variant="contained"
               sx={{
                 backgroundColor: "#EB389A",
@@ -136,11 +116,10 @@ function BoxCreateEmployers() {
                 fontFamily: "Poppins-Bold",
                 "&:hover": {
                   backgroundColor: "#D5006D",
-                  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
                 },
               }}
             >
-              Cadastrar Funcionário
+              Atualizar Funcionário
             </Button>
           </Box>
         </Box>
@@ -149,4 +128,4 @@ function BoxCreateEmployers() {
   );
 }
 
-export default BoxCreateEmployers;
+export default BoxUpdateEmployer;

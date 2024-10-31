@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Modal,
-} from "@mui/material";
+import { Box, Grid, Typography, Button, Modal } from "@mui/material";
 import axios from "../../../axios/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 import { faTrash } from "@fortawesome/free-solid-svg-icons"; 
 import BoxCreateEmployer from "../components/layout/boxCreateEmployers";
+
 
 function AdminEmployers() {
   const [employers, setEmployers] = useState([]);
@@ -48,7 +41,7 @@ function AdminEmployers() {
 
   const handleCloseConfirmModal = () => {
     setOpenConfirmModal(false);
-    setSelectedEmployerId(null); // Limpa o id do funcionário selecionado
+    setSelectedEmployerId(null);
   };
 
   useEffect(() => {
@@ -56,31 +49,60 @@ function AdminEmployers() {
   }, []);
 
   return (
-    <div className="container" style={{ padding: "20px" }}>
+    <div>
+  <Box sx={{ display: "flex", flexDirection: "row", marginTop: "50px", justifyContent: "space-between", alignItems: "center", paddingRight: "140px" }}>
+  <Typography sx={{ marginLeft: "140px", fontFamily: "Poppins-Bold", fontSize: "1.5rem" }}>
+    Funcionários Administrativos 
+  </Typography>
+  <BoxCreateEmployer />
+</Box>
 
-      <BoxCreateEmployer/>
-      {Array.isArray(employers) && employers.length > 0 ? (
-        <Grid container spacing={2}>
-          {employers.map((employer) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={employer.id}>
-              <Card sx={{ margin: "10px" }}>
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {employer.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Telefone: {employer.phone}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Cargo: {employer.position}
-                  </Typography>
+
+      <Grid container spacing={2} sx={{ marginTop: "20px" }}>
+        <Box
+          sx={{
+            border: "1px solid #BFBFBF",
+            borderRadius: "10px",
+            width: "80%",
+            margin: "auto",
+            padding: "20px",
+            boxShadow: "0px 4px 4px rgba(191, 191, 191, 0.75)",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontFamily: "Poppins-Bold", marginBottom: "20px" }}>
+            Todos os Funcionários
+          </Typography>
+
+          {/* Cabeçalho */}
+          <Grid container sx={{ marginBottom: "10px", borderBottom: "2px solid #000", paddingBottom: "10px" }}>
+            <Grid item xs={12} sm={4}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Nome</Typography>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Telefone</Typography>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Cargo</Typography>
+            </Grid>
+          </Grid>
+
+          {Array.isArray(employers) && employers.length > 0 ? (
+            employers.map((employer) => (
+              <Grid container key={employer.id} sx={{ marginBottom: "10px", borderBottom: "1px solid #D9D9D9", paddingBottom: "10px" }}>
+                <Grid item xs={12} sm={4}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular" }}>{employer.name}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular", color: "text.secondary" }}>{employer.phone}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <Typography sx={{ fontFamily: "Poppins-Regular", color: "text.secondary" }}>{employer.position}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <Button
-                    onClick={() => handleClickOpen(employer.id)} 
+                    onClick={() => handleClickOpen(employer.id)}
                     sx={{
-                      width: "100%",
                       backgroundColor: "#EB389A",
-                      marginTop: "10px",
-                      fontFamily: "Poppins-Bold",
                       color: "#FFF",
                       textTransform: "capitalize",
                       fontSize: "1rem",
@@ -89,21 +111,19 @@ function AdminEmployers() {
                       },
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrash} style={{ marginRight: "5px" }} />
-                    Demitir Funcionário
+                    <FontAwesomeIcon icon={faTrash} />
                   </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="body1" color="text.secondary">
-          Nenhum funcionário disponível.
-        </Typography>
-      )}
+                </Grid>
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="body1" color="text.secondary">
+              Nenhum funcionário disponível.
+            </Typography>
+          )}
+        </Box>
+      </Grid>
 
-      {/* Modal de Confirmação de Exclusão */}
       <Modal
         open={openConfirmModal}
         onClose={handleCloseConfirmModal}
