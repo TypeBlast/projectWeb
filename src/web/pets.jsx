@@ -42,7 +42,7 @@ const BoxPetData = ({ pet, onPetClick, onDelete }) => {
         "&:hover": {
           backgroundColor: HOVER_COLOR,
           transform: "scale(1.05)",
-          cursor: "pointer", // Muda o cursor para indicar que é clicável
+          cursor: "pointer",
         },
       }}
     >
@@ -51,7 +51,7 @@ const BoxPetData = ({ pet, onPetClick, onDelete }) => {
         onClick={(e) => {
           e.stopPropagation();
           onDelete(pet.id);
-        }} // Previne a propagação do clique
+        }} 
         sx={{
           color: "#FFF",
           "&:hover": { color: "#FF423D" },
@@ -74,7 +74,8 @@ function Pets() {
   });
   const [selectedPet, setSelectedPet] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openDeleteSnackbar, setOpenDeleteSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const species = ["Cachorro", "Gato"];
   const sizes = ["Pequeno", "Médio", "Grande"];
 
@@ -85,7 +86,7 @@ function Pets() {
   const handleCloseModal = () => {
     setIsOpen(false);
     setNewPet({ name: "", age: "", specie: "Cachorro", size: "Médio" });
-    setSelectedPet(null); // Limpa o pet selecionado ao fechar
+    setSelectedPet(null);
   };
 
   const fetchPets = async () => {
@@ -114,31 +115,35 @@ function Pets() {
     event.preventDefault();
     try {
       if (selectedPet) {
-        // Se um pet estiver selecionado, atualiza
         await sheets.updatePet(selectedPet.id, newPet);
+        setSnackbarMessage("Pet atualizado com sucesso!");
       } else {
-        // Caso contrário, cria um novo pet
         await sheets.createPet(newPet);
+        setSnackbarMessage("Pet cadastrado com sucesso!");
       }
       setOpenSnackbar(true);
       handleCloseModal();
       fetchPets();
     } catch (error) {
       console.error("Error saving pet:", error);
-      alert(
-        error.response?.data?.message || "Erro ao salvar pet. Tente novamente."
-      );
+      setSnackbarMessage(error.response?.data?.message || "Erro ao salvar pet. Tente novamente.");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
     }
   };
 
   const handleDeletePet = async (id) => {
     try {
       await sheets.deletePet(id);
-      setOpenDeleteSnackbar(true);
+      setSnackbarMessage("Pet deletado com sucesso!");
+      setSnackbarSeverity("success");
+      setOpenSnackbar(true);
       fetchPets();
     } catch (error) {
       console.error("Erro ao deletar pet:", error);
-      alert("Erro ao deletar pet. Tente novamente.");
+      setSnackbarMessage("Erro ao deletar pet. Tente novamente.");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
     }
   };
 
@@ -147,7 +152,6 @@ function Pets() {
       return;
     }
     setOpenSnackbar(false);
-    setOpenDeleteSnackbar(false);
   };
 
   const handlePetClick = (pet) => {
@@ -158,11 +162,7 @@ function Pets() {
       specie: pet.specie,
       size: pet.size,
     });
-    handleOpenModal(); // Abre o modal com os dados do pet
-  };
-
-  const handleClosePetDetails = () => {
-    setSelectedPet(null);
+    handleOpenModal();
   };
 
   return (
@@ -228,8 +228,8 @@ function Pets() {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "center", // Centraliza o conteúdo horizontalmente
-                  justifyContent: "center", // Centraliza verticalmente
+                  alignItems: "center",
+                  justifyContent: "center",
                   width: "100%",
                 }}
               >
@@ -243,10 +243,10 @@ function Pets() {
                   variant="standard"
                   sx={{ width: "80%" }}
                   InputLabelProps={{
-                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o label
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" },
                   }}
                   InputProps={{
-                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o input
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" },
                   }}
                 />
                 <TextField
@@ -260,10 +260,10 @@ function Pets() {
                   variant="standard"
                   sx={{ width: "80%" }}
                   InputLabelProps={{
-                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o label
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" },
                   }}
                   InputProps={{
-                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" }, // Fonte para o input
+                    sx: { fontFamily: "Poppins-Regular", fontSize: "1rem" },
                   }}
                 />
                 <Select
@@ -276,7 +276,7 @@ function Pets() {
                   MenuProps={{
                     PaperProps: {
                       sx: {
-                        fontFamily: "Poppins-Regular", // Fonte para as opções do Select
+                        fontFamily: "Poppins-Regular",
                       },
                     },
                   }}
@@ -297,7 +297,7 @@ function Pets() {
                   MenuProps={{
                     PaperProps: {
                       sx: {
-                        fontFamily: "Poppins-Regular", // Fonte para as opções do Select
+                        fontFamily: "Poppins-Regular",
                       },
                     },
                   }}
@@ -341,26 +341,8 @@ function Pets() {
           onClose={handleCloseSnackbar}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         >
-          <Alert onClose={handleCloseSnackbar} severity="success">
-            {selectedPet
-              ? "Pet atualizado com sucesso!"
-              : "Pet cadastrado com sucesso!"}
-          </Alert>
-        </Snackbar>
-
-        {/* Snackbar para deletar */}
-        <Snackbar
-          open={openDeleteSnackbar}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        >
-          <Alert
-            onClose={handleCloseSnackbar}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
-            Pet deletado com sucesso!
+          <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+            {snackbarMessage}
           </Alert>
         </Snackbar>
 
@@ -370,21 +352,21 @@ function Pets() {
             justifyContent: "space-around",
             marginTop: "30px",
             padding: "10px",
-            overflowY: "auto", // Permite rolagem vertical
+            overflowY: "auto",
 
             "&::-webkit-scrollbar": {
-              width: "8px", // Largura da barra de rolagem
+              width: "8px",
             },
             "&::-webkit-scrollbar-track": {
-              background: "#F1F1F1", // Cor do fundo da barra de rolagem
-              borderRadius: "10px", // Bordas arredondadas da trilha
+              background: "#F1F1F1",
+              borderRadius: "10px",
             },
             "&::-webkit-scrollbar-thumb": {
-              background: "#EB389A", // Cor da parte da barra de rolagem
-              borderRadius: "10px", // Bordas arredondadas do polegar
+              background: "#EB389A",
+              borderRadius: "10px",
             },
             "&::-webkit-scrollbar-thumb:hover": {
-              background: "#C01374", // Cor do polegar ao passar o mouse
+              background: "#C01374",
             },
           }}
         >

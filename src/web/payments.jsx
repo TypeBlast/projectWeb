@@ -31,6 +31,8 @@ import {
   faPen,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const Payments = () => {
   const [cartId, setCartId] = useState(null);
@@ -41,7 +43,21 @@ const Payments = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [addresses, setAddresses] = useState([]);
   const [userData, setUserData] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
   const navigate = useNavigate();
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const getCartId = async () => {
     try {
@@ -116,8 +132,8 @@ const Payments = () => {
   // Função para processar o pagamento
   const processPayment = async () => {
     if (!cartId || !selectedAddress || !paymentMethod) {
-      alert(
-        "Por favor, selecione um endereço e um método de pagamento para o pagamento."
+      showSnackbar(
+        "Por favor, selecione um endereço e um método de pagamento para o pagamento.", "error"
       );
       return;
     }
@@ -133,7 +149,7 @@ const Payments = () => {
     try {
       const response = await sheets.processPayment(paymentData);
       console.log("Response processPayment:", response);
-      alert("Pagamento realizado com sucesso!");
+      showSnackbar("Pagamento realizado com sucesso!");
       setIsModalOpen(false);
       setTimeout(() => {
         navigate("/user");
@@ -144,7 +160,7 @@ const Payments = () => {
         "Erro ao processar pagamento:",
         err.response?.data?.message || err.message
       );
-      alert(
+      showSnackbar(
         "Erro ao processar pagamento: " +
           (err.response?.data?.message || "Erro desconhecido.")
       );
@@ -154,12 +170,12 @@ const Payments = () => {
   const clearCart = async () => {
     try {
       await sheets.clearCart(cartId);
-      alert("Carrinho limpo com sucesso!");
+      showSnackbar("Carrinho limpo com sucesso!");
       window.location.reload();
     } catch (err) {
       setError(err);
       console.error("Erro ao limpar o carrinho:", err);
-      alert(
+      showSnackbar(
         "Erro ao limpar o carrinho: " +
           (err.response?.data?.message || "Erro desconhecido.")
       );
@@ -328,7 +344,7 @@ const Payments = () => {
               style={{
                 color: "#000",
                 fontFamily: "Poppins-SemiBold",
-                fontSize: {md: "1rem", xs: "0.5rem"},
+                fontSize: { md: "1rem", xs: "0.5rem" },
               }}
             >
               Valor do pedido: R$ {cartSummary.data.summary.totalValue}
@@ -444,7 +460,7 @@ const Payments = () => {
                 backgroundColor: "#ED45A1",
                 width: "40%",
                 marginRight: "10px",
-                minWidth: "100px"
+                minWidth: "100px",
               }}
             >
               Fazer Pagamento
@@ -458,7 +474,7 @@ const Payments = () => {
                 textTransform: "unset",
                 backgroundColor: "#ED45A1",
                 width: "40%",
-                minWidth: "100px"
+                minWidth: "100px",
               }}
             >
               Limpar Carrinho
@@ -561,13 +577,27 @@ const Payments = () => {
               backgroundColor: "#ED45A1",
               color: "#FFF",
               fontFamily: "Poppins-Bold",
-              textTransform: "unset"
+              textTransform: "unset",
             }}
           >
             Cancelar
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
