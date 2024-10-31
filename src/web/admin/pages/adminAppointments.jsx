@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Box, Button, Grid, Modal } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightFromBracket, faCalendar, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightFromBracket, faCalendar, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "../../../axios/axios";
 import InputDate from "../../../components/inputs/inputDate";
 import InputTime from "../../../components/inputs/inputTime";
@@ -209,7 +209,7 @@ function AdminAppointments() {
                         },
                       }}
                     >
-                      <FontAwesomeIcon icon={faTimes} />
+                      <FontAwesomeIcon icon={faTrash} />
                     </Button>
                   </Grid>
                 </Grid>
