@@ -84,6 +84,12 @@ function BoxPersonalData({ user, updateUser }) {
     }
   };
 
+  const formatCPF = (cpf) =>
+    cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  const formatPhone = (phone) =>
+    phone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    
+
   return (
     <Box>
       <Grid container spacing={2} sx={{ marginTop: "50px" }}>
@@ -133,8 +139,9 @@ function BoxPersonalData({ user, updateUser }) {
                 }}
               >
                 <FontAwesomeIcon icon={faIdCard} style={{ color: "#D9D9D9" }} />
-                {user.cpf}
+                {formatCPF(user.cpf)}
               </Typography>
+
               <Typography
                 sx={{
                   display: "flex",
@@ -145,13 +152,13 @@ function BoxPersonalData({ user, updateUser }) {
                 }}
               >
                 <FontAwesomeIcon icon={faPhone} style={{ color: "#D9D9D9" }} />
-                {user.phone}
+                {formatPhone(user.phone)}
               </Typography>
             </Grid>
             <Grid
               item
               xs={12} // Agora ocupa 100% em telas pequenas
-              md={4}  // Ocupa 4/12 em telas médias e maiores
+              md={4} // Ocupa 4/12 em telas médias e maiores
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -201,16 +208,16 @@ function BoxPersonalData({ user, updateUser }) {
                 fontFamily: "Poppins-Bold",
                 fontSize: "1.2rem",
                 marginTop: "30px",
-                marginBottom: "10px"
+                marginBottom: "10px",
               }}
             >
               Atualizar dados pessoais
             </Typography>
-            {error && <Typography sx={{ color: "red" }}>{error}</Typography>} 
+            {error && <Typography sx={{ color: "red" }}>{error}</Typography>}
             {success && (
               <Typography sx={{ color: "green" }}>{success}</Typography>
             )}
-            <InputName value={name} onChange={(e) => setName(e.target.value)}/>
+            <InputName value={name} onChange={(e) => setName(e.target.value)} />
             <InputEmail
               value={email}
               onChange={(e) => setEmail(e.target.value)}

@@ -165,6 +165,9 @@ function BoxAddress() {
     }
   };
 
+  const formatCEP = (cep) =>
+    cep.replace(/(\d{5})(\d{3})/, "$1-$2");
+
   return (
     <Box>
       <Grid container spacing={2} sx={{ marginTop: "50px" }}>
@@ -201,7 +204,7 @@ function BoxAddress() {
                       icon={faLocationDot}
                       style={{ marginRight: "8px", color: "#D9D9D9" }}
                     />
-                    <Typography>{`${address.cep} - ${address.complement}`}</Typography>
+                    <Typography>{`${formatCEP(address.cep)} - ${address.complement}`}</Typography>
                   </Box>
                 </Grid>
                 <Grid
