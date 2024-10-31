@@ -111,7 +111,7 @@ const sheets = {
   getAllEmployers: () => api.get("/employers"),
   getEmployersByServiceId: (id) => api.get(`/employers/service/${id}`),
   getEmployeeById: (id) => api.get(`/employers/${id}`),
-  updateEmployer: (id) => api.put(`/employers/${id}`),
+  updateEmployer: (id, employer) => api.put(`/employers/${id}`, employer),
   deleteEmployer: (id) => api.delete(`/employers/${id}`),
 
 
