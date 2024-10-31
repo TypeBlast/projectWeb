@@ -95,7 +95,7 @@ function BoxOrders({ user }) {
           sx={{
             border: "1px solid #BFBFBF",
             borderRadius: "10px",
-            width: { xs: "100%", sm: "80%" },
+            width: "80%",
             minWidth: "300px",
             margin: "auto",
             padding: "20px",
