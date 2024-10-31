@@ -9,14 +9,13 @@ function ProtectedRoute({ children }) {
 
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log("Usuário armazenado:", user);
+
 
   const role = user?.role;
 
   useEffect(() => {
     async function verifyToken() {
       if (!token) {
-        console.log("Token não encontrado");
         setIsAuthorized(false);
         setLoading(false);
         return;
@@ -24,12 +23,11 @@ function ProtectedRoute({ children }) {
 
       try {
         const response = await sheets.getUser(user?.id);
-        console.log("Resposta do servidor:", response);
         setIsAuthorized(true);
       } catch (error) {
-        console.error("Erro ao verificar token:", error.response ? error.response.data : error.message);
+
         if (error.response && error.response.status === 401) {
-          console.log("Token inválido");
+
           setIsAuthorized(false);
         }
       } finally {
@@ -41,7 +39,6 @@ function ProtectedRoute({ children }) {
 
     const adminRoutes = ["/admin", "/adminSales", "/adminEmployers", "/adminProducts", "/adminUsers"];
     setIsAdminRoute(adminRoutes.includes(window.location.pathname));
-    console.log("Verificando se é rota de admin:", isAdminRoute);
   }, [token, user]);
 
   if (loading) {
@@ -53,12 +50,10 @@ function ProtectedRoute({ children }) {
   }
 
   if (isAdminRoute && role === undefined) {
-    console.error("Cargo não encontrado no objeto do usuário.");
     return <Navigate to="/error" />;
   }
 
   if (isAdminRoute && role !== "admin") {
-    console.log("Acesso negado a uma rota de administrador.");
     return <Navigate to="/error" />;
   }
 
