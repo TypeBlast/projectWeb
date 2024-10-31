@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Configuração do Axios com timeout e cabeçalhos padrões
 const api = axios.create({
-  baseURL: "projectapi-production-791d.up.railway.app/api",
+  baseURL: "https://projectapi-production-791d.up.railway.app/api",
   timeout: 10000,
   headers: {
     Accept: "application/json",
