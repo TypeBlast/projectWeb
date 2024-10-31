@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, Button, Modal } from "@mui/material";
 import axios from "../../../axios/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import { faTrash } from "@fortawesome/free-solid-svg-icons"; 
+import { faTimes } from "@fortawesome/free-solid-svg-icons"; 
 import BoxCreateEmployer from "../components/layout/boxCreateEmployers";
 
 
@@ -111,7 +111,7 @@ function AdminEmployers() {
                       },
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTimes} />
                   </Button>
                 </Grid>
               </Grid>

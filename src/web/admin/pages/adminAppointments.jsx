@@ -180,18 +180,36 @@ function AdminAppointments() {
                       {employees[appt.employer_id]?.name || "Funcionário não especificado"}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} sm={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Grid item xs={12} sm={2 } sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Button
                       onClick={() => handleEditAppointment(appt)}
-                      sx={{ marginLeft: "10px", padding: "0", minWidth: "0" }}
+                      sx={{
+                        width: "60px",
+                        backgroundColor: "#EB389A",
+                        color: "#FFF",
+                        textTransform: "capitalize",
+                        fontSize: "1rem",
+                        "&:hover": {
+                          backgroundColor: "#D5006D",
+                        },
+                      }}
                     >
-                      <FontAwesomeIcon icon={faPen} style={{ color: "#D9D9D9", fontSize: "15px" }} />
+                      <FontAwesomeIcon icon={faPen} />
                     </Button>
                     <Button
                       onClick={() => openConfirmationModal(appt)} // Abre o modal de confirmação
-                      sx={{ marginLeft: "10px", padding: "0", minWidth: "0" }}
+                      sx={{
+                        width: "60px",
+                        backgroundColor: "#EB389A",
+                        color: "#FFF",
+                        textTransform: "capitalize",
+                        fontSize: "1rem",
+                        "&:hover": {
+                          backgroundColor: "#D5006D",
+                        },
+                      }}
                     >
-                      <FontAwesomeIcon icon={faTimes} style={{ color: "#D9D9D9", fontSize: "15px" }} />
+                      <FontAwesomeIcon icon={faTimes} />
                     </Button>
                   </Grid>
                 </Grid>
