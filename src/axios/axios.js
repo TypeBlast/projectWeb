@@ -59,8 +59,7 @@ const sheets = {
   getProductById: (id) => api.get(`/products/${id}`),
   updateProduct: (id, product) => api.put(`/products/${id}`, product),
   deleteProduct: (id) => api.delete(`/products/${id}`),
-  getProductsByCategory: (category_id) =>
-    api.get(`/products/category/${category_id}`),
+  getProductsByCategory: (category_id) =>api.get(`/products/category/${category_id}`),
   getProductsBySpecie: (specie_id) => api.get(`/products/specie/${specie_id}`),
   getProductsByName: (name) => api.get(`/products/search/${name}`),
 
