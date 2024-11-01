@@ -20,8 +20,8 @@ import InputDescription from "../components/inputs/inputDescriptions";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]); // Estado para categorias
-  const [species, setSpecies] = useState([]); // Estado para espécies
+  const [categories, setCategories] = useState([]); 
+  const [species, setSpecies] = useState([]); 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -48,7 +48,7 @@ function AdminProducts() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.getAllCategories(); // Função para obter categorias
+      const response = await axios.getAllCategories(); 
       setCategories(response.data.data);
     } catch (error) {
       console.error("Erro ao buscar categorias:", error);
@@ -57,7 +57,7 @@ function AdminProducts() {
 
   const fetchSpecies = async () => {
     try {
-      const response = await axios.getAllSpecies(); // Função para obter espécies
+      const response = await axios.getAllSpecies(); 
       setSpecies(response.data.data);
     } catch (error) {
       console.error("Erro ao buscar espécies:", error);
@@ -107,9 +107,9 @@ function AdminProducts() {
 
   const handleUpdateProduct = async () => {
     try {
-      await axios.updateProduct(selectedProductId, selectedProduct); // Chama a função para atualizar o produto
-      fetchProducts(); // Atualiza a lista de produtos após a edição
-      handleCloseEditModal(); // Fecha o modal de edição
+      await axios.updateProduct(selectedProductId, selectedProduct); 
+      fetchProducts();
+      handleCloseEditModal(); 
     } catch (error) {
       console.error("Erro ao atualizar produto:", error);
     }
@@ -117,8 +117,8 @@ function AdminProducts() {
 
   useEffect(() => {
     fetchProducts();
-    fetchCategories(); // Chama a função para buscar categorias
-    fetchSpecies(); // Chama a função para buscar espécies
+    fetchCategories(); 
+    fetchSpecies(); 
   }, []);
 
   return (
@@ -142,13 +142,13 @@ function AdminProducts() {
           <Typography variant="h6" sx={{ fontFamily: "Poppins-Bold", marginBottom: "20px" }}>Todos os Produtos</Typography>
 
           <Grid container sx={{ marginBottom: "10px", borderBottom: "2px solid #000", paddingBottom: "10px" }}>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={5}>
               <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Nome</Typography>
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Preço</Typography>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={1}>
               <Typography variant="subtitle1" sx={{ fontFamily: "Poppins-Bold" }}>Estoque</Typography>
             </Grid>
           </Grid>
@@ -156,13 +156,13 @@ function AdminProducts() {
           {products.length > 0 ? (
             products.map((product) => (
               <Grid container key={product.id} sx={{ marginBottom: "10px", borderBottom: "1px solid #D9D9D9", paddingBottom: "10px" }}>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={5}>
                   <Typography sx={{ fontFamily: "Poppins-Regular" }}>{product.name}</Typography>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={2}>
                   <Typography sx={{ fontFamily: "Poppins-Regular", color: "text.secondary" }}>{product.price}</Typography>
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                <Grid item xs={12} sm={1}>
                   <Typography sx={{ fontFamily: "Poppins-Regular", color: "text.secondary" }}>{product.stock}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={4} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -203,12 +203,12 @@ function AdminProducts() {
             <InputCategory
               value={selectedProduct.categoryId}
               onChange={(e) => setSelectedProduct({ ...selectedProduct, categoryId: e.target.value })}
-              categories={categories} // Passa as categorias para o input
+              categories={categories} 
             />
             <InputSpecies
               value={selectedProduct.speciesId}
               onChange={(e) => setSelectedProduct({ ...selectedProduct, speciesId: e.target.value })}
-              species={species} // Passa as espécies para o input
+              species={species} 
             />
             <InputURL value={selectedProduct.url} onChange={(e) => setSelectedProduct({ ...selectedProduct, url: e.target.value })} />
 

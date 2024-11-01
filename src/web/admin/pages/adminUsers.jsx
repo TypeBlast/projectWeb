@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, Button, Modal } from "@mui/material";
 import axios from "../../../axios/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -101,7 +101,7 @@ function AdminUsers() {
                       },
                     }}
                   >
-                    <FontAwesomeIcon icon={faTimes} />
+                    <FontAwesomeIcon icon={faTrash} />
                   </Button>
                 </Grid>
               </Grid>
