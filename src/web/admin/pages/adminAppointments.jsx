@@ -23,46 +23,59 @@ function AdminAppointments() {
     fetchAppointments();
   }, []);
 
-  const fetchAppointments = async () => {
-    try {
-      const response = await axios.getAllAppointments(); 
-      const appointmentsData = response.data.data;
+// Função para organizar e filtrar os agendamentos
+const fetchAppointments = async () => {
+  try {
+    const response = await axios.getAllAppointments(); 
+    const appointmentsData = response.data.data;
 
-      appointmentsData.sort((a, b) => {
-        const dateA = new Date(`${a.appointment_date}T${a.appointment_time}`);
-        const dateB = new Date(`${b.appointment_date}T${b.appointment_time}`);
-        return dateA - dateB; 
-      });
+    // Obter a data e hora atuais
+    const now = new Date();
 
-      setAppointments(appointmentsData);
+    // Exclui agendamentos que ja tiveram a data passada
+    const upcomingAppointments = appointmentsData.filter((appt) => {
+      const appointmentDateTime = new Date(`${appt.appointment_date}T${appt.appointment_time}`);
+      return appointmentDateTime >= now; // Mantém os agendamentos a partir de hoje
+    });
 
-      await Promise.all(
-        appointmentsData.map(async (appt) => {
-          const servicePromise = appt.service_id ? axios.getServiceById(appt.service_id) : Promise.resolve(null);
-          const employeePromise = appt.employer_id ? axios.getEmployeeById(appt.employer_id) : Promise.resolve(null);
+    // Modifica a ordem dos agendamentos por data e hora
+    upcomingAppointments.sort((a, b) => {
+      const dateA = new Date(`${a.appointment_date}T${a.appointment_time}`);
+      const dateB = new Date(`${b.appointment_date}T${b.appointment_time}`);
+      return dateA - dateB;
+    });
 
-          const [serviceResponse, employeeResponse] = await Promise.all([servicePromise, employeePromise]);
+    setAppointments(upcomingAppointments);
 
-          if (serviceResponse) {
-            setServices((prevServices) => ({
-              ...prevServices,
-              [appt.service_id]: serviceResponse.data.data,
-            }));
-          }
+    // Carrega as infos de serviços e funcionários
+    await Promise.all(
+      upcomingAppointments.map(async (appt) => {
+        const servicePromise = appt.service_id ? axios.getServiceById(appt.service_id) : Promise.resolve(null);
+        const employeePromise = appt.employer_id ? axios.getEmployeeById(appt.employer_id) : Promise.resolve(null);
 
-          if (employeeResponse) {
-            setEmployees((prevEmployees) => ({
-              ...prevEmployees,
-              [appt.employer_id]: employeeResponse.data.data,
-            }));
-          }
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      setError("Erro ao carregar agendamentos.");
-    }
-  };
+        const [serviceResponse, employeeResponse] = await Promise.all([servicePromise, employeePromise]);
+
+        if (serviceResponse) {
+          setServices((prevServices) => ({
+            ...prevServices,
+            [appt.service_id]: serviceResponse.data.data,
+          }));
+        }
+
+        if (employeeResponse) {
+          setEmployees((prevEmployees) => ({
+            ...prevEmployees,
+            [appt.employer_id]: employeeResponse.data.data,
+          }));
+        }
+      })
+    );
+  } catch (err) {
+    console.error(err);
+    setError("Erro ao carregar agendamentos.");
+  }
+};
+
 
   const handleCancelAppointment = async (appointmentId) => {
     try {
@@ -195,7 +208,7 @@ function AdminAppointments() {
                     >
                       <FontAwesomeIcon icon={faPen} />
                     </Button>
-                    <Box sx={{ width: "10px" }} /> {/* Espaço entre os botões */}
+                    <Box sx={{ width: "10px" }} />
                     <Button
                       onClick={() => openConfirmationModal(appt)}
                       sx={{
@@ -278,11 +291,27 @@ function AdminAppointments() {
           <Typography sx={{ textAlign: "center", marginBottom: "20px" }}>
             Você tem certeza que deseja cancelar este agendamento?
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-            <Button onClick={() => handleCancelAppointment(selectedAppointment.id)} variant="contained" color="error">
+          <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+            <Button onClick={() => handleCancelAppointment(selectedAppointment.id)} sx={{ width: "200px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",} }}>
               Confirmar
             </Button>
-            <Button onClick={handleCloseConfirmModal} variant="outlined" color="primary">
+            <Button onClick={handleCloseConfirmModal}sx={{ width: "200px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",} }}>
               Cancelar
             </Button>
           </Box>
