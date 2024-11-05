@@ -294,63 +294,76 @@ function AdminSales() {
 
       {/* Modal de informações do pedido */}
       <Modal
-        open={openInfoModal}
-        onClose={handleCloseInfoModal}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        <Box
-          sx={{
-            width: 400,
-            bgcolor: "background.paper",
-            borderRadius: "8px",
-            boxShadow: 24,
-            p: 4,
-            margin: "auto",
-          }}
-        >
-          <Typography variant="h6" sx={{ marginBottom: "20px" }}>
-            Informações do Pedido #{selectedOrder ? selectedOrder.orderId : ""}
-          </Typography>
-          {selectedOrder && (
-            <>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <strong>ID do Usuário:</strong> {selectedOrder.userId}
-              </Typography>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <strong>Itens:</strong>
-                {selectedOrder.items
-                  .map(
-                    (item) =>
-                      `${item.productName} (Quantidade: ${item.quantity})`
-                  )
-                  .join(", ")}
-              </Typography>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <strong>Endereço:</strong>
-                <div>
-                  {selectedOrder.addresses.number},{" "}
-                  {selectedOrder.addresses.complement},{" "}
-                  {selectedOrder.addresses.city}, {selectedOrder.addresses.cep}
-                </div>
-              </Typography>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <strong>Preço Total:</strong> R${" "}
-                {selectedOrder.totalValue.toFixed(2)}
-              </Typography>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <strong>Status:</strong> {selectedOrder.status}
-              </Typography>
-            </>
-          )}
+  open={openInfoModal}
+  onClose={handleCloseInfoModal}
+  sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+>
+  <Box
+    sx={{
+      width: 400,
+      bgcolor: "background.paper",
+      borderRadius: "8px",
+      boxShadow: 24,
+      p: 4,
+      margin: "auto",
+    }}
+  >
+    <Typography variant="h6" sx={{ marginBottom: "20px" }}>
+      Informações do Pedido #{selectedOrder ? selectedOrder.orderId : ""}
+    </Typography>
+    {selectedOrder && (
+      <>
+        <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+          <strong>ID do Usuário:</strong> {selectedOrder.userId}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+          <strong>Itens:</strong>
+          {selectedOrder.items
+            .map(
+              (item) =>
+                `${item.productName} (Quantidade: ${item.quantity})`
+            )
+            .join(", ")}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+          <strong>Endereço:</strong>
+          <div>
+            {selectedOrder.addresses.number},{" "}
+            {selectedOrder.addresses.complement},{" "}
+            {selectedOrder.addresses.city}, {selectedOrder.addresses.cep}
+          </div>
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+          <strong>Preço Total:</strong> R${" "}
+          {selectedOrder.totalValue.toFixed(2)}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+          <strong>Status:</strong> {selectedOrder.status}
+        </Typography>
+      </>
+    )}
 
-          <Button
-            onClick={handleCloseInfoModal}
-            sx={{ marginTop: "20px", backgroundColor: "#EB389A", color: "#FFF", "&:hover": { backgroundColor: "#D5006D" } }}
-          >
-            Fechar
-          </Button>
-        </Box>
-      </Modal>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Button
+        onClick={handleCloseInfoModal}
+        sx={{
+          width: "200px",
+          backgroundColor: "#EB389A",
+          marginTop: "20px",
+          fontFamily: "Poppins-Bold",
+          color: "#FFF",
+          textTransform: "capitalize",
+          fontSize: "1rem",
+          "&:hover": {
+            backgroundColor: "#D5006D",
+          },
+        }}
+      >
+        Fechar
+      </Button>
+    </Box>
+  </Box>
+</Modal>
 
       {/* Modal de confirmação de cancelamento */}
       <Modal
@@ -375,19 +388,29 @@ function AdminSales() {
             Tem certeza que deseja cancelar o pedido #{selectedOrderId}?
           </Typography>
           <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginTop: "20px",
-            }}
-          >
+           sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
             <Button
               onClick={handleCloseConfirmCancelModal}
-              sx={{ marginRight: "10px" }}
-            >
+              sx={{ width: "200px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",} }}>
               Cancelar
             </Button>
-            <Button onClick={handleCancelOrder} color="error">
+            <Button onClick={handleCancelOrder} sx={{ width: "200px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",} }}>
               Confirmar
             </Button>
           </Box>
