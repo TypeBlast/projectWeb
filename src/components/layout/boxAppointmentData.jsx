@@ -13,50 +13,57 @@ function BoxAppointments({ user }) {
   const [employees, setEmployees] = useState({});
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [openConfirmModal, setOpenConfirmModal] = useState(false); // Modal de confirmação
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);  
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [updatedDate, setUpdatedDate] = useState("");
   const [updatedTime, setUpdatedTime] = useState("");
   useEffect(() => {
     fetchAppointments();
   }, []);
-  
+
   const fetchAppointments = async () => {
     try {
       const response = await axios.getAppointmentByUser();
       const appointmentsData = response.data.data;
-  
-      // Ordena os agendamentos pela data e horário, do menor para o maior
+
+      
       const sortedAppointments = appointmentsData.sort((a, b) => {
         const dateA = new Date(`${a.appointment_date}T${a.appointment_time}`);
         const dateB = new Date(`${b.appointment_date}T${b.appointment_time}`);
         return dateA - dateB;
       });
-  
+
       setAppointments(sortedAppointments);
-  
+
       await Promise.all(
         sortedAppointments.map(async (appt) => {
-          const petPromise = appt.pet_id ? axios.getPetById(appt.pet_id) : Promise.resolve(null);
-          const servicePromise = appt.service_id ? axios.getServiceById(appt.service_id) : Promise.resolve(null);
-          const employeePromise = appt.employer_id ? axios.getEmployeeById(appt.employer_id) : Promise.resolve(null);
-  
-          const [petResponse, serviceResponse, employeeResponse] = await Promise.all([petPromise, servicePromise, employeePromise]);
-  
+          const petPromise = appt.pet_id
+            ? axios.getPetById(appt.pet_id)
+            : Promise.resolve(null);
+          const servicePromise = appt.service_id
+            ? axios.getServiceById(appt.service_id)
+            : Promise.resolve(null);
+          const employeePromise = appt.employer_id
+            ? axios.getEmployeeById(appt.employer_id)
+            : Promise.resolve(null);
+
+          const [petResponse, serviceResponse, employeeResponse] =
+            await Promise.all([petPromise, servicePromise, employeePromise]);
+
           if (petResponse) {
             setPets((prevPets) => ({
               ...prevPets,
               [appt.pet_id]: petResponse.data.data,
             }));
           }
-  
+
           if (serviceResponse) {
             setServices((prevServices) => ({
               ...prevServices,
               [appt.service_id]: serviceResponse.data.data,
             }));
           }
-  
+
           if (employeeResponse) {
             setEmployees((prevEmployees) => ({
               ...prevEmployees,
@@ -65,15 +72,14 @@ function BoxAppointments({ user }) {
           }
         })
       );
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   const handleCancelAppointment = async (appointmentId) => {
     try {
       await axios.deleteAppointment(appointmentId);
       fetchAppointments();
-      setOpenConfirmModal(false); 
+      setOpenConfirmModal(false);
     } catch (err) {
       console.error("Erro ao cancelar agendamento:", err);
       setError("Erro ao cancelar agendamento.");
@@ -82,7 +88,7 @@ function BoxAppointments({ user }) {
 
   const openConfirmationModal = (appointment) => {
     setSelectedAppointment(appointment);
-    setOpenConfirmModal(true); // Abre o modal de confirmação
+    setOpenConfirmModal(true); 
   };
 
   const handleEditAppointment = (appointment) => {
@@ -116,7 +122,7 @@ function BoxAppointments({ user }) {
   const formatDateTime = (date, time) => {
     const dateTimeString = `${date}T${time}`;
     const dateTime = new Date(dateTimeString);
-    
+
     return dateTime.toLocaleString("pt-BR", {
       day: "2-digit",
       month: "2-digit",
@@ -147,30 +153,55 @@ function BoxAppointments({ user }) {
           >
             Meus Agendamentos
           </Typography>
-  
+
           {error && <Typography sx={{ color: "red" }}>{error}</Typography>}
-  
+
           {appointments.length === 0 ? (
             <Typography>Nenhum agendamento encontrado.</Typography>
           ) : (
             <>
-              <Grid container sx={{ marginBottom: "10px", borderBottom: "2px solid #000", paddingBottom: "10px" }}>
+              <Grid
+                container
+                sx={{
+                  marginBottom: "10px",
+                  borderBottom: "2px solid #000",
+                  paddingBottom: "10px",
+                  display: { xs: "none", sm: "flex" },
+                }}
+              >
                 <Grid item xs={12} sm={4}>
-                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>Data e Hora</Typography>
+                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>
+                    Data e Hora
+                  </Typography>
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>Serviço</Typography>
+                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>
+                    Serviço
+                  </Typography>
                 </Grid>
                 <Grid item xs={6} sm={3}>
-                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>Funcionário</Typography>
+                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>
+                    Funcionário
+                  </Typography>
                 </Grid>
                 <Grid item xs={6} sm={2}>
-                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>Pet</Typography>
+                  <Typography sx={{ fontFamily: "Poppins-Bold" }}>
+                    Pet
+                  </Typography>
                 </Grid>
               </Grid>
-  
+
               {appointments.map((appt) => (
-                <Grid container key={appt.id} sx={{ marginBottom: "10px", borderBottom: "1px solid #D9D9D9", paddingBottom: "10px" }}>
+                <Grid
+                  container
+                  key={appt.id}
+                  sx={{
+                    marginBottom: "10px",
+                    borderBottom: "1px solid #D9D9D9",
+                    paddingBottom: "10px",
+                    display: { xs: "block", sm: "flex" },
+                  }}
+                >
                   <Grid item xs={12} sm={4}>
                     <Typography
                       sx={{
@@ -180,39 +211,106 @@ function BoxAppointments({ user }) {
                         gap: "10px",
                       }}
                     >
-                      <FontAwesomeIcon icon={faCalendar} style={{ color: "#D9D9D9" }} />
-                      {formatDateTime(appt.appointment_date, appt.appointment_time)}
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        style={{ color: "#D9D9D9" }}
+                      />
+                      {formatDateTime(
+                        appt.appointment_date,
+                        appt.appointment_time
+                      )}
                     </Typography>
                   </Grid>
-  
-                  <Grid item xs={12} sm={3}>
+
+                  <Grid
+                    item
+                    xs={6}
+                    sm={3}
+                    sx={{ display: { xs: "none", sm: "block" } }}
+                  >
                     <Typography sx={{ fontFamily: "Poppins-Regular" }}>
-                      {services[appt.service_id]?.name || "Serviço não especificado"}
+                      {services[appt.service_id]?.name ||
+                        "Serviço não especificado"}
                     </Typography>
                   </Grid>
-  
-                  <Grid item xs={6} sm={3}>
+
+                  <Grid
+                    item
+                    xs={6}
+                    sm={3}
+                    sx={{ display: { xs: "none", sm: "block" } }}
+                  >
                     <Typography sx={{ fontFamily: "Poppins-Regular" }}>
-                      {employees[appt.employer_id]?.name || "Funcionário não especificado"}
+                      {employees[appt.employer_id]?.name ||
+                        "Funcionário não especificado"}
                     </Typography>
                   </Grid>
-  
+
                   <Grid item xs={6} sm={2} container alignItems="center">
-                    <Typography sx={{ fontFamily: "Poppins-Regular" }}>
+                    <Typography
+                      sx={{
+                        fontFamily: "Poppins-Regular",
+                        gap: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        style={{ color: "#D9D9D9" }}
+                      />
                       {pets[appt.pet_id]?.name || "Carregando..."}
                     </Typography>
-                    <Button
-                      onClick={() => handleEditAppointment(appt)}
-                      sx={{ marginLeft: "10px", padding: "0", minWidth: "0" }}
+
+                    <Grid
+                      item
+                      xs={6}
+                      sm={7}
+                      container
+                      alignItems="center" 
+                      justifyContent="flex-end" 
+                      sx={{
+                        display: "flex", 
+                        gap: "5px",
+                      }}
                     >
-                      <FontAwesomeIcon icon={faPen} style={{ color: "#D9D9D9", fontSize: "15px" }} />
-                    </Button>
-                    <Button
-                      onClick={() => openConfirmationModal(appt)} // Abre o modal de confirmação
-                      sx={{ marginLeft: "10px", padding: "0", minWidth: "0" }}
-                    >
-                      <FontAwesomeIcon icon={faTimes} style={{ color: "#D9D9D9", fontSize: "15px" }} />
-                    </Button>
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation(); 
+                          handleEditAppointment(appt);
+                        }}
+                        sx={{
+                          padding: "0",
+                          minWidth: "0",
+                          color: "#D9D9D9",
+                          "&:hover": { color: "#EB389A" },
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          style={{ fontSize: "1.8rem" }}
+                        />
+                      </Button>
+
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation(); 
+                          openConfirmationModal(appt);
+                        }}
+                        sx={{
+                          padding: "0",
+                          minWidth: "0",
+                          color: "#D9D9D9",
+                          marginLeft: "8px", 
+                          "&:hover": { color: "#EB389A" },
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          style={{ fontSize: "1.8rem" }}
+                        />
+                      </Button>
+                    </Grid>
                   </Grid>
                 </Grid>
               ))}
@@ -221,7 +319,6 @@ function BoxAppointments({ user }) {
         </Box>
       </Grid>
 
-      {/* Modal de Edição de Agendamento */}
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -240,12 +337,30 @@ function BoxAppointments({ user }) {
             marginTop: "100px",
           }}
         >
-          <Typography id="modal-title" variant="h6" component="h2" sx={{ textAlign: "center", marginBottom: "20px" }}>
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ textAlign: "center", marginBottom: "20px" }}
+          >
             Editar Agendamento
           </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
-            <InputDate appointmentDate={updatedDate} setAppointmentDate={setUpdatedDate} />
-            <InputTime appointmentTime={updatedTime} setAppointmentTime={setUpdatedTime} />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "20px",
+            }}
+          >
+            <InputDate
+              appointmentDate={updatedDate}
+              setAppointmentDate={setUpdatedDate}
+            />
+            <InputTime
+              appointmentTime={updatedTime}
+              setAppointmentTime={setUpdatedTime}
+            />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
             <Button
@@ -286,7 +401,6 @@ function BoxAppointments({ user }) {
         </Box>
       </Modal>
 
-      {/* Modal de Confirmação de Exclusão */}
       <Modal
         open={openConfirmModal}
         onClose={handleCloseConfirmModal}
@@ -305,26 +419,39 @@ function BoxAppointments({ user }) {
             marginTop: "100px",
           }}
         >
-          <Typography id="confirm-modal-title" variant="h6" component="h2" sx={{ textAlign: "center", marginBottom: "20px" }}>
+          <Typography
+            id="confirm-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ textAlign: "center", marginBottom: "20px" }}
+          >
             Confirmar Cancelamento
           </Typography>
           <Typography sx={{ textAlign: "center", marginBottom: "20px" }}>
             Você tem certeza que deseja cancelar este agendamento?
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between", gap: "10px" }}>
-            <Button onClick={handleCloseConfirmModal} 
-           sx={{
-            width: "150px",
-            backgroundColor: "#EB389A",
-            marginTop: "20px",
-            fontFamily: "Poppins-Bold",
-            color: "#FFF",
-            textTransform: "capitalize",
-            fontSize: "1rem",
-            "&:hover": {
-              backgroundColor: "#D5006D",
-            },
-          }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "10px",
+            }}
+          >
+            <Button
+              onClick={handleCloseConfirmModal}
+              sx={{
+                width: "150px",
+                backgroundColor: "#EB389A",
+                marginTop: "20px",
+                fontFamily: "Poppins-Bold",
+                color: "#FFF",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#D5006D",
+                },
+              }}
+            >
               Cancelar
             </Button>
             <Button

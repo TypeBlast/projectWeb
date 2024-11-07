@@ -11,8 +11,8 @@ import axios from "../../axios/axios";
 import InputComplement from "../inputs/inputComplement";
 import InputNumber from "../inputs/inputNumber";
 import InputCep from "../inputs/inputCEP";
-import InputState from "../inputs/inputState"; // Componente para selecionar o estado
-import InputCity from "../inputs/inputCity"; // Componente para selecionar a cidade
+import InputState from "../inputs/inputState"; 
+import InputCity from "../inputs/inputCity"; 
 
 const modalStyle = {
   position: "absolute",
@@ -131,7 +131,6 @@ function BoxAddress() {
         setSuccess("Endereço cadastrado com sucesso!");
       }
 
-      // Atualiza os endereços após a edição ou adição
       const response = await axios.getAddressByUser();
       setAddresses(response.data.data);
 
@@ -150,7 +149,6 @@ function BoxAddress() {
       await axios.deleteAddress(addressId);
       setSuccess("Endereço deletado com sucesso!");
 
-      // Atualiza os endereços após a deleção
       const response = await axios.getAddressByUser();
       setAddresses(response.data.data);
 
@@ -178,7 +176,7 @@ function BoxAddress() {
           sx={{
             border: "1px solid #BFBFBF",
             borderRadius: "10px",
-            width: "80%", // Espaçamento de 80% entre a borda da tela
+            width: "80%", 
             minWidth: "300px",
             margin: "auto",
             padding: "20px",
@@ -208,11 +206,11 @@ function BoxAddress() {
                 key={address.id}
                 sx={{
                   marginBottom: "20px",
-                  borderBottom: "1px solid #D9D9D9", // Linha divisória entre os endereços
+                  borderBottom: "1px solid #D9D9D9", 
                   paddingBottom: "10px",
-                  cursor: "pointer", // Indica que o item é clicável
+                  cursor: "pointer", 
                 }}
-                onClick={() => handleEditAddress(address)} // Abre a edição ao clicar
+                onClick={() => handleEditAddress(address)} 
               >
                 <Grid item xs={8}>
                   <Box
@@ -230,7 +228,6 @@ function BoxAddress() {
                   </Box>
                 </Grid>
 
-                {/* Botões de Ação (Editar e Deletar) */}
                 <Grid
                   item
                   xs={4}
@@ -240,14 +237,13 @@ function BoxAddress() {
                 >
                   <Button
                     onClick={(e) => {
-                      e.stopPropagation(); // Impede a propagação do clique para a edição
+                      e.stopPropagation(); 
                       handleEditAddress(address);
                     }}
                     sx={{
                       padding: "0",
                       minWidth: "0",
                       color: "#D9D9D9",
-                      "&:hover": { color: "#EB389A" },
                     }}
                   >
                     <FontAwesomeIcon
@@ -258,7 +254,7 @@ function BoxAddress() {
 
                   <Button
                     onClick={(e) => {
-                      e.stopPropagation(); // Impede a propagação do clique para a exclusão
+                      e.stopPropagation(); 
                       setCurrentAddress(address);
                       setConfirmDeleteOpen(true);
                     }}
@@ -267,7 +263,6 @@ function BoxAddress() {
                       minWidth: "0",
                       color: "#D9D9D9",
                       marginLeft: "8px",
-                      "&:hover": { color: "#EB389A" },
                     }}
                   >
                     <FontAwesomeIcon
@@ -280,7 +275,6 @@ function BoxAddress() {
             ))
           )}
 
-          {/* Botão Adicionar Novo Endereço */}
           <Button
             variant="contained"
             onClick={handleOpen}
@@ -306,7 +300,6 @@ function BoxAddress() {
         </Box>
       </Grid>
 
-      {/* Modal para Adicionar/Editar Endereço */}
       <Modal open={open} onClose={handleClose}>
         <Box sx={modalStyle}>
           <Button
@@ -388,7 +381,6 @@ function BoxAddress() {
         </Box>
       </Modal>
 
-      {/* Modal de confirmação de exclusão */}
       <Modal
         open={confirmDeleteOpen}
         onClose={() => setConfirmDeleteOpen(false)}
