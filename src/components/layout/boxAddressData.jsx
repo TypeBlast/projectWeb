@@ -165,17 +165,20 @@ function BoxAddress() {
     }
   };
 
-  const formatCEP = (cep) =>
-    cep.replace(/(\d{5})(\d{3})/, "$1-$2");
+  const formatCEP = (cep) => cep.replace(/(\d{5})(\d{3})/, "$1-$2");
 
   return (
     <Box>
-      <Grid container spacing={2} sx={{ marginTop: "50px" }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ marginTop: "50px", justifyContent: "center" }}
+      >
         <Box
           sx={{
             border: "1px solid #BFBFBF",
             borderRadius: "10px",
-            width: "80%",
+            width: "80%", // Espaçamento de 80% entre a borda da tela
             minWidth: "300px",
             margin: "auto",
             padding: "20px",
@@ -184,82 +187,106 @@ function BoxAddress() {
         >
           <Typography
             variant="h6"
-            sx={{ fontFamily: "Poppins-Bold", marginBottom: "20px" }}
+            sx={{
+              fontFamily: "Poppins-Bold",
+              marginBottom: "20px",
+              fontSize: "1.25rem",
+              textAlign: "start",
+            }}
           >
             Endereços Salvos
           </Typography>
+
           {addresses.length === 0 ? (
-            <Typography>Nenhum endereço cadastrado.</Typography>
+            <Typography textAlign="center">
+              Nenhum endereço cadastrado.
+            </Typography>
           ) : (
             addresses.map((address) => (
-              <Grid container key={address.id} sx={{ marginBottom: "10px" }}>
-                <Grid
-                  item
-                  xs={12} // Ocupa 100% da largura em telas pequenas
-                  md={8} // Ocupa 8/12 da largura em telas médias e maiores
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Grid
+                container
+                key={address.id}
+                sx={{
+                  marginBottom: "20px",
+                  borderBottom: "1px solid #D9D9D9", // Linha divisória entre os endereços
+                  paddingBottom: "10px",
+                  cursor: "pointer", // Indica que o item é clicável
+                }}
+                onClick={() => handleEditAddress(address)} // Abre a edição ao clicar
+              >
+                <Grid item xs={8}>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  >
                     <FontAwesomeIcon
                       icon={faLocationDot}
                       style={{ marginRight: "8px", color: "#D9D9D9" }}
                     />
-                    <Typography>{`${formatCEP(address.cep)} - ${address.complement}`}</Typography>
+                    <Typography
+                      sx={{ fontFamily: "Poppins-Regular", fontSize: "0.9rem" }}
+                    >
+                      {`${formatCEP(address.cep)} - ${address.complement}`}
+                    </Typography>
                   </Box>
                 </Grid>
+
+                {/* Botões de Ação (Editar e Deletar) */}
                 <Grid
                   item
-                  xs={12} // Ocupa 100% da largura em telas pequenas
-                  md={4} // Ocupa 4/12 da largura em telas médias e maiores
-                  sx={{
-                    display: "flex",
-                    justifyContent: { xs: "flex-start", md: "flex-end" }, // Ajusta o alinhamento conforme o tamanho da tela
-                    marginTop: { xs: "10px", md: "0" }, // Adiciona espaço entre as colunas em telas pequenas
-                  }}
+                  xs={4}
+                  container
+                  alignItems="center"
+                  justifyContent="flex-end"
                 >
                   <Button
-                    onClick={() => handleEditAddress(address)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Impede a propagação do clique para a edição
+                      handleEditAddress(address);
+                    }}
                     sx={{
-                      backgroundColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#D9D9D9",
-                      },
+                      padding: "0",
+                      minWidth: "0",
+                      color: "#D9D9D9",
+                      "&:hover": { color: "#EB389A" },
                     }}
                   >
                     <FontAwesomeIcon
                       icon={faPen}
-                      style={{ fontSize: "1rem", color: "#D9D9D9" }}
+                      style={{ fontSize: "1.8rem" }}
                     />
                   </Button>
+
                   <Button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation(); // Impede a propagação do clique para a exclusão
                       setCurrentAddress(address);
                       setConfirmDeleteOpen(true);
                     }}
                     sx={{
-                      marginLeft: "10px",
-                      backgroundColor: "transparent",
-                      "&:hover": {
-                        backgroundColor: "#D9D9D9",
-                      },
+                      padding: "0",
+                      minWidth: "0",
+                      color: "#D9D9D9",
+                      marginLeft: "8px",
+                      "&:hover": { color: "#EB389A" },
                     }}
                   >
                     <FontAwesomeIcon
                       icon={faTrash}
-                      style={{ fontSize: "1rem", color: "#D9D9D9" }}
+                      style={{ fontSize: "1.8rem" }}
                     />
                   </Button>
                 </Grid>
               </Grid>
             ))
           )}
-          {/* Botão Adicionar Novo Endereço com estilo atualizado */}
+
+          {/* Botão Adicionar Novo Endereço */}
           <Button
             variant="contained"
             onClick={handleOpen}
             sx={{
               maxWidth: "300px",
-              width: "80%",
+              width: "100%",
               backgroundColor: "#EB389A",
               marginTop: "20px",
               fontFamily: "Poppins-Bold",
@@ -267,9 +294,11 @@ function BoxAddress() {
               textTransform: "capitalize",
               fontSize: "1rem",
               "&:hover": {
-                backgroundColor: "#D5006D", // Cor ao passar o mouse
+                backgroundColor: "#D5006D",
                 transform: "scale(1.05)",
               },
+              padding: "12px",
+              borderRadius: "8px",
             }}
           >
             Adicionar Novo Endereço
@@ -375,7 +404,13 @@ function BoxAddress() {
           >
             Tem certeza que deseja deletar este endereço?
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginTop: "20px",
+            }}
+          >
             <Button
               onClick={() => handleDeleteAddress(currentAddress.id)}
               variant="contained"
