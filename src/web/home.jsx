@@ -13,7 +13,7 @@ function Home() {
   return (
     <div className="container">
       {isSmallScreen && (
-        <Box sx={{ marginTop: "0px", paddingBottom: "0px" }}>
+        <Box sx={{ marginTop: "-130px", paddingBottom: "-130px" }}>
           <SearchBar />
           <BoxWelcome />
         </Box>
