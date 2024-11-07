@@ -109,6 +109,7 @@ function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [totalItems, setTotalItems] = useState(0);
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -136,7 +137,7 @@ function Cart() {
         item.productId === productId && item.quantity > 0
           ? { ...item, quantity: item.quantity - 1 }
           : item
-      ).filter(item => item.quantity > 0) // Remove o item se a quantidade for 0
+      ).filter(item => item.quantity > 0)
     );
 
     // Lógica para atualizar o backend se necessário
@@ -150,7 +151,7 @@ function Cart() {
   const handleAddToCart = async (productId) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.productId === productId && item.quantity < 10
+        item.productId === productId
           ? { ...item, quantity: item.quantity + 1 }
           : item
       )
@@ -190,6 +191,11 @@ function Cart() {
   useEffect(() => {
     fetchCart();
   }, []);
+  
+  useEffect(() => {
+    const total = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+    setTotalItems(total);
+  }, [cartItems]);
 
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -271,9 +277,12 @@ function Cart() {
                     />
                   </Button>
                   <Button
-                    onClick={() => handleAddToCart(item.productId)} // Adicionar 1 item
-                    sx={{ minWidth: "30px" }}
-                    disabled={item.quantity >= 10} // Desabilita se a quantidade for 10 ou mais
+                    onClick={() => handleAddToCart(item.productId)}
+                    sx={{
+                      minWidth: "30px",
+                      visibility: totalItems >= 10 ? 'hidden' : 'visible' // Esconde o botão se total >= 10
+                    }}
+                    disabled={totalItems >= 10}
                   >
                     <FontAwesomeIcon
                       icon={faPlus}
