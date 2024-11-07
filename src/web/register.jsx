@@ -54,7 +54,6 @@ function Register() {
     try {
       const registerData = { email, password, cpf, name, phone };
       const response = await sheets.postUser(registerData);
-      console.log("Resposta do servidor:", response.data);
       
       if (response.status === 201) {
         navigate("/login");

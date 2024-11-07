@@ -21,12 +21,6 @@ function BoxOrders({ user }) {
       const response = await axios.getAllOrders();
       const ordersData = response.data || [];
       setOrders(ordersData);
-
-      if (ordersData.length === 0) {
-        setError("Você ainda não fez nenhum pedido.");
-      } else {
-        setError(null);
-      }
     } catch (err) {
       if (err.response && err.response.status === 400) {
         setError("Você ainda não fez nenhum pedido.");
@@ -109,10 +103,8 @@ function BoxOrders({ user }) {
             Meus Pedidos
           </Typography>
 
-          {error ? (
-            <Typography sx={{ color: "black", textAlign: "start" }}>
-              {error}
-            </Typography>
+          {orders.length === 0 ? (
+            <Typography>Nenhum agendamento encontrado.</Typography>
           ) : (
             orders.map((order) => (
               <Grid

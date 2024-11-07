@@ -66,8 +66,6 @@ function BoxPersonalData({ user, updateUser }) {
         return;
       }
 
-      console.log("Enviando dados:", updatedUser);
-
       await sheets.putUser(updatedUser, user.id);
 
       updateUser(updatedUser);

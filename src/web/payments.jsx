@@ -62,11 +62,9 @@ const Payments = () => {
   const getCartId = async () => {
     try {
       const response = await sheets.getCart();
-      console.log("Response getCart:", response);
       const cart = response.data?.data?.cart;
       if (cart && cart.id) {
         setCartId(cart.id);
-        console.log("Cart ID found:", cart.id);
       } else {
         throw new Error("Cart ID not found in the response.");
       }
@@ -81,9 +79,7 @@ const Payments = () => {
 
     try {
       const response = await sheets.getCartSummary(cartId);
-      console.log("Response getCartSummary:", response);
       if (response.data) {
-        console.log("Cart Summary Data:", response.data);
         setCartSummary(response.data);
       } else {
         throw new Error("Cart summary not found in the response.");
@@ -97,14 +93,12 @@ const Payments = () => {
   const getAddresses = async () => {
     try {
       const response = await sheets.getAddressByUser();
-      console.log("Response getAddresses:", response);
       if (
         response.data &&
         response.data.data &&
         Array.isArray(response.data.data)
       ) {
         setAddresses(response.data.data);
-        console.log("Addresses found:", response.data.data);
       } else {
         throw new Error("No addresses found or invalid response format.");
       }
@@ -144,11 +138,9 @@ const Payments = () => {
       paymentMethod: paymentMethod,
     };
 
-    console.log("Payment Data before sending:", paymentData);
 
     try {
       const response = await sheets.processPayment(paymentData);
-      console.log("Response processPayment:", response);
       showSnackbar("Pagamento realizado com sucesso!");
       setIsModalOpen(false);
       setTimeout(() => {
