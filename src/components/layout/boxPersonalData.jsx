@@ -86,7 +86,6 @@ function BoxPersonalData({ user, updateUser }) {
     cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
   const formatPhone = (phone) =>
     phone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
-    
 
   return (
     <Box>
@@ -122,11 +121,21 @@ function BoxPersonalData({ user, updateUser }) {
                   gap: "10px",
                   fontFamily: "Poppins-Regular",
                   marginTop: "5px",
+                  wordBreak: "break-word", // Permite quebra de linha se necessário
                 }}
               >
                 <FontAwesomeIcon icon={faAt} style={{ color: "#D9D9D9" }} />
-                {user.email}
+                <span
+                  style={{
+                    whiteSpace: "nowrap", // Evita quebra de linha
+                    overflow: "hidden", // Esconde o texto que ultrapassa
+                    textOverflow: "ellipsis", // Adiciona '...' quando o texto não cabe
+                  }}
+                >
+                  {user.email}
+                </span>
               </Typography>
+
               <Typography
                 sx={{
                   display: "flex",
@@ -155,19 +164,33 @@ function BoxPersonalData({ user, updateUser }) {
             </Grid>
             <Grid
               item
-              xs={12} // Agora ocupa 100% em telas pequenas
-              md={4} // Ocupa 4/12 em telas médias e maiores
+              xs={4}
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "flex-end",
-                marginTop: { xs: "10px", md: "0" }, // Margem em telas pequenas
+                marginTop: { xs: "10px", sm: "0" },
               }}
             >
-              <Button onClick={handleOpen}>
+              <Button
+                onClick={handleOpen}
+                sx={{
+                  padding: { xs: "8px", sm: "12px" },
+                  minWidth: "auto",
+                  borderRadius: "50%",
+                  backgroundColor: "transparent",
+                  color: "#FFF",
+                  "&:hover": {
+                    backgroundColor: "#transparent",
+                  },
+                }}
+              >
                 <FontAwesomeIcon
                   icon={faPen}
-                  style={{ fontSize: "2rem", color: "#D9D9D9" }}
+                  style={{
+                    fontSize: "2rem", // Mantém o tamanho original do ícone
+                    color: "#D9D9D9",
+                  }}
                 />
               </Button>
             </Grid>
