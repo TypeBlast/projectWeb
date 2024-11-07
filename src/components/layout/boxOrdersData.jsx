@@ -278,10 +278,10 @@ function BoxOrders({ user }) {
               }}
               sx={{
                 width: "100px",
-                backgroundColor: "#FF0000",
+                backgroundColor: "#EB389A",
                 color: "#FFF",
                 fontFamily: "Poppins-Bold",
-                "&:hover": { backgroundColor: "#CC0000" },
+                "&:hover": { backgroundColor: "#D5006D" },
                 marginRight: "10px",
               }}
             >
