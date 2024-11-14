@@ -32,7 +32,7 @@ const Species = () => {
   }, []);
 
   const getColor = (index) => {
-    const colors = ['#CE88F8', '#FF8DBA', '#85F78D', '#fde047'];
+    const colors = ['#BA60E8', '#FF4C4C', '#5BF165', '#FF8C2D', '#4C9FFF'];
     return colors[index % colors.length];
   };
 

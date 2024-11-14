@@ -31,7 +31,7 @@ const ServicesList = () => {
     imageVacina,
     imageTosa,
   ];
-  const colors = ["#BA60E8", "#FF6561", "#5BF165", "#FDFF61"];
+  const colors = ['#BA60E8', '#FF4C4C', '#5BF165', '#FF8C2D', '#4C9FFF'];
 
   const navigate = useNavigate();
   const handleServiceClick = (serviceId) => {
