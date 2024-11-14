@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button, Box, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 import SearchBar from "../components/layout/searchBar";
 import BoxWelcome from "../components/layout/boxWelcome";
@@ -8,27 +8,19 @@ import Species from "../components/layout/speciesList";
 import ServicesList from "../components/layout/servicesList";
 
 function Home() {
+  // Verifica se a tela é de tamanho médio ou pequeno (menos de 960px)
   const isMediumScreen = useMediaQuery("(max-width: 960px)");
-  const isSmallScreen = useMediaQuery("(max-width: 959px)");
+
   return (
     <div className="container">
-      {isSmallScreen && (
-        <Box sx={{ marginTop: "-130px", paddingBottom: "-130px" }}>
-          <SearchBar />
-          <BoxWelcome />
-        </Box>
-      )}
-      {!isMediumScreen && (
-        <Box sx={{ marginTop: "50px", paddingBottom: "50px" }}>
-          <SearchBar />
-          <BoxWelcome />
-          <>
-            <Categories />
-            <Species />
-            <ServicesList />
-          </>
-        </Box>
-      )}
+      <Box className="content-box" sx={{ paddingBottom: "50px", marginTop: "50px" }}>
+        <SearchBar />
+        <BoxWelcome />
+        <Categories />
+        <Species />
+        {/* Condicionalmente renderiza o ServicesList apenas em telas maiores que 960px */}
+        {!isMediumScreen && <ServicesList />}
+      </Box>
     </div>
   );
 }

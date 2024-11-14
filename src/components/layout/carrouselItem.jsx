@@ -10,9 +10,10 @@ const CarouselItem = ({ items, colors, images, handleClick, itemKey }) => {
       display="flex"
       overflow="auto"
       width="100%"
-      maxWidth="1024px"
-      padding="20px"
+      maxWidth="900px"  // Diminuindo a largura máxima do carousel
+      padding="20px 30px"  // Padding horizontal
       gap="20px"
+      margin="0px 20px"
       sx={{
         "&::-webkit-scrollbar": {
           height: "8px",
@@ -34,7 +35,7 @@ const CarouselItem = ({ items, colors, images, handleClick, itemKey }) => {
           key={item[itemKey]}
           variant="contained"
           sx={{
-            minWidth: "250px",
+            minWidth: "200px",  // Diminuindo a largura mínima dos botões
             height: "250px",
             backgroundColor: colors[index % colors.length],
             color: "#fff",

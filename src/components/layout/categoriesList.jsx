@@ -33,7 +33,7 @@ const Categories = () => {
   // Função chamada ao clicar em uma categoria
   const handleCategoryClick = (category_id) => {
     navigate(`/products/category/${category_id}`);
-  };  
+  };
 
   return (
     <div>

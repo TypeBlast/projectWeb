@@ -156,51 +156,104 @@
   min-height: 100vh; /* Para centralizar verticalmente */
   padding: 0 20px; /* Um pouco de padding nas laterais para telas pequenas */
 }
-.MuiTypography-root.textError {
-  font-family: "Poppins-Regular";
-  font-size: 1.2rem;
-  width: 60%;
-  max-width: 550px;
-  text-align: center;
-  margin-top: 20px;
+.content-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 50px; /* Mais espaço no topo */
+  padding-bottom: 50px;
+  max-width: 1200px; /* Limitando a largura máxima */
+  margin: 0 auto; /* Centraliza o conteúdo */
 }
 
-.MuiButton-root.buttonError {
-  background-color: #eb389a;
-  color: #fff;
-  margin: 10px;
-  width: 200px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-family: "Poppins-Bold";
-  font-size: 1.3rem;
-  text-transform: capitalize;
-  margin-top: 30px;
+.MuiBox-root.MuiBox-root .MuiGrid-root {
+  width: 100%;
+  padding: 0 10px;
 }
 
-.MuiButton-root.buttonError:hover {
-  background-color: #d72c7a;
-  color: #fff;
-  transform: scale(1.05);
+/* Ajustes específicos para SearchBar */
+.MuiBox-root.searchBarBox {
+  margin-bottom: 20px;
 }
+
+/* Media Queries */
 @media (max-width: 960px) {
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Faz com que o conteúdo ocupe toda a altura da tela */
-    text-align: center;
+  .content-box {
+    padding-top: 20px; /* Menos espaço no topo em telas menores */
+    padding-bottom: 20px;
   }
 
-  .MuiTypography-root.textError {
-    width: 80%; /* Para garantir uma melhor adaptação */
-    max-width: 100%;
-    margin-top: 10px; /* Ajusta a margem para um espaçamento menor em telas pequenas */
-  }
-
-  .MuiButton-root.buttonError {
-    margin-top: 20px; /* Ajusta o espaçamento dos botões */
+  .MuiBox-root.searchBarBox {
+    margin-bottom: 15px; /* Ajustando o espaçamento do SearchBar */
   }
 }
 
+@media (max-width: 600px) {
+  /* Ajustes mais agressivos para telas pequenas */
+  .content-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  /* Mantém o conteúdo responsivo e evita sobreposição */
+  .MuiBox-root.MuiBox-root .MuiGrid-root {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .MuiTypography-root.titleWelcome {
+    font-size: 1.4rem;
+    width: 100%; /* Permite que o título ocupe toda a largura em telas pequenas */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .MuiTypography-root.textWelcome {
+    font-size: 1.2rem;
+    width: 100%; /* Ajuste para textos menores */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .MuiButton-root.buttonComecar {
+    font-size: 1.4rem;
+    width: 90%; /* Ajusta o botão para ocupar 90% da tela */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mais ajustes para dispositivos menores como smartphones */
+  .MuiTypography-root.titleWelcome {
+    font-size: 1.2rem; /* Reduz o tamanho da fonte */
+    width: 80%; /* Deixa o título mais adaptável */
+  }
+
+  .MuiTypography-root.textWelcome {
+    font-size: 1rem;
+    width: 80%; /* Deixa o texto mais compacto */
+  }
+
+  .MuiButton-root.buttonComecar {
+    font-size: 1.2rem;
+    width: 100%;
+  }
+}
+
+.MuiTypography-root.titleOnboarding {
+  font-family: "IntegralCF-Bold";
+  font-size: 2rem;
+  color: #eb389a;
+  text-align: center;
+}
+
+.MuiTypography-root.textOnboarding {
+  font-family: "Poppins-Regular";
+  width: 280px;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  text-align: center;
+}

@@ -1,30 +1,78 @@
+/* Categorias */
 .category-title {
-    color: #ec4899;
-    font-size: 24px;
-    margin-bottom: 10px;
-    font-family: 'Poppins-Bold';
-    margin-top: 50px;
+  color: #ec4899;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-family: 'Poppins-Bold';
+  margin-top: 50px;
+}
+
+.category-container {
+  display: flex;
+  justify-content: space-between; /* Espaço entre os itens */
+  margin-top: 30px;
+  flex-wrap: wrap; /* Permite quebra de linha */
+  padding: 0 20px; /* Garante um espaço lateral maior */
+  width: 100%;
+  max-width: 1024px; /* Limita a largura máxima */
+  margin: 0 auto; /* Centraliza a container */
+  gap: 45px; /* Aumentei o gap entre os itens (botões) */
+}
+
+.category-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 530;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin: 5px; /* Adiciona espaçamento entre os botões */
+}
+
+.category-button:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 960px) {
+  .category-title {
+    text-align: center; /* Centraliza o título em telas médias */
   }
-  
   .category-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    flex-wrap: wrap;
+    flex-direction: column; /* Empilha os itens verticalmente em telas pequenas */
+    align-items: center; /* Centraliza os botões */
   }
-  
   .category-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    font-weight: 530;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+    width: 100%; /* Faz os botões ocuparem a largura completa */
+    margin-bottom: 10px; /* Adiciona margem inferior entre os botões */
   }
-  
-  .category-button:hover {
-    transform: scale(1.05);
+  .category-container {
+    gap: 5px; /* Aumentei o gap entre os itens (botões) */
   }
-  
+}
+
+@media (max-width: 480px) {
+  .category-title {
+    font-size: 18px;
+    margin-top: 30px;
+    text-align: center; /* Centraliza o título em telas muito pequenas */
+  }
+
+  .category-container {
+    padding: 0 10px; /* Ajusta o padding lateral em telas muito pequenas */
+  }
+
+  .category-button {
+    padding: 12px 20px;
+    font-size: 1.1rem; /* Ajusta o tamanho da fonte */
+  }
+}
+/* Tela extra pequena (até 320px) */
+@media (max-width: 320px) {
+  .category-title {
+    font-size: 18px;
+    margin-top: 30px;
+    text-align: center; /* Centraliza o título em telas muito pequenas */
+  }
+}

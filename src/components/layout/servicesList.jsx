@@ -46,6 +46,7 @@ const ServicesList = () => {
           fontSize: "24px",
           fontFamily: "Poppins-Bold",
           marginTop: "50px",
+          marginLeft: "25px"
         }}
       >
         Serviços

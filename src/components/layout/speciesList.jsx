@@ -79,7 +79,7 @@ const Species = () => {
             </div>
           ))
         ) : (
-          <p>Nenhuma categoria encontrada.</p>
+          <p>Nenhuma espécie encontrada.</p>
         )}
       </div>
     </div>

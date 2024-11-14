@@ -1,16 +1,23 @@
+/* Espécies */
 .specie-title {
   color: #ec4899;
   font-size: 24px;
   margin-bottom: 10px;
   font-family: 'Poppins-Bold';
   margin-top: 50px;
+  text-align: left; /* Alinha à esquerda nas telas grandes */
 }
 
 .specie-container {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap; /* Flex para flexionar os itens */
+  gap: 50px; /* Aumentei o gap entre os itens (botões) */
   margin-top: 30px;
-  flex-wrap: wrap;
+  padding: 0 20px;
+  justify-content: space-between; /* Garante espaçamento entre os itens */
+  width: 100%;
+  max-width: 1024px; /* Limita a largura máxima */
+  margin: 0 auto; /* Centraliza o container */
 }
 
 .specie-wrapper {
@@ -28,6 +35,8 @@
   transition: transform 0.2s ease;
   background-color: white;
   min-height: 75px;
+  width: 100%;
+  max-width: 200px; /* Limita o tamanho máximo dos botões */
 }
 
 .specie-button:hover {
@@ -43,4 +52,77 @@
   font-size: 1.2rem;
   font-family: 'Poppins-Bold';
   text-align: center;
+}
+
+/* Tela grande */
+@media (min-width: 1024px) {
+  .specie-container {
+    flex-direction: row; /* Mantém os itens em linha */
+    justify-content: space-between; /* Garante espaçamento entre os itens */
+  }
+}
+
+/* Tela média (até 960px) */
+@media (max-width: 960px) {
+  .specie-title {
+    text-align: center; /* Centraliza o título em telas médias */
+  }
+
+  .specie-container {
+    flex-direction: row; /* Coloca os itens em linha */
+    justify-content: center; /* Centraliza os itens */
+  }
+
+  .specie-wrapper {
+    flex-basis: 33%; /* Exibe 3 itens por linha */
+    align-items: center; /* Centraliza os itens */
+  }
+}
+
+/* Tela pequena (até 480px) */
+@media (max-width: 480px) {
+  .specie-title {
+    font-size: 20px;
+    margin-top: 30px;
+    text-align: center; /* Centraliza o título em telas pequenas */
+  }
+
+  .specie-container {
+    flex-direction: row; /* Coloca os itens em linha */
+    justify-content: center; /* Centraliza os itens */
+  }
+
+  .specie-wrapper {
+    flex-basis: 50%; /* Exibe 2 itens por linha */
+    align-items: center; /* Centraliza os itens */
+  }
+
+  .specie-button {
+    padding: 12px 20px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Tela extra pequena (até 320px) */
+@media (max-width: 320px) {
+  .specie-title {
+    font-size: 18px;
+    margin-top: 30px;
+    text-align: center; /* Centraliza o título em telas muito pequenas */
+  }
+
+  .specie-container {
+    flex-direction: column; /* Empilha os itens verticalmente */
+    align-items: center; /* Centraliza os itens */
+  }
+
+  .specie-wrapper {
+    flex-basis: 100%; /* Exibe 1 item por linha */
+    align-items: center; /* Centraliza os itens */
+  }
+
+  .specie-button {
+    width: 100%;
+    max-width: 100%; /* Tamanho máximo 100% da largura disponível */
+  }
 }
