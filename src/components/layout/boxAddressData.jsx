@@ -196,7 +196,7 @@ function BoxAddress() {
           </Typography>
 
           {addresses.length === 0 ? (
-            <Typography textAlign="center">
+            <Typography textAlign="flex-start">
               Nenhum endereço cadastrado.
             </Typography>
           ) : (

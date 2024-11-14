@@ -208,10 +208,10 @@ function BoxOrders({ user }) {
                 onClick={() => handleDeleteOrder(selectedOrderId)}
                 sx={{
                   width: "150px",
-                  backgroundColor: "#FF0000",
+                  backgroundColor: "#EB389A",
                   color: "#FFF",
                   fontFamily: "Poppins-Bold",
-                  "&:hover": { backgroundColor: "#CC0000" },
+                  "&:hover": { backgroundColor: "#D5006D" },
                   marginRight: "10px",
                 }}
               >
