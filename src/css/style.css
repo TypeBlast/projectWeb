@@ -90,7 +90,7 @@
 .MuiButton-root.buttonComecar {
   width: 100%; /* Ajusta a largura do botão */
   max-width: 400px;
-  background-color: #EB389A;
+  background-color: #eb389a;
   height: 60px;
   margin-left: 70px;
   margin-right: auto; /* Alinha à esquerda em telas maiores */
@@ -99,12 +99,12 @@
   font-family: "Poppins-ExtraBold";
   font-size: 1.6rem;
   text-transform: capitalize;
-  color: #FFF;
+  color: #fff;
 }
 
 .MuiButton-root.buttonComecar:hover {
-  background-color: #D72C7A;
-  color: #FFF;
+  background-color: #d72c7a;
+  color: #fff;
   transform: scale(1.05);
 }
 
@@ -115,11 +115,11 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .MuiTypography-root.titleWelcome{
+  .MuiTypography-root.titleWelcome {
     font-size: 1.4rem;
     width: 250px;
   }
-  .MuiTypography-root.textWelcome{
+  .MuiTypography-root.textWelcome {
     font-size: 1.2rem;
     width: 250px;
   }
@@ -156,6 +156,34 @@
   min-height: 100vh; /* Para centralizar verticalmente */
   padding: 0 20px; /* Um pouco de padding nas laterais para telas pequenas */
 }
+.MuiTypography-root.textError {
+  font-family: "Poppins-Regular";
+  font-size: 1.2rem;
+  width: 60%;
+  max-width: 550px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.MuiButton-root.buttonError {
+  background-color: #eb389a;
+  color: #fff;
+  margin: 10px;
+  width: 200px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: "Poppins-Bold";
+  font-size: 1.3rem;
+  text-transform: capitalize;
+  margin-top: 30px;
+}
+
+.MuiButton-root.buttonError:hover {
+  background-color: #d72c7a;
+  color: #fff;
+  transform: scale(1.05);
+}
+
 .content-box {
   display: flex;
   flex-direction: column;
@@ -223,8 +251,25 @@
     margin-left: auto;
     margin-right: auto;
   }
-}
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Faz com que o conteúdo ocupe toda a altura da tela */
+    text-align: center;
+  }
 
+  .MuiTypography-root.textError {
+    width: 80%; /* Para garantir uma melhor adaptação */
+    max-width: 100%;
+    margin-top: 10px; /* Ajusta a margem para um espaçamento menor em telas pequenas */
+  }
+
+  .MuiButton-root.buttonError {
+    margin-top: 20px; /* Ajusta o espaçamento dos botões */
+  }
+}
 @media (max-width: 480px) {
   /* Mais ajustes para dispositivos menores como smartphones */
   .MuiTypography-root.titleWelcome {
@@ -235,11 +280,6 @@
   .MuiTypography-root.textWelcome {
     font-size: 1rem;
     width: 80%; /* Deixa o texto mais compacto */
-  }
-
-  .MuiButton-root.buttonComecar {
-    font-size: 1.2rem;
-    width: 100%;
   }
 }
 
