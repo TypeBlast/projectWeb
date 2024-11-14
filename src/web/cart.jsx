@@ -291,7 +291,7 @@ function Cart() {
                   </Button>
                 </Box>
                 <Typography sx={styles.productPrice}>
-                  ${parseFloat(item.productPrice).toFixed(2)}
+                  R${parseFloat(item.productPrice).toFixed(2)}
                 </Typography>
               </Box>
             </ListItem>

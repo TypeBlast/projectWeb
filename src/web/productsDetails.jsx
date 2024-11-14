@@ -151,7 +151,7 @@ function ProductDetails() {
                   textAlign: { xs: "center", md: "left" },
                 }}
               >
-                {product.price}
+                R${product.price}
               </Typography>
             </Box>
           </Grid>
