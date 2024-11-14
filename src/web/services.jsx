@@ -48,7 +48,7 @@ function Services() {
   let marginTop = "325px"; // Padrão para xs
   if (isSm && !isMd) {
     // Para telas sm (600px - 959px)
-    marginTop = "225px";
+    marginTop = "300px";
   } else if (isMd) {
     // Para telas md e acima (960px+)
     marginTop = "80px";
