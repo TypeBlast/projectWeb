@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Box } from "@mui/material";
+import { Button, Box, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import sheets from "../axios/axios";
 import imageServices from "../assets/images/imageServices.png";
@@ -8,7 +8,8 @@ import imageUnhas from "../assets/images/imageCortarUnhas.png";
 import imageVacina from "../assets/images/imageVacinas.png";
 import imageTosa from "../assets/images/imageTosa.png";
 
-const colors = ["#BA60E8", "#FF6561", "#5BF165", "#FDFF61"];
+// Defina as cores e imagens
+const colors = ['#BA60E8', '#FF4C4C', '#5BF165', '#FF8C2D', '#4C9FFF'];
 const images = [
   imageServices,
   imageUnhas,
@@ -17,13 +18,14 @@ const images = [
   imageTosa,
 ];
 
-// Defina o breakpoint manualmente
-const BREAKPOINT_MD = 960; // Largura do breakpoint para md
-
 function Services() {
   const [services, setServices] = useState([]);
   const navigate = useNavigate();
-  const isMd = window.innerWidth >= BREAKPOINT_MD; // Verifica se a largura da janela é maior que o breakpoint
+
+  // Usando media query para verificar a largura da tela
+  const isMd = useMediaQuery("(min-width:960px)");
+  const isSm = useMediaQuery("(min-width:600px)"); // Responsividade para telas sm (600px)
+  const isXs = useMediaQuery("(max-width:599px)"); // Responsividade para telas xs (menor que 600px)
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -42,6 +44,16 @@ function Services() {
     navigate(`/services/${id}`);
   };
 
+  // Lógica para definir o marginTop dependendo do breakpoint
+  let marginTop = "325px"; // Padrão para xs
+  if (isSm && !isMd) {
+    // Para telas sm (600px - 959px)
+    marginTop = "225px";
+  } else if (isMd) {
+    // Para telas md e acima (960px+)
+    marginTop = "80px";
+  }
+
   return (
     <Box
       className="container"
@@ -49,8 +61,10 @@ function Services() {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
-      sx={{ marginTop: "50px" }}
+      sx={{
+        marginTop: marginTop, // Ajuste dinâmico do marginTop com base nos breakpoints
+        width: "100%", // Garantir que o conteúdo ocupe toda a largura
+      }}
     >
       <Box
         width="80%"
@@ -59,22 +73,6 @@ function Services() {
         alignItems="center"
         gap="50px"
         paddingBottom="50px"
-        sx={{
-          overflowY: "auto",
-          "&::-webkit-scrollbar": {
-            width: "8px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#EB389A",
-            borderRadius: "10px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: "#C01374",
-          },
-          "&::-webkit-scrollbar-track": {
-            backgroundColor: "#F1F1F1",
-          },
-        }}
       >
         {services.map((service, index) => (
           <Button
