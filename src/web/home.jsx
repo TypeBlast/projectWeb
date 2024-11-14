@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, useMediaQuery } from "@mui/material";
 
-import SearchBar from "../components/layout/searchBar";
 import BoxWelcome from "../components/layout/boxWelcome";
 import Categories from "../components/layout/categoriesList";
 import Species from "../components/layout/speciesList";
@@ -14,7 +13,6 @@ function Home() {
   return (
     <div className="container">
       <Box className="content-box" sx={{ paddingBottom: "50px", marginTop: "50px" }}>
-        <SearchBar />
         <BoxWelcome />
         <Categories />
         <Species />
