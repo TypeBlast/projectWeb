@@ -14,7 +14,7 @@ function Error() {
   };
 
   return (
-    <div className="container">
+    <div className="containerError">
       {!isMediumOrSmallerScreen && ( // Renderiza a imagem apenas se a tela for maior que 'md'
         <img
           src={ImageHome}
