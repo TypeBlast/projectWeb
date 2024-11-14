@@ -45,10 +45,10 @@ function Services() {
   };
 
   // Lógica para definir o marginTop dependendo do breakpoint
-  let marginTop = "325px"; // Padrão para xs
+  let marginTop = "225px"; // Padrão para xs
   if (isSm && !isMd) {
     // Para telas sm (600px - 959px)
-    marginTop = "300px";
+    marginTop = "20px";
   } else if (isMd) {
     // Para telas md e acima (960px+)
     marginTop = "80px";
