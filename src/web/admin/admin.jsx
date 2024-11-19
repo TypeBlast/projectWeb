@@ -26,12 +26,12 @@ const Cards = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 3 }}>
+    <Box sx={{ flexGrow: 1, padding: 3, marginTop: "25px" }}>
       <Grid container spacing={3} justifyContent="center">
         {cards.map((card, index) => (
           <Grid item xs={12} sm={6} key={index}>
             <Card
-              sx={{ display: "flex", alignItems: "center", padding: 2, cursor: "pointer" }} // Define o cursor como pointer para indicar que é clicável
+              sx={{ display: "flex", alignItems: "center", padding: 2, cursor: "pointer", margin: 1 }} // Define o cursor como pointer para indicar que é clicável
               onClick={() => handleClick(card.route)} // Chama a função ao clicar no card
             >
               <img
