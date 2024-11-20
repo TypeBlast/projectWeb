@@ -248,7 +248,7 @@ function BoxAddress() {
                   >
                     <FontAwesomeIcon
                       icon={faPen}
-                      style={{ fontSize: "1.8rem" }}
+                      style={{ fontSize: "1.6rem",  marginBottom: "10px", }}
                     />
                   </Button>
 
@@ -267,7 +267,7 @@ function BoxAddress() {
                   >
                     <FontAwesomeIcon
                       icon={faTrash}
-                      style={{ fontSize: "1.8rem" }}
+                      style={{ fontSize: "1.6rem",  marginBottom: "10px", }}
                     />
                   </Button>
                 </Grid>
@@ -401,6 +401,8 @@ function BoxAddress() {
               display: "flex",
               justifyContent: "space-around",
               marginTop: "20px",
+              fontFamily: "Poppins-Bold", 
+
             }}
           >
             <Button
@@ -410,6 +412,7 @@ function BoxAddress() {
                 backgroundColor: "#EB389A",
                 color: "#FFF",
                 textTransform: "capitalize",
+                fontFamily: "Poppins-Bold", 
                 fontSize: "1rem",
                 "&:hover": {
                   backgroundColor: "#D5006D",
@@ -425,6 +428,7 @@ function BoxAddress() {
                 color: "#FFF",
                 textTransform: "capitalize",
                 fontSize: "1rem",
+                fontFamily: "Poppins-Bold", 
                 "&:hover": {
                   backgroundColor: "#D5006D",
                 },

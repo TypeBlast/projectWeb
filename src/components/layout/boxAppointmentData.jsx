@@ -169,22 +169,22 @@ function BoxAppointments({ user }) {
                   display: { xs: "none", sm: "flex" },
                 }}
               >
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={10} sm={3}>
                   <Typography sx={{ fontFamily: "Poppins-Bold" }}>
                     Data e Hora
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={10} sm={3}>
                   <Typography sx={{ fontFamily: "Poppins-Bold" }}>
                     Serviço
                   </Typography>
                 </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid item xs={10} sm={3}>
                   <Typography sx={{ fontFamily: "Poppins-Bold" }}>
                     Funcionário
                   </Typography>
                 </Grid>
-                <Grid item xs={6} sm={2}>
+                <Grid item xs={10} sm={3}>
                   <Typography sx={{ fontFamily: "Poppins-Bold" }}>
                     Pet
                   </Typography>
@@ -202,7 +202,7 @@ function BoxAppointments({ user }) {
                     display: { xs: "block", sm: "flex" },
                   }}
                 >
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={10} sm={3}>
                     <Typography
                       sx={{
                         fontFamily: "Poppins-Regular",
@@ -224,7 +224,7 @@ function BoxAppointments({ user }) {
 
                   <Grid
                     item
-                    xs={6}
+                    xs={10}
                     sm={3}
                     sx={{ display: { xs: "none", sm: "block" } }}
                   >
@@ -236,7 +236,7 @@ function BoxAppointments({ user }) {
 
                   <Grid
                     item
-                    xs={6}
+                    xs={10}
                     sm={3}
                     sx={{ display: { xs: "none", sm: "block" } }}
                   >
@@ -246,73 +246,80 @@ function BoxAppointments({ user }) {
                     </Typography>
                   </Grid>
 
-                  <Grid item xs={6} sm={2} container alignItems="center">
-                    <Typography
-                      sx={{
-                        fontFamily: "Poppins-Regular",
-                        gap: "10px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faCalendar}
-                        style={{ color: "#D9D9D9" }}
-                      />
-                      {pets[appt.pet_id]?.name || "Carregando..."}
-                    </Typography>
+                  <Grid
+  item
+  xs={10}
+  sm={3}
+  container
+  alignItems="center"
+  sx={{
+    display: "flex",
+    gap: "10px",
+  }}
+>
+  <Typography
+    sx={{
+      fontFamily: "Poppins-Regular",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-start", 
+      marginBottom: "10px" 
+    }}
+  >
+    {pets[appt.pet_id]?.name || "Carregando..."}
+  </Typography>
 
-                    <Grid
-                      item
-                      xs={6}
-                      sm={7}
-                      container
-                      alignItems="center" 
-                      justifyContent="flex-end" 
-                      sx={{
-                        display: "flex", 
-                        gap: "5px",
-                      }}
-                    >
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation(); 
-                          handleEditAppointment(appt);
-                        }}
-                        sx={{
-                          padding: "0",
-                          minWidth: "0",
-                          color: "#D9D9D9",
-                          "&:hover": { color: "#EB389A" },
-                        }}
-                      >
-                        <FontAwesomeIcon
-                          icon={faPen}
-                          style={{ fontSize: "1.8rem" }}
-                        />
-                      </Button>
+  <Grid
+    item
+    xs={4}
+    sm={8}
+    container
+    alignItems="center"
+    justifyContent="flex-end"
+    sx={{
+      display: "flex",
+      gap: "5px",
+    }}
+  >
+    <Button
+      onClick={(e) => {
+        e.stopPropagation();
+        handleEditAppointment(appt);
+      }}
+      sx={{
+        padding: "0",
+        minWidth: "0",
+        color: "#D9D9D9",
+        "&:hover": { color: "#EB389A" },
+      }}
+    >
+      <FontAwesomeIcon
+        icon={faPen}
+        style={{ fontSize: "1.6rem", marginBottom: "10px" }}
+      />
+    </Button>
 
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation(); 
-                          openConfirmationModal(appt);
-                        }}
-                        sx={{
-                          padding: "0",
-                          minWidth: "0",
-                          color: "#D9D9D9",
-                          marginLeft: "8px", 
-                          "&:hover": { color: "#EB389A" },
-                        }}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTimes}
-                          style={{ fontSize: "1.8rem" }}
-                        />
-                      </Button>
-                    </Grid>
+    <Button
+      onClick={(e) => {
+        e.stopPropagation();
+        openConfirmationModal(appt);
+      }}
+      sx={{
+        padding: "0",
+        minWidth: "0",
+        color: "#D9D9D9",
+        marginLeft: "8px",
+        "&:hover": { color: "#EB389A" },
+      }}
+    >
+      <FontAwesomeIcon
+        icon={faTimes}
+        style={{ fontSize: "1.6rem", marginBottom: "10px" }}
+      />
+    </Button>
+  </Grid>
+</Grid>
                   </Grid>
-                </Grid>
               ))}
             </>
           )}
@@ -433,7 +440,7 @@ function BoxAppointments({ user }) {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
               gap: "10px",
             }}
           >

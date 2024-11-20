@@ -148,7 +148,7 @@ function BoxOrders({ user }) {
                     >
                       <FontAwesomeIcon
                         icon={faTimes}
-                        style={{ fontSize: "30px" }}
+                        style={{ fontSize: "30px",marginBottom: "10px" }}
                       />
                     </Button>
                   )}

@@ -212,7 +212,7 @@ function AdminProducts() {
             />
             <InputURL value={selectedProduct.url} onChange={(e) => setSelectedProduct({ ...selectedProduct, url: e.target.value })} />
 
-            <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: "20px",alignItems:"center" }}>
               <Button onClick={handleUpdateProduct} sx={{ backgroundColor: "#EB389A", fontFamily: "Poppins-Bold", color: "#FFF", textTransform: "capitalize", fontSize: "1rem", "&:hover": { backgroundColor: "#D5006D" } }}>
                 Atualizar
               </Button>

@@ -222,7 +222,8 @@ const fetchAppointments = async () => {
                         },
                       }}
                     >
-                      <FontAwesomeIcon icon={faTrash} />
+                      <FontAwesomeIcon icon={faTrash} 
+                      />
                     </Button>
                   </Grid>
                 </Grid>
@@ -257,13 +258,25 @@ const fetchAppointments = async () => {
             <InputDate appointmentDate={updatedDate} setAppointmentDate={setUpdatedDate} />
             <InputTime appointmentTime={updatedTime} setAppointmentTime={setUpdatedTime} />
           </Box>
-          <Button
-            onClick={handleUpdateAppointment}
-            variant="contained"
-            sx={{ marginTop: "20px", backgroundColor: "#EB389A", color: "#FFF", "&:hover": { backgroundColor: "#D5006D" } }}
-          >
-            Atualizar
-          </Button>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Button
+        onClick={handleUpdateAppointment}
+        sx={{
+          width: "200px",
+          backgroundColor: "#EB389A",
+          marginTop: "20px",
+          fontFamily: "Poppins-Bold",
+          color: "#FFF",
+          textTransform: "capitalize",
+          fontSize: "1rem",
+          "&:hover": {
+            backgroundColor: "#D5006D",
+          },
+        }}
+      >
+Atualizar    
+  </Button>
+    </Box>
         </Box>
       </Modal>
 
