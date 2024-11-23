@@ -99,7 +99,7 @@ function Index() {
           justifyContent: "center",
           flexDirection: 'column'
         }}>
-        <Typography className="titleOnboarding">Servicos</Typography>
+        <Typography className="titleOnboarding">Atendimentos</Typography>
         <Typography className="textOnboarding">Transforme o visual do seu pet com nossos serviços de banho e tosa, garantindo cuidado e carinho em cada detalhe.</Typography>
         </Grid>
         {!isMediumScreen && (
